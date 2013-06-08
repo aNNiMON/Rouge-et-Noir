@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using Model.Enums;
 
@@ -7,7 +8,7 @@ namespace Model {
     /// <summary>
     /// Колода из 52 карт.
     /// </summary>
-    public class Deck {
+    public class Deck : IEnumerable {
 
         protected List<Card> Cards {
             get;
@@ -31,7 +32,6 @@ namespace Model {
             Util.Shuffle(Cards);
         }
 
-        
 
         public override string ToString() {
             StringBuilder sb = new StringBuilder();
@@ -39,6 +39,10 @@ namespace Model {
                 sb.AppendLine(card.ToString());
             }
             return sb.ToString();
+        }
+
+        public IEnumerator GetEnumerator() {
+            return Cards.GetEnumerator();
         }
     }
 }

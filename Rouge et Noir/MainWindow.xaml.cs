@@ -23,7 +23,15 @@ namespace Rouge_et_Noir {
             InitializeComponent();
 
             Deck deck = new Deck104();
-            System.Diagnostics.Debug.Print(deck.ToString());
+
+            LeftFoundation left = new LeftFoundation();
+            for (int i = 0; i <= 1; i++) {
+                foreach (Card card in deck) {
+                    left.AddCard(card);
+                }
+                System.Diagnostics.Debug.Print(left.ToString());
+                System.Diagnostics.Debug.Print("-------------------\n\n\n");
+            }
 
         }
     }
