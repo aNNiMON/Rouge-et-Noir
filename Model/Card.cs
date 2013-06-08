@@ -38,7 +38,7 @@ namespace Model {
             else if (cardValue == CardValue.Queen) return "Q";
             else if (cardValue == CardValue.King) return "K";
 
-            int value = (int) cardValue;
+            int value = 1 + (int) cardValue;
             return Convert.ToString(value);
         }
 

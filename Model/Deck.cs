@@ -17,6 +17,7 @@ namespace Model {
         public Deck() {
             Cards = new List<Card>(54);
             Generate();
+            Shuffle();
         }
 
         private void Generate() {
@@ -26,6 +27,12 @@ namespace Model {
                 }
             }
         }
+
+        private void Shuffle() {
+            Util.Shuffle(Cards);
+        }
+
+        
 
         public override string ToString() {
             StringBuilder sb = new StringBuilder();

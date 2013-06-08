@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model;
 
 namespace Rouge_et_Noir {
     /// <summary>
@@ -20,6 +21,10 @@ namespace Rouge_et_Noir {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+
+            Deck deck = new Deck();
+            System.Diagnostics.Debug.Print(deck.ToString());
+
         }
     }
 }
