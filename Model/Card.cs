@@ -26,11 +26,31 @@ namespace Model {
         }
         private CardValue cardValue;
 
-        public Card(CardSuit suit, CardValue value) {
-            Suit = suit;
-            Value = value;
+        public bool IsFaceDown {
+            get;
+            set;
         }
 
+        public Card(CardSuit suit, CardValue value)
+            : this(suit, value, true) {  }
+
+        public Card(CardSuit suit, CardValue value, bool isFaceDown) {
+            Suit = suit;
+            Value = value;
+            IsFaceDown = isFaceDown;
+        }
+
+        public void SetFaceDown() {
+            IsFaceDown = true;
+        }
+
+        public void SetFaceUp() {
+            IsFaceDown = false;
+        }
+        
+        public bool IsRedSuit() {
+            return (suit == CardSuit.Diamonds) || (suit == CardSuit.Hearts);
+        }
 
         private string GetCardValueAsString() {
             if (cardValue == CardValue.Ace) return "A";

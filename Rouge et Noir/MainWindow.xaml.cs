@@ -22,7 +22,7 @@ namespace Rouge_et_Noir {
         public MainWindow() {
             InitializeComponent();
 
-            Deck deck = new Deck();
+            Deck deck = new Deck104();
             System.Diagnostics.Debug.Print(deck.ToString());
 
         }

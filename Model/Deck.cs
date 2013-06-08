@@ -15,12 +15,11 @@ namespace Model {
         }
 
         public Deck() {
-            Cards = new List<Card>(54);
+            Cards = new List<Card>();
             Generate();
-            Shuffle();
         }
 
-        private void Generate() {
+        protected void Generate() {
             foreach (CardSuit suit in CardSuit.GetValues(typeof(CardSuit))) {
                 foreach (CardValue value in CardValue.GetValues(typeof(CardValue))) {
                     Cards.Add(new Card(suit, value));
@@ -28,7 +27,7 @@ namespace Model {
             }
         }
 
-        private void Shuffle() {
+        protected void Shuffle() {
             Util.Shuffle(Cards);
         }
 
