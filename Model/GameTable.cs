@@ -14,13 +14,16 @@ namespace Model {
 
         private const int FOUNDATIONS = 4, TABLEAUS = 10;
 
-        private Stock stock;
+        public Stock Stock {
+            get;
+            set;
+        }
         private LeftFoundation[] leftFoundation;
         private RightFoundation[] rightFoundation;
         private Tableau[] tableau;
 
         public GameTable() {
-            stock = new Stock();
+            Stock = new Stock();
             leftFoundation = new LeftFoundation[FOUNDATIONS];
             rightFoundation = new RightFoundation[FOUNDATIONS];
             for (int i = 0; i < FOUNDATIONS; i++) {
@@ -49,7 +52,7 @@ namespace Model {
             Util.Move<Card>(cards, tableau[TABLEAUS - 2].GetList(), 1);
 
             // Добавляем оставшиеся 67 карт в запас.
-            stock.AddCards(cards);
+            Stock.AddCards(cards);
         }
     }
 }
