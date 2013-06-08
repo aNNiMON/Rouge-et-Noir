@@ -20,6 +20,14 @@ namespace Model {
             Cards = new List<Card>();
         }
 
+        public virtual void AddCard(Card card) {
+            Cards.Add(card);
+        }
+
+        public virtual void AddCards(IEnumerable<Card> cards) {
+            Cards.AddRange(cards);
+        }
+
         public override string ToString() {
             StringBuilder sb = new StringBuilder();
             foreach (var card in Cards) {

@@ -22,7 +22,10 @@ namespace Rouge_et_Noir {
         public MainWindow() {
             InitializeComponent();
 
-            Deck deck = new Deck104();
+            GameTable table = new GameTable();
+            table.NewGame();
+
+            /*Deck deck = new Deck104();
 
             LeftFoundation left = new LeftFoundation();
             for (int i = 0; i <= 1; i++) {
@@ -31,7 +34,7 @@ namespace Rouge_et_Noir {
                 }
                 System.Diagnostics.Debug.Print(left.ToString());
                 System.Diagnostics.Debug.Print("-------------------\n\n\n");
-            }
+            }*/
 
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 namespace Model {
 
     /// <summary>
@@ -8,6 +7,10 @@ namespace Model {
     public class Tableau : CardList {
 
         public Tableau() : base() {
+        }
+
+        public List<Card> GetList() {
+            return Cards;
         }
     }
 }

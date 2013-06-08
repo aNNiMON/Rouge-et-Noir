@@ -12,9 +12,15 @@ namespace Model {
         protected Foundation() : base() {
         }
 
-        public void AddCard(Card card) {
+        public override void AddCard(Card card) {
             if (IsCorrectMove(card)) {
-                Cards.Add(card);
+                base.AddCard(card);
+            }
+        }
+
+        public override void AddCards(IEnumerable<Card> cards) {
+            foreach (var card in cards) {
+                AddCard(card);
             }
         }
 

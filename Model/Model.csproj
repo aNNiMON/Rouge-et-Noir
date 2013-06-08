@@ -46,9 +46,11 @@
     <Compile Include="Enums\CardSuit.cs" />
     <Compile Include="Enums\CardValue.cs" />
     <Compile Include="Foundation.cs" />
+    <Compile Include="GameTable.cs" />
     <Compile Include="LeftFoundation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RightFoundation.cs" />
+    <Compile Include="Stock.cs" />
     <Compile Include="Tableau.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
