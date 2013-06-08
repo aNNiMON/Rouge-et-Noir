@@ -7,6 +7,9 @@ using Model.Enums;
 
 namespace Model {
 
+    /// <summary>
+    /// Карта.
+    /// </summary>
     public class Card {
         
         /// <summary>
@@ -26,6 +29,11 @@ namespace Model {
             set { cardValue = value; }
         }
         private CardValue cardValue;
+
+        public Card(CardSuit suit, CardValue value) {
+            Suit = suit;
+            Value = value;
+        }
 
 
         private string GetCardValueAsString() {

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="Deck.cs" />
     <Compile Include="Enums\CardSuit.cs" />
     <Compile Include="Enums\CardValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
