@@ -8,15 +8,9 @@ namespace Model {
     /// <summary>
     /// Колода из 52 карт.
     /// </summary>
-    public class Deck : IEnumerable {
+    public class Deck : CardList, IEnumerable {
 
-        protected List<Card> Cards {
-            get;
-            private set;
-        }
-
-        public Deck() {
-            Cards = new List<Card>();
+        public Deck() : base() {
             Generate();
         }
 
@@ -32,14 +26,6 @@ namespace Model {
             Util.Shuffle(Cards);
         }
 
-
-        public override string ToString() {
-            StringBuilder sb = new StringBuilder();
-            foreach (var card in Cards) {
-                sb.AppendLine(card.ToString());
-            }
-            return sb.ToString();
-        }
 
         public IEnumerator GetEnumerator() {
             return Cards.GetEnumerator();
