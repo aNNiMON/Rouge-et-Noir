@@ -48,9 +48,8 @@ namespace Model {
             }
             Util.Move<Card>(cards, tableau[TABLEAUS - 2].GetList(), 1);
 
-            // Добавляем карты оставшиеся карты в запас.
+            // Добавляем оставшиеся 67 карт в запас.
             stock.AddCards(cards);
-            System.Diagnostics.Debug.Print("Stock count: " + cards.Count);
         }
     }
 }
