@@ -24,6 +24,8 @@ namespace Rouge_et_Noir {
 
         private GameTable table;
 
+        private StockView stockView;
+        private FoundationView[] foundationViews;
         private TableauView[] tableauViews;
         
 
@@ -33,42 +35,37 @@ namespace Rouge_et_Noir {
             table = new GameTable();
             table.NewGame();
 
-            tableauViews = new TableauView[GameTable.TABLEAUS];
-            SetTableau();
+            SetStock();
             SetFoundations();
-
-            CardView cardView = new CardView();
-            cardView.SetCard(table.GetTableau(3).GetTopCard());
-            Grid.SetColumn(cardView, 0);
-            Grid.SetRow(cardView, 0);
-            rootView.Children.Add(cardView);
-
-            /*Deck deck = new Deck104();
-            
-            LeftFoundation left = new LeftFoundation();
-            for (int i = 0; i <= 1; i++) {
-                foreach (Card card in deck) {
-                    left.AddCard(card);
+            SetTableau();
+            /*for (int i = 0; i <= 7; i++) {
+                Tableau tab = table.GetTableau(i);
+                for (int j = tab.GetList().Count - 1; j >= 0; j--) {
+                    var card = tab.GetList()[j];
+                    if (table.GetFoundation(0, true).IsCorrectMove(card)) {
+                        table.GetFoundation(0, true).AddCard(card);
+                        tab.GetList().Remove(card);
+                        tab.GetTopCard().SetFaceUp();
+                    }
                 }
-                System.Diagnostics.Debug.Print(left.ToString());
+                tableauViews[i].RefreshView();
+                
+                System.Diagnostics.Debug.Print(table.GetFoundation(0, true).ToString());
                 System.Diagnostics.Debug.Print("-------------------\n\n\n");
-            }*/
-
+            }
+            foundationViews[0].RefreshView();*/
         }
 
-        private void SetTableau() {
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                var tableauView = new TableauView();
-
-                Grid.SetColumn(tableauView, i);
-                Grid.SetRow(tableauView, 1);
-                tableauView.SetTableau(table.GetTableau(i));
-
-                rootView.Children.Add(tableauView);
-            }
+        private void SetStock() {
+            stockView = new StockView();
+            stockView.SetStock(table.GetStock());
+            Grid.SetColumn(stockView, 0);
+            Grid.SetRow(stockView, 0);
+            rootView.Children.Add(stockView);
         }
 
         private void SetFoundations() {
+            foundationViews = new FoundationView[GameTable.FOUNDATIONS * 2];
             for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
                 var foundationView = new FoundationView();
 
@@ -80,6 +77,21 @@ namespace Rouge_et_Noir {
                 foundationView.SetFoundation(table.GetFoundation(num, left), left);
 
                 rootView.Children.Add(foundationView);
+                foundationViews[i] = foundationView;
+            }
+        }
+
+        private void SetTableau() {
+            tableauViews = new TableauView[GameTable.TABLEAUS];
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                var tableauView = new TableauView();
+
+                Grid.SetColumn(tableauView, i);
+                Grid.SetRow(tableauView, 1);
+                tableauView.SetTableau(table.GetTableau(i));
+
+                rootView.Children.Add(tableauView);
+                tableauViews[i] = tableauView;
             }
         }
     }

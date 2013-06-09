@@ -8,7 +8,7 @@ namespace Model {
     /// </summary>
     public class LeftFoundation : Foundation {
 
-        protected override bool IsCorrectMove(Card card) {
+        public override bool IsCorrectMove(Card card) {
             Card top = GetTopCard();
             if (top == null) {
                 return (card.Value == CardValue.Ace);

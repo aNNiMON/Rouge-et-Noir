@@ -1,15 +1,13 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Model {
 
     /// <summary>
     /// Структура данных для хранения карт.
     /// </summary>
-    public class CardList {
+    public class CardList : IEnumerable {
 
         protected List<Card> Cards {
             get;
@@ -26,6 +24,10 @@ namespace Model {
 
         public virtual void AddCards(IEnumerable<Card> cards) {
             Cards.AddRange(cards);
+        }
+
+        public IEnumerator GetEnumerator() {
+            return Cards.GetEnumerator();
         }
 
         public override string ToString() {

@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using Model.Enums;
+﻿using Model.Enums;
 
 namespace Model {
 
     /// <summary>
     /// Колода из 52 карт.
     /// </summary>
-    public class Deck : CardList, IEnumerable {
+    public class Deck : CardList {
 
         public Deck() : base() {
             Generate();
@@ -24,11 +21,6 @@ namespace Model {
 
         protected void Shuffle() {
             Util.Shuffle(Cards);
-        }
-
-
-        public IEnumerator GetEnumerator() {
-            return Cards.GetEnumerator();
         }
     }
 }

@@ -14,13 +14,13 @@ namespace Model {
 
         public const int FOUNDATIONS = 4, TABLEAUS = 10;
 
-        private Stock Stock;
+        private Stock stock;
         private LeftFoundation[] leftFoundation;
         private RightFoundation[] rightFoundation;
         private Tableau[] tableau;
 
         public GameTable() {
-            Stock = new Stock();
+            stock = new Stock();
             leftFoundation = new LeftFoundation[FOUNDATIONS];
             rightFoundation = new RightFoundation[FOUNDATIONS];
             for (int i = 0; i < FOUNDATIONS; i++) {
@@ -44,6 +44,10 @@ namespace Model {
             else return rightFoundation[num];
         }
 
+        public Stock GetStock() {
+            return stock;
+        }
+
         /// <summary>
         /// Новая игра.
         /// </summary>
@@ -63,10 +67,8 @@ namespace Model {
                 tableau[i].GetTopCard().SetFaceUp();
             }
 
-            leftFoundation[2].AddCard(new Card(Enums.CardSuit.Clubs, Enums.CardValue.Ace));
-
             // Добавляем оставшиеся 67 карт в запас.
-            Stock.AddCards(cards);
+            stock.AddCards(cards);
         }
     }
 }

@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 using Model;
 
 namespace View {
@@ -24,8 +11,11 @@ namespace View {
         private Foundation foundation;
         private bool isLeft;
 
+        private CardView cardView;
+
         public FoundationView() {
             InitializeComponent();
+            cardView = new CardView();
         }
 
         public void SetFoundation(Foundation foundation, bool isLeft) {
@@ -34,14 +24,16 @@ namespace View {
 
             rootView.Children.Add(Util.CreateCardPlace(isLeft ? 'A' : ' '));
 
+            RefreshView();
+            Grid.SetZIndex(cardView, 1);
+            rootView.Children.Add(cardView);
+        }
+
+        public void RefreshView() {
             Card card = foundation.GetTopCard();
             if (card == null) return;
 
-            CardView cardView = new CardView();
-            Grid.SetZIndex(cardView, 1);
             cardView.SetCard(card);
-
-            rootView.Children.Add(cardView);
         }
     }
 }

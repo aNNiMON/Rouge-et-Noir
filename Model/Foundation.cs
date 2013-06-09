@@ -14,6 +14,7 @@ namespace Model {
 
         public override void AddCard(Card card) {
             if (IsCorrectMove(card)) {
+                card.SetFaceUp();
                 base.AddCard(card);
             }
         }
@@ -34,7 +35,7 @@ namespace Model {
         /// </summary>
         /// <param name="card">добавляемая в стопку карта</param>
         /// <returns>true - ход воможен, false - некорректный ход</returns>
-        protected abstract bool IsCorrectMove(Card card);
+        public abstract bool IsCorrectMove(Card card);
 
     }
 }

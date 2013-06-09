@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="70">
-    <Grid Width="71" Height="96">
+    <Grid Width="71" Height="96" HorizontalAlignment="Left">
         <Label Name="label" HorizontalAlignment="Center" VerticalAlignment="Center"
                FontSize="36" FontWeight="Bold" Foreground="Gray"/>
         <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch"

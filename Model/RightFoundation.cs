@@ -14,7 +14,7 @@ namespace Model {
             }
         }
 
-        protected override bool IsCorrectMove(Card card) {
+        public override bool IsCorrectMove(Card card) {
             return true;
         }
     }
