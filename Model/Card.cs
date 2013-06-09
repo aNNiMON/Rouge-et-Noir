@@ -32,7 +32,7 @@ namespace Model {
         }
 
         public Card(CardSuit suit, CardValue value)
-            : this(suit, value, true) {  }
+            : this(suit, value, false) {  }
 
         public Card(CardSuit suit, CardValue value, bool isFaceDown) {
             Suit = suit;
@@ -52,6 +52,16 @@ namespace Model {
             return (suit == CardSuit.Diamonds) || (suit == CardSuit.Hearts);
         }
 
+        /// <summary>
+        /// Получить путь к картинке-ресурсу
+        /// в зависимости от значения карты.
+        /// </summary>
+        /// <returns></returns>
+        public string GetImageResourcePath() {
+            if (IsFaceDown) return "back";
+            else return ToString().ToLower();
+        }
+        
         private string GetCardValueAsString() {
             if (cardValue == CardValue.Ace) return "A";
             else if (cardValue == CardValue.Jack) return "J";
@@ -69,5 +79,6 @@ namespace Model {
         public override string ToString() {
             return GetSuitChar() + GetCardValueAsString();
         }
+
     }
 }

@@ -7,6 +7,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="80">
     <Canvas Name="rootView">
-        <v:CardView />
     </Canvas>
 </UserControl>

@@ -16,7 +16,7 @@ namespace View {
 
         public void SetCard(Card card) {
             this.card = card;
-            cardImage.Source = Util.LoadImage(card.ToString().ToLower());
+            cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
         }
 
         

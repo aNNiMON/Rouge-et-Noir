@@ -12,7 +12,7 @@ namespace Model {
     /// </summary>
     public class GameTable {
 
-        private const int FOUNDATIONS = 4, TABLEAUS = 10;
+        public const int FOUNDATIONS = 4, TABLEAUS = 10;
 
         private Stock Stock;
         private LeftFoundation[] leftFoundation;

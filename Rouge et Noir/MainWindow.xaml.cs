@@ -13,19 +13,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Model;
+using View;
 
 namespace Rouge_et_Noir {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
+        private GameTable table;
+
+        private TableauView[] tableauViews;
+
         public MainWindow() {
             InitializeComponent();
 
-            GameTable table = new GameTable();
+            table = new GameTable();
             table.NewGame();
 
-            tableauView.SetTableau(table.GetTableau(1));
+            tableauViews = new TableauView[GameTable.TABLEAUS];
+            SetTableau();
+            
             //cardView.SetCard(table.);
 
             /*Deck deck = new Deck104();
@@ -39,6 +48,18 @@ namespace Rouge_et_Noir {
                 System.Diagnostics.Debug.Print("-------------------\n\n\n");
             }*/
 
+        }
+
+        private void SetTableau() {
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                var tableauView = new TableauView();
+
+                Grid.SetColumn(tableauView, i);
+                Grid.SetRow(tableauView, 1);
+                tableauView.SetTableau(table.GetTableau(i));
+
+                rootView.Children.Add(tableauView);
+            }
         }
     }
 }
