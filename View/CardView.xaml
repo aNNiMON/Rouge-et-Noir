@@ -5,8 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="70">
+    <UserControl.Resources>
+        <Storyboard x:Key="animFadeIn">
+            <DoubleAnimation Storyboard.TargetName="cardImage"
+                             Storyboard.TargetProperty="Opacity" From="0" To="1" 
+                             Duration="0:0:00.50" BeginTime="0:0:0" />
+        </Storyboard>
+        <Storyboard x:Key="animFadeOut">
+            <DoubleAnimation Storyboard.TargetName="cardImage"
+                             Storyboard.TargetProperty="Opacity" From="1" To="0" 
+                             Duration="0:0:00.50" BeginTime="0:0:0" />
+        </Storyboard>
+        <Storyboard x:Key="animShake">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Position"
+                                           Storyboard.TargetProperty="Y" RepeatBehavior="2x">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.20" Value="-3"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    
     <Grid HorizontalAlignment="Left">
-        <Image Name="cardImage" Stretch="None"/>
+        <Image Name="cardImage" Stretch="None">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="Position"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
     </Grid>
 
 </UserControl>

@@ -61,6 +61,7 @@ namespace View {
                 } else {
                     cardView = new CardView();
                     cardView.SetCard(card);
+                    cardView.Animate(CardView.ANIM_FADE_IN);
                     cardViews.Add(cardView);
                     Canvas.SetTop(cardView, cardSpace * i);
                     Canvas.SetZIndex(cardView, 1 + i);

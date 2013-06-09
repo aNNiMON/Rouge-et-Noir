@@ -43,6 +43,7 @@ namespace View {
         }
 
         private void rootView_MouseUp(object sender, MouseButtonEventArgs e) {
+            cardView.Animate(CardView.ANIM_SHAKE);
             GameView.Instance.HandOutFromStock();
         }
     }
