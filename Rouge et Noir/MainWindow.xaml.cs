@@ -25,6 +25,7 @@ namespace Rouge_et_Noir {
         private GameTable table;
 
         private TableauView[] tableauViews;
+        
 
         public MainWindow() {
             InitializeComponent();
@@ -34,8 +35,13 @@ namespace Rouge_et_Noir {
 
             tableauViews = new TableauView[GameTable.TABLEAUS];
             SetTableau();
-            
-            //cardView.SetCard(table.);
+            SetFoundations();
+
+            CardView cardView = new CardView();
+            cardView.SetCard(table.GetTableau(3).GetTopCard());
+            Grid.SetColumn(cardView, 0);
+            Grid.SetRow(cardView, 0);
+            rootView.Children.Add(cardView);
 
             /*Deck deck = new Deck104();
             
@@ -59,6 +65,21 @@ namespace Rouge_et_Noir {
                 tableauView.SetTableau(table.GetTableau(i));
 
                 rootView.Children.Add(tableauView);
+            }
+        }
+
+        private void SetFoundations() {
+            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+                var foundationView = new FoundationView();
+
+                int num = i % GameTable.FOUNDATIONS;
+                bool left = i < GameTable.FOUNDATIONS;
+
+                Grid.SetColumn(foundationView, 2 + i);
+                Grid.SetRow(foundationView, 0);
+                foundationView.SetFoundation(table.GetFoundation(num, left), left);
+
+                rootView.Children.Add(foundationView);
             }
         }
     }

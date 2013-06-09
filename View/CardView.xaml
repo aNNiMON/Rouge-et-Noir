@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="70">
     <Grid>
-        <Image Name="cardImage" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <Image Name="cardImage" Stretch="None"/>
     </Grid>
 
 </UserControl>

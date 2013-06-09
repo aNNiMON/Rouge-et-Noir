@@ -65,7 +65,7 @@ namespace Model {
             return (isAlternatingColor && isNextCard);
         }
 
-        private Card GetTopCard() {
+        public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];
         }

@@ -38,6 +38,12 @@ namespace Model {
             return tableau[num];
         }
 
+        public Foundation GetFoundation(int num, bool left) {
+            if (num >= FOUNDATIONS) throw new IndexOutOfRangeException();
+            if (left) return leftFoundation[num];
+            else return rightFoundation[num];
+        }
+
         /// <summary>
         /// Новая игра.
         /// </summary>
@@ -52,6 +58,12 @@ namespace Model {
                 addCardsCount--;
             }
             Util.Move<Card>(cards, tableau[TABLEAUS - 2].GetList(), 1);
+            // Переворачиваем верхние карты.
+            for (int i = 0; i < TABLEAUS - 1; i++) {
+                tableau[i].GetTopCard().SetFaceUp();
+            }
+
+            leftFoundation[2].AddCard(new Card(Enums.CardSuit.Clubs, Enums.CardValue.Ace));
 
             // Добавляем оставшиеся 67 карт в запас.
             Stock.AddCards(cards);

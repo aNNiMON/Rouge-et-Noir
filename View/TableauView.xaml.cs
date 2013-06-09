@@ -15,7 +15,7 @@ namespace View {
 
         public TableauView() {
             InitializeComponent();
-            cardSpace = 20;
+            cardSpace = 15;
         }
 
         public void SetTableau(Tableau tableau) {
@@ -25,8 +25,8 @@ namespace View {
             rootView.Children.Add(Util.CreateCardPlace('K'));
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
-
                 CardView cardView = new CardView();
+
                 Canvas.SetTop(cardView, cardSpace * i);
                 Canvas.SetZIndex(cardView, 1 + i);
                 cardView.SetCard(card);

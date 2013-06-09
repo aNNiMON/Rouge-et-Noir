@@ -32,7 +32,7 @@ namespace Model {
         }
 
         public Card(CardSuit suit, CardValue value)
-            : this(suit, value, false) {  }
+            : this(suit, value, true) {  }
 
         public Card(CardSuit suit, CardValue value, bool isFaceDown) {
             Suit = suit;

@@ -17,10 +17,9 @@ namespace View {
             return bitmapImage;
         }
 
-        public static CardPlaceView CreateCardPlace(char symbol, int top = 0, int zIndex = 0) {
+        public static CardPlaceView CreateCardPlace(char symbol, int zIndex = 0) {
             CardPlaceView view = new CardPlaceView(symbol);
-            Canvas.SetTop(view, top);
-            Canvas.SetZIndex(view, zIndex);
+            Grid.SetZIndex(view, zIndex);
 
             return view;
         }
