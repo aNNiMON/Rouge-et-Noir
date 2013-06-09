@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -19,6 +15,14 @@ namespace View {
             bitmapImage.UriSource = new Uri(RESOURCE_URI + CARD_IMAGE_FOLDER + name + ".png");
             bitmapImage.EndInit();
             return bitmapImage;
+        }
+
+        public static CardPlaceView CreateCardPlace(char symbol, int top = 0, int zIndex = 0) {
+            CardPlaceView view = new CardPlaceView(symbol);
+            Canvas.SetTop(view, top);
+            Canvas.SetZIndex(view, zIndex);
+
+            return view;
         }
     }
 }
