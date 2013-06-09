@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows;
 using Model;
 
 namespace View {
@@ -9,6 +10,11 @@ namespace View {
     public partial class FoundationView : UserControl {
 
         private Foundation foundation;
+        public Foundation Foundation {
+            get {
+                return foundation;
+            }
+        }
         private bool isLeft;
 
         private CardView cardView;
@@ -31,6 +37,7 @@ namespace View {
 
         public void RefreshView() {
             Card card = foundation.GetTopCard();
+            cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
             if (card == null) return;
 
             cardView.SetCard(card);

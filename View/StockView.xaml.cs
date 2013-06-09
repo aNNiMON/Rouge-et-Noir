@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows;
 using Model;
 
 namespace View {
@@ -22,6 +11,12 @@ namespace View {
     public partial class StockView : UserControl {
 
         private Stock stock;
+        public Stock Stock {
+            get {
+                return stock;
+            }
+        }
+
         private CardView cardView;
 
         public StockView() {
@@ -41,9 +36,14 @@ namespace View {
 
         public void RefreshView() {
             Card card = stock.GetTopCard();
+            cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
             if (card == null) return;
 
             cardView.SetCard(card);
+        }
+
+        private void rootView_MouseUp(object sender, MouseButtonEventArgs e) {
+            GameView.Instance.HandOutFromStock();
         }
     }
 }

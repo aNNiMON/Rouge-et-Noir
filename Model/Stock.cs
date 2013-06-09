@@ -1,4 +1,5 @@
-﻿namespace Model {
+﻿using System.Collections.Generic;
+namespace Model {
 
     /// <summary>
     /// Запас.
@@ -11,6 +12,10 @@
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];
+        }
+
+        public List<Card> GetList() {
+            return Cards;
         }
     }
 }

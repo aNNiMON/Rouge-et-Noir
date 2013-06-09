@@ -34,7 +34,7 @@ namespace Model {
         /// <param name="to">результирующий список</param>
         /// <param name="length">количество объектов для перемещения</param>
         public static void Move<T>(List<T> from, List<T> to, int length) {
-            var selected = from.Take(length).ToList();
+            var selected = from.Skip(Math.Max(0, from.Count() - length)).Take(length).ToList();
             selected.ForEach(item => from.Remove(item));
             to.AddRange(selected);
         }

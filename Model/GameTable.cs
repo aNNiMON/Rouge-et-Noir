@@ -12,6 +12,16 @@ namespace Model {
     /// </summary>
     public class GameTable {
 
+        /*private static GameTable instance;
+
+        public static GameTable GetInstance() {
+            if (instance == null) {
+                instance = new GameTable();
+            }
+            return instance;
+        }*/
+
+
         public const int FOUNDATIONS = 4, TABLEAUS = 10;
 
         private Stock stock;
@@ -69,6 +79,23 @@ namespace Model {
 
             // Добавляем оставшиеся 67 карт в запас.
             stock.AddCards(cards);
+        }
+
+        /// <summary>
+        /// Раздача карт из запаса.
+        /// </summary>
+        public void HandOutFromStock() {
+            var cards = new List<Card>();
+            Util.Move<Card>(stock.GetList(), cards, TABLEAUS);
+            // Раскрываем карты.
+            foreach (var card in cards) {
+                card.SetFaceUp();
+            }
+            // Переносим в таблицы.
+            for (int i = 0; i < TABLEAUS; i++) {
+                if (cards.Count == 0) return;
+                Util.Move<Card>(cards, tableau[i].GetList(), 1);
+            }
         }
     }
 }

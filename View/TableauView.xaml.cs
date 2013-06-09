@@ -11,6 +11,12 @@ namespace View {
     public partial class TableauView : UserControl {
 
         private Tableau tableau;
+        public Tableau Tableau {
+            get {
+                return tableau;
+            }
+        }
+
         private int cardSpace;
 
         private List<CardView> cardViews;
@@ -49,7 +55,7 @@ namespace View {
                 var card = cards[i];
 
                 CardView cardView;
-                if (cardViews.Count < i) {
+                if (i < cardViews.Count) {
                     cardView = cardViews[i];
                     cardView.SetCard(card);
                 } else {
