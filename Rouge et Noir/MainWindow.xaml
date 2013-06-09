@@ -4,6 +4,6 @@
         xmlns:v="clr-namespace:View;assembly=View"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <v:CardView x:Name="cardView" Width="{Binding ActualWidth, Mode=OneWay}" Height="{Binding ActualHeight, Mode=OneWay}" />
+        <v:TableauView x:Name="tableauView" Width="{Binding ActualWidth, Mode=OneWay}" Height="{Binding ActualHeight, Mode=OneWay}" />
     </Grid>
 </Window>

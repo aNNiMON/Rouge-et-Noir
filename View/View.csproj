@@ -47,10 +47,18 @@
     <Compile Include="CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TableauView.xaml.cs">
+      <DependentUpon>TableauView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TableauView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -60,6 +68,61 @@
       <Project>{4c4ca56b-e9d8-41ea-8946-947ebac89fbb}</Project>
       <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1\back.png" />
+    <Resource Include="Resources\1\c1.png" />
+    <Resource Include="Resources\1\c10.png" />
+    <Resource Include="Resources\1\c2.png" />
+    <Resource Include="Resources\1\c3.png" />
+    <Resource Include="Resources\1\c4.png" />
+    <Resource Include="Resources\1\c5.png" />
+    <Resource Include="Resources\1\c6.png" />
+    <Resource Include="Resources\1\c7.png" />
+    <Resource Include="Resources\1\c8.png" />
+    <Resource Include="Resources\1\c9.png" />
+    <Resource Include="Resources\1\cj.png" />
+    <Resource Include="Resources\1\ck.png" />
+    <Resource Include="Resources\1\cq.png" />
+    <Resource Include="Resources\1\d1.png" />
+    <Resource Include="Resources\1\d10.png" />
+    <Resource Include="Resources\1\d2.png" />
+    <Resource Include="Resources\1\d3.png" />
+    <Resource Include="Resources\1\d4.png" />
+    <Resource Include="Resources\1\d5.png" />
+    <Resource Include="Resources\1\d6.png" />
+    <Resource Include="Resources\1\d7.png" />
+    <Resource Include="Resources\1\d8.png" />
+    <Resource Include="Resources\1\d9.png" />
+    <Resource Include="Resources\1\dj.png" />
+    <Resource Include="Resources\1\dk.png" />
+    <Resource Include="Resources\1\dq.png" />
+    <Resource Include="Resources\1\h1.png" />
+    <Resource Include="Resources\1\h10.png" />
+    <Resource Include="Resources\1\h2.png" />
+    <Resource Include="Resources\1\h3.png" />
+    <Resource Include="Resources\1\h4.png" />
+    <Resource Include="Resources\1\h5.png" />
+    <Resource Include="Resources\1\h6.png" />
+    <Resource Include="Resources\1\h7.png" />
+    <Resource Include="Resources\1\h8.png" />
+    <Resource Include="Resources\1\h9.png" />
+    <Resource Include="Resources\1\hj.png" />
+    <Resource Include="Resources\1\hk.png" />
+    <Resource Include="Resources\1\hq.png" />
+    <Resource Include="Resources\1\s1.png" />
+    <Resource Include="Resources\1\s10.png" />
+    <Resource Include="Resources\1\s2.png" />
+    <Resource Include="Resources\1\s3.png" />
+    <Resource Include="Resources\1\s4.png" />
+    <Resource Include="Resources\1\s5.png" />
+    <Resource Include="Resources\1\s6.png" />
+    <Resource Include="Resources\1\s7.png" />
+    <Resource Include="Resources\1\s8.png" />
+    <Resource Include="Resources\1\s9.png" />
+    <Resource Include="Resources\1\sj.png" />
+    <Resource Include="Resources\1\sk.png" />
+    <Resource Include="Resources\1\sq.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

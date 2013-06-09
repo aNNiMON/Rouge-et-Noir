@@ -14,10 +14,7 @@ namespace Model {
 
         private const int FOUNDATIONS = 4, TABLEAUS = 10;
 
-        public Stock Stock {
-            get;
-            set;
-        }
+        private Stock Stock;
         private LeftFoundation[] leftFoundation;
         private RightFoundation[] rightFoundation;
         private Tableau[] tableau;
@@ -34,6 +31,11 @@ namespace Model {
             for (int i = 0; i < TABLEAUS; i++) {
                 tableau[i] = new Tableau();
             }
+        }
+
+        public Tableau GetTableau(int num) {
+            if (num >= TABLEAUS) throw new IndexOutOfRangeException();
+            return tableau[num];
         }
 
         /// <summary>

@@ -25,7 +25,9 @@ namespace Rouge_et_Noir {
             GameTable table = new GameTable();
             table.NewGame();
 
-            cardView.SetCard(table.Stock.GetTopCard());
+            tableauView.SetTableau(table.GetTableau(1));
+            //cardView.SetCard(table.);
+
             /*Deck deck = new Deck104();
             
             LeftFoundation left = new LeftFoundation();
