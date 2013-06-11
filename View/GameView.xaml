@@ -13,6 +13,7 @@
             </LinearGradientBrush>
         </Grid.Background>
         <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
@@ -28,5 +29,29 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Menu IsMainMenu="True" Grid.Row="0" Grid.ColumnSpan="10">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FF90B497" Offset="0.528"/>
+                    <GradientStop Color="#FFCBDACF" Offset="0.01"/>
+                    <GradientStop Color="#FF1E5323" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
+            <MenuItem Header="_Файл">
+                <MenuItem Header="_Новая игра" Background="#FFCBDACF" Click="NewGame_Click" />
+                <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Игра">
+                <MenuItem Header="_Отменить" Background="#FFCBDACF" Click="Undo_Click" />
+                <MenuItem Header="_Восстановить" Background="#FFCBDACF" Click="Redo_Click" />
+            </MenuItem>
+            <MenuItem Header="_Статистика">
+                <MenuItem Header="Количество баллов" Background="#FFCBDACF" />
+            </MenuItem>
+            <MenuItem Header="_Помощь">
+                <MenuItem Header="П_равила" Background="#FFCBDACF" />
+                <MenuItem Header="_О программе" Background="#FFCBDACF" />
+            </MenuItem>
+        </Menu>
     </Grid>
 </UserControl>

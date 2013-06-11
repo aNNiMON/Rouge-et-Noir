@@ -11,16 +11,6 @@ namespace Model {
     /// </summary>
     public class GameTable {
 
-        /*private static GameTable instance;
-
-        public static GameTable GetInstance() {
-            if (instance == null) {
-                instance = new GameTable();
-            }
-            return instance;
-        }*/
-
-
         public const int FOUNDATIONS = 4, TABLEAUS = 10;
 
         private Stock stock;
@@ -61,6 +51,8 @@ namespace Model {
         /// Новая игра.
         /// </summary>
         public void NewGame() {
+            Clear();
+            MovesManager.NewGame();
             Deck deck = new Deck104();
             List<Card> cards = deck.Cast<Card>().ToList();
             
@@ -166,6 +158,17 @@ namespace Model {
 
             from.FaceUpTopCard();
             to.AddCards(cards);
+        }
+
+        private void Clear() {
+            stock.GetList().Clear();
+            for (int i = 0; i < FOUNDATIONS; i++) {
+                leftFoundation[i].GetList().Clear();
+                rightFoundation[i].GetList().Clear();
+            }
+            for (int i = 0; i < TABLEAUS; i++) {
+                tableau[i].GetList().Clear();
+            }
         }
     }
 }

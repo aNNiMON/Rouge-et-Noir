@@ -21,11 +21,6 @@ namespace View {
         }
 
         private GameTable table;
-        /*public GameTable Table {
-            get {
-                return table;
-            }
-        }*/
 
         private StockView stockView;
         public StockView StockView {
@@ -44,23 +39,9 @@ namespace View {
 
             table = new GameTable();
             NewGame();
-            
-            /*for (int i = 0; i <= 7; i++) {
-                Tableau tab = table.GetTableau(i);
-                for (int j = tab.GetList().Count - 1; j >= 0; j--) {
-                    var card = tab.GetList()[j];
-                    if (table.GetFoundation(0, true).IsCorrectMove(card)) {
-                        table.GetFoundation(0, true).AddCard(card);
-                        tab.GetList().Remove(card);
-                        tab.GetTopCard().SetFaceUp();
-                    }
-                }
-                tableauViews[i].RefreshView();
-                
-                System.Diagnostics.Debug.Print(table.GetFoundation(0, true).ToString());
-                System.Diagnostics.Debug.Print("-------------------\n\n\n");
-            }
-            foundationViews[0].RefreshView();*/
+            SetStock();
+            SetFoundations();
+            SetTableau();
         }
 
         public TableauView GetTableauView(int num) {
@@ -89,9 +70,9 @@ namespace View {
         public void NewGame() {
             table.NewGame();
 
-            SetStock();
+            /*SetStock();
             SetFoundations();
-            SetTableau();
+            SetTableau();*/
         }
 
         /// <summary>
@@ -109,7 +90,7 @@ namespace View {
             stockView = new StockView();
             stockView.SetStock(table.GetStock());
             Grid.SetColumn(stockView, 0);
-            Grid.SetRow(stockView, 0);
+            Grid.SetRow(stockView, 1);
             rootView.Children.Add(stockView);
         }
 
@@ -122,7 +103,7 @@ namespace View {
                 bool left = i < GameTable.FOUNDATIONS;
 
                 Grid.SetColumn(foundationView, 2 + i);
-                Grid.SetRow(foundationView, 0);
+                Grid.SetRow(foundationView, 1);
                 foundationView.SetFoundation(table.GetFoundation(num, left), left);
 
                 rootView.Children.Add(foundationView);
@@ -136,7 +117,7 @@ namespace View {
                 var tableauView = new TableauView();
 
                 Grid.SetColumn(tableauView, i);
-                Grid.SetRow(tableauView, 1);
+                Grid.SetRow(tableauView, 2);
                 Panel.SetZIndex(tableauView, 0);
                 tableauView.SetTableau(table.GetTableau(i));
 
@@ -208,6 +189,36 @@ namespace View {
                 Y = cardRect.Top + cardRect.Height / 3
             };
             return new Rect(cardPoint, new Size(1, 1));
+        }
+
+        private void RefreshView() {
+            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+                foundationViews[i].RefreshView();
+            }
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                Panel.SetZIndex(tableauViews[i], 0);
+                tableauViews[i].RefreshView();
+            }
+            stockView.RefreshView();
+        }
+
+        private void NewGame_Click(object sender, RoutedEventArgs e) {
+            NewGame();
+            RefreshView();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e) {
+            Application.Current.Shutdown();
+        }
+
+        private void Undo_Click(object sender, RoutedEventArgs e) {
+            table.Undo();
+            RefreshView();
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e) {
+            table.Redo();
+            RefreshView();
         }
 
         

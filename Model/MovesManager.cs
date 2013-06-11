@@ -11,6 +11,11 @@ namespace Model {
         private static int moveIndex = 0;
         private static List<Move> moves = new List<Move>();
 
+        public static void NewGame() {
+            moves.Clear();
+            moveIndex = 0;
+        }
+
         public static Move Undo() {
             if (moveIndex <= 0) return new Move { Type = MoveType.NONE };
 
@@ -21,8 +26,7 @@ namespace Model {
         public static Move Redo() {
             if (moveIndex >= moves.Count) return new Move { Type = MoveType.NONE };
 
-            moveIndex++;
-            return moves[moveIndex];
+            return moves[moveIndex++];
         }
 
         public static void Move(Card card, Tableau from, Foundation to, bool faceUp) {
