@@ -86,6 +86,11 @@ namespace Model {
             return base.Cards[base.Cards.Count - 1];
         }
 
+        public bool CheckFillKingToAce() {
+            List<Card> cards = GetDraggableTopCards();
+            return ( (cards != null) && (cards.Count == 13) );
+        }
+
         public List<Card> GetDraggableTopCards() {
             if (base.Cards.Count == 0) return null;
 

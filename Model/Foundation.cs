@@ -33,6 +33,10 @@ namespace Model {
             return base.Cards[base.Cards.Count - 1];
         }
 
+        public bool IsFinished() {
+            return (Cards.Count == 13);
+        }
+
         /// <summary>
         /// Проверка корректности хода.
         /// </summary>

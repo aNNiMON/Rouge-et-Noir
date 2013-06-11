@@ -15,7 +15,7 @@ namespace Model {
         }
 
         public override bool IsCorrectMove(Card card) {
-            return true;
+            return (card.Value == Enums.CardValue.King);
         }
     }
 }

@@ -70,10 +70,6 @@ namespace View {
         /// </summary>
         public void NewGame() {
             table.NewGame();
-
-            /*SetStock();
-            SetFoundations();
-            SetTableau();*/
         }
 
         /// <summary>
@@ -137,7 +133,7 @@ namespace View {
             CardView bottomCardView = draggableCards.BottomCardView;
             Rect cardRect = GetCardRect(bottomCardView);
             // Просматриваем перемещение по стопкам.
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+            for (int i = 0; i < GameTable.FOUNDATIONS; i++) {
                 FoundationView view = foundationViews[i];
 
                 Rect rect = view.Bounds;
@@ -150,7 +146,7 @@ namespace View {
                     table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Foundation);
                     tableauView.RefreshView();
                     view.RefreshView();
-
+                    CheckGameOver();
                     return;
                 }
             }
@@ -170,6 +166,7 @@ namespace View {
                     table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Tableau);
                     tableauView.RefreshView();
                     view.RefreshView();
+                    CheckAutoMovesToRightFoundation();
                     return;
                 }
             }
@@ -177,6 +174,37 @@ namespace View {
             CancelMove(draggableCards);
         }
 
+        /// <summary>
+        /// Проверка автоматических перемещений в правую стопку из таблиц.
+        /// </summary>
+        private void CheckAutoMovesToRightFoundation() {
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                TableauView view = tableauViews[i];
+                if (view.Tableau.CheckFillKingToAce()) {
+                    for (int j = 0; j < GameTable.FOUNDATIONS; j++) {
+                        Foundation fn = table.GetFoundation(j, false);
+                        if (fn.GetTopCard() == null) {
+                            table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn, false);
+                        }
+                    }
+                    RefreshView();
+                    CheckGameOver();
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Проверка окончания игры.
+        /// </summary>
+        private void CheckGameOver() {
+            for (int j = 0; j < GameTable.FOUNDATIONS * 2; j++) {
+                if (!foundationViews[j].Foundation.IsFinished())
+                    return;
+            }
+            MessageBox.Show("Игра окончена. Поздравляем!!!");
+            ///TODO: Game complete window
+        }
 
         /// <summary>
         /// Отмена операции перемещения и возвращение карт на место.
