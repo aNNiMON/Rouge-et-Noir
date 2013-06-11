@@ -96,14 +96,20 @@ namespace Model {
             Move move = MovesManager.Undo();
             switch (move.Type) {
                 case MoveType.TO_FOUNDATION:
-                    move.ToFoundation.GetList().Remove(move.Card);
+                    // Удаляем карты из таблицы.
+                    foreach (var _card in move.Cards) {
+                        move.ToFoundation.GetList().Remove(_card);
+                    }
                     if (move.FaceUp) move.FromTableau.FaceDownTopCard();
-                    move.FromTableau.AddCardBySystem(move.Card);
+                    move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
                 case MoveType.TO_TABLEAU:
-                    move.ToTableau.GetList().Remove(move.Card);
+                    // Удаляем карты из таблицы.
+                    foreach (var _card in move.Cards) {
+                        move.ToTableau.GetList().Remove(_card);
+                    }
                     if (move.FaceUp) move.FromTableau.FaceDownTopCard();
-                    move.FromTableau.AddCardBySystem(move.Card);
+                    move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
                 case MoveType.FROM_STOCK:
                     foreach (var card in move.Cards) {
@@ -121,11 +127,11 @@ namespace Model {
             Move move = MovesManager.Redo();
             switch (move.Type) {
                 case MoveType.TO_FOUNDATION:
-                    MoveCard(move.Card, move.FromTableau, move.ToFoundation, false);
+                    MoveCards(move.Cards, move.FromTableau, move.ToFoundation, false);
                     //if (move.FaceUp) move.FromTableau.FaceUpTopCard();
                     break;
                 case MoveType.TO_TABLEAU:
-                    MoveCard(move.Card, move.FromTableau, move.ToTableau, false);
+                    MoveCards(move.Cards, move.FromTableau, move.ToTableau, false);
                     //if (move.FaceUp) move.FromTableau.FaceUpTopCard();
                     break;
                 case MoveType.FROM_STOCK:
@@ -134,26 +140,30 @@ namespace Model {
             }
         }
 
-        public void MoveCard(Card card, Tableau from, Foundation to, bool saveToHistory = true) {
-            var cards = new List<Card>();
-            Util.Move<Card>(from.GetList(), cards, 1);
+        public void MoveCards(List<Card> cards, Tableau from, Foundation to, bool saveToHistory = true) {
+            // Удаляем карты из таблицы.
+            foreach(var _card in cards) {
+                from.GetList().Remove(_card);
+            }
 
             if (saveToHistory) {
                 bool faceUp = (from.GetTopCard() == null) ? false : from.GetTopCard().IsFaceDown;
-                MovesManager.Move(card, from, to, faceUp);
+                MovesManager.Move(new List<Card>(cards), from, to, faceUp);
             }
 
             from.FaceUpTopCard();
             to.AddCards(cards);
         }
 
-        public void MoveCard(Card card, Tableau from, Tableau to, bool saveToHistory = true) {
-            var cards = new List<Card>();
-            Util.Move<Card>(from.GetList(), cards, 1);
+        public void MoveCards(List<Card> cards, Tableau from, Tableau to, bool saveToHistory = true) {
+            // Удаляем карты из таблицы.
+            foreach (var _card in cards) {
+                from.GetList().Remove(_card);
+            }
 
             if (saveToHistory) {
                 bool faceUp = (from.GetTopCard() == null) ? false : from.GetTopCard().IsFaceDown;
-                MovesManager.Move(card, from, to, faceUp);
+                MovesManager.Move(new List<Card>(cards), from, to, faceUp);
             }
 
             from.FaceUpTopCard();

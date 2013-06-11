@@ -7,40 +7,33 @@ namespace View {
 
     public static class DragHelper {
 
-        public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted, MouseButtonEventHandler previewDragStarted) {
+        public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted, Point pos) {
             bool isDragging = false;
             Point lastPosition = new Point(0, 0);
 
             int zIndex = Panel.GetZIndex(attachedElement);
 
-            attachedElement.MouseLeftButtonDown += (s, e) => {
-                if (previewDragStarted != null) {
-                    previewDragStarted(s, e);
-                    if (e.Handled) return;
-                }
+            //attachedElement.MouseLeftButtonDown += (s, e) => {
                 isDragging = true;
-                lastPosition = e.GetPosition(null);
+                lastPosition = pos;//e.GetPosition(null);
                 attachedElement.CaptureMouse();
 
-                Panel.SetZIndex(attachedElement, Util.GetMaxZIndex(GameView.Instance.GetRootViewElements()));
-            };
+                //Panel.SetZIndex(attachedElement, Util.GetMaxZIndex(GameView.Instance.GetRootViewElements()));
+            //};
 
             attachedElement.MouseLeftButtonUp += (s, e) => {
-                if (previewDragStarted != null) {
-                    previewDragStarted(s, e);
-                    if (e.Handled) return;
-                }
                 isDragging = false;
                 attachedElement.ReleaseMouseCapture();
 
-                Panel.SetZIndex(attachedElement, zIndex);
+                //Panel.SetZIndex(attachedElement, zIndex);
 
                 if (onDragCompleted != null)
                     onDragCompleted(s, e);
             };
 
             attachedElement.MouseMove += (s, e) => {
-                if (!isDragging) return;
+                if (!isDragging)
+                    return;
 
                 Point currentPosition = e.GetPosition(null);
 

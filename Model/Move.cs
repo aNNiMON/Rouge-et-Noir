@@ -11,8 +11,7 @@ namespace Model {
     /// Структура данных для учёта перемещений.
     /// </summary>
     public struct Move {
-        // Карта / карты
-        public Card Card;
+        // Карты
         public List<Card> Cards;
 
         // Тип перемещения

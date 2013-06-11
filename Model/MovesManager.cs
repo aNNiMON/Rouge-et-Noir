@@ -29,9 +29,9 @@ namespace Model {
             return moves[moveIndex++];
         }
 
-        public static void Move(Card card, Tableau from, Foundation to, bool faceUp) {
+        public static void Move(List<Card> cards, Tableau from, Foundation to, bool faceUp) {
             Move move = new Move() {
-                Card = card,
+                Cards = cards,
                 FromTableau = from,
                 ToFoundation = to,
                 FaceUp = faceUp,
@@ -40,9 +40,9 @@ namespace Model {
             AddToHistory(move);
         }
 
-        public static void Move(Card card, Tableau from, Tableau to, bool faceUp) {
+        public static void Move(List<Card> cards, Tableau from, Tableau to, bool faceUp) {
             Move move = new Move() {
-                Card = card,
+                Cards = cards,
                 FromTableau = from,
                 ToTableau = to,
                 FaceUp = faceUp,

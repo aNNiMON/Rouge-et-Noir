@@ -62,6 +62,8 @@ namespace Model {
             if (top == null) {
                 return (card.Value == CardValue.King);
             }
+            if (card.IsFaceDown || top.IsFaceDown)
+                return false;
 
             bool isAlternatingColor = (top.IsRedSuit() ^ card.IsRedSuit());
             bool isNextCard = (card.Value - top.Value) == -1;
@@ -92,20 +94,17 @@ namespace Model {
             cards.Add(top);
             if (base.Cards.Count == 1) return cards;
 
-            /*Card beforeTop = base.Cards[base.Cards.Count - 2];
-            if (IsCorrectMove(top, beforeTop)) {
-                cards.Add(beforeTop);
-            }*/
-
             for (int i = base.Cards.Count - 2; i >= 0; i--) {
                 Card beforeTop = base.Cards[i];
                 if (IsCorrectMove(top, beforeTop)) {
                     cards.Add(beforeTop);
-                }
+                } else break;
                 top = beforeTop;
             }
 
-            return cards;
+            var rev = cards.Reverse<Card>();
+
+            return rev.ToList<Card>();
         }
     }
 }

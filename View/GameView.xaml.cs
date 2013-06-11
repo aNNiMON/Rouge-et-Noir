@@ -128,25 +128,26 @@ namespace View {
         }
 
         /// <summary>
-        /// Событие окончания перемещения карты.
-        /// Просматривается новая позиция карты и определяется, куда её переместить.
+        /// Событие окончания перемещения карт.
+        /// Просматриваются новые позиции карты и определяется, куда их переместить.
         /// </summary>
-        /// <param name="tableauView">таблица, из которой была перемещена карта</param>
-        /// <param name="cardView">перемещаемая карта</param>
-        public void DragCompleted(TableauView tableauView, CardView cardView) {
-            Rect cardRect = GetCardRect(cardView);
+        /// <param name="tableauView"></param>
+        /// <param name="draggableCards"></param>
+        public void DragCompleted(TableauView tableauView, DraggableCards draggableCards) {
+            CardView bottomCardView = draggableCards.BottomCardView;
+            Rect cardRect = GetCardRect(bottomCardView);
             // Просматриваем перемещение по стопкам.
             for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
                 FoundationView view = foundationViews[i];
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
-                    if (!view.Foundation.IsCorrectMove(cardView.Card)) {
-                        CancelMove(cardView);
+                    if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
+                        CancelMove(draggableCards);
                         return;
                     }
-                    // Добавляем карту в стопку.
-                    table.MoveCard(cardView.Card, tableauView.Tableau, view.Foundation);
+                    // Добавляем карты в стопку.
+                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Foundation);
                     tableauView.RefreshView();
                     view.RefreshView();
 
@@ -156,31 +157,33 @@ namespace View {
             // Просматриваем перемещение по таблицам.
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 TableauView view = tableauViews[i];
-                if (view.Equals(tableauView)) continue;
+                if (view.Equals(tableauView))
+                    continue;
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
-                    if (!view.Tableau.IsCorrectMove(cardView.Card)) {
-                        CancelMove(cardView);
+                    if (!view.Tableau.IsCorrectMove(bottomCardView.Card)) {
+                        CancelMove(draggableCards);
                         return;
                     }
-                    // Переносим карту в другую таблицу.
-                    table.MoveCard(cardView.Card, tableauView.Tableau, view.Tableau);
+                    // Переносим карты в другую таблицу.
+                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Tableau);
                     tableauView.RefreshView();
                     view.RefreshView();
                     return;
                 }
             }
 
-            CancelMove(cardView);
+            CancelMove(draggableCards);
         }
 
+
         /// <summary>
-        /// Отмена операции перемещения и возвращение карты на место.
+        /// Отмена операции перемещения и возвращение карт на место.
         /// </summary>
-        /// <param name="view"></param>
-        private void CancelMove(CardView cardView) {
-            cardView.RenderTransform = null;
+        /// <param name="uielement"></param>
+        private void CancelMove(UIElement uielement) {
+            uielement.RenderTransform = null;
         }
 
         private Rect GetCardRect(CardView cardView) {
@@ -227,6 +230,6 @@ namespace View {
             e.CanExecute = true;
         }
         #endregion
-        
+
     }
 }

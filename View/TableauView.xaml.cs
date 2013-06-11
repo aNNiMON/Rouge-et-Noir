@@ -79,7 +79,8 @@ namespace View {
         }
 
         private void AddCard(CardView cardView, Card card, int index) {
-            DragHelper.Drag(cardView, OnDragCompleted, PreviewDragStarted);
+            cardView.PreviewMouseLeftButtonDown += cardView_PreviewMouseLeftButtonDown;
+
             cardView.Card = card;
             Canvas.SetTop(cardView, cardSpace * index);
             Canvas.SetZIndex(cardView, 1 + index);
@@ -87,24 +88,47 @@ namespace View {
             cardViews.Add(cardView);
         }
 
-        private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
-            CardView view = (CardView) sender;
-            GameView.Instance.DragCompleted(this, view);
-        }
 
-        void PreviewDragStarted(object sender, MouseButtonEventArgs e) {
+        private void cardView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             CardView view = (CardView) sender;
-
             List<Card> draggable = Tableau.GetDraggableTopCards();
-            foreach (var card in draggable) {
+            for (int i = 0; i < draggable.Count; i++) {
+                var card = draggable[i];
                 if (view.Card.Equals(card)) {
-                    // Перемещать верхнюю карту разрешено всегда.
-                    e.Handled = false;
+                    // Собираем карты в новый компонент.
+                    DraggableCards draggableCards = new DraggableCards();
+                    draggableCards.Cards = draggable.GetRange(i, draggable.Count - i);
+                    // Карты в таблице скрываем.
+                    foreach (var cardView in cardViews) {
+                        foreach (var _card in draggableCards.Cards) {
+                            if (cardView.Card.Equals(_card)) {
+                                cardView.Visibility = Visibility.Hidden;
+                            }
+                        }
+                    }
+                    // Добавляем новый компонент на форму.
+                    Canvas.SetTop(draggableCards, Canvas.GetTop(view));
+                    Canvas.SetLeft(draggableCards, Canvas.GetLeft(view));
+                    Canvas.SetZIndex(draggableCards, 200);
+                    rootView.Children.Add(draggableCards);
+                    DragHelper.Drag(draggableCards, OnDragCompleted, e.GetPosition(null));
                     return;
                 }
             }
-            
-            e.Handled = true;
+        }
+
+        private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
+            DraggableCards draggableCards = (DraggableCards) sender;
+            // Показываем карты в таблице.
+            foreach (var cardView in cardViews) {
+                foreach (var _card in draggableCards.Cards) {
+                    if (cardView.Card.Equals(_card)) {
+                        cardView.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+            GameView.Instance.DragCompleted(this, draggableCards);
+            rootView.Children.Remove(draggableCards);
         }
     }
 }
