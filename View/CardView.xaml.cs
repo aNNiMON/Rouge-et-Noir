@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Model;
 
@@ -25,9 +28,14 @@ namespace View {
             cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
         }
 
+        public Card GetCard() {
+            return card;
+        }
+
         public void Animate(string animation) {
             Storyboard s = (Storyboard) Resources[animation];
             s.Begin();
         }
+
     }
 }

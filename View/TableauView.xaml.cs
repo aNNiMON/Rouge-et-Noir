@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using Model;
 
 namespace View {
@@ -27,6 +31,15 @@ namespace View {
             cardSpace = 15;
         }
 
+        public Rect Bounds {
+            get {
+                var list = new List<Visual>();
+                list.Add(rootView.Children[0]);
+                list.AddRange(cardViews);
+                return Util.GetBoundingRect(list);
+            }
+        }
+
         public void SetTableau(Tableau tableau) {
             this.tableau = tableau;
 
@@ -35,13 +48,7 @@ namespace View {
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
                 CardView cardView = new CardView();
-
-                Canvas.SetTop(cardView, cardSpace * i);
-                Canvas.SetZIndex(cardView, 1 + i);
-                cardView.SetCard(card);
-
-                rootView.Children.Add(cardView);
-                cardViews.Add(cardView);
+                AddCard(cardView, card, i);
             }
         }
 
@@ -60,12 +67,8 @@ namespace View {
                     cardView.SetCard(card);
                 } else {
                     cardView = new CardView();
-                    cardView.SetCard(card);
+                    AddCard(cardView, card, i);
                     cardView.Animate(CardView.ANIM_FADE_IN);
-                    cardViews.Add(cardView);
-                    Canvas.SetTop(cardView, cardSpace * i);
-                    Canvas.SetZIndex(cardView, 1 + i);
-                    rootView.Children.Add(cardView);
                 }
             }
             // Удаляем лишнее
@@ -74,6 +77,20 @@ namespace View {
                 rootView.Children.Remove(v);
                 cardViews.Remove(v);
             }
+        }
+
+        private void AddCard(CardView cardView, Card card, int index) {
+            DragHelper.Drag(cardView, OnDragCompleted);
+            cardView.SetCard(card);
+            Canvas.SetTop(cardView, cardSpace * index);
+            Canvas.SetZIndex(cardView, 1 + index);
+            rootView.Children.Add(cardView);
+            cardViews.Add(cardView);
+        }
+
+        void OnDragCompleted(object sender, MouseButtonEventArgs e) {
+            CardView view = (CardView) sender;
+            GameView.Instance.DragCompleted(this, view);
         }
     }
 }

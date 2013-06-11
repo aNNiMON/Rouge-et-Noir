@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 using Model;
 
 namespace View {
@@ -76,6 +75,14 @@ namespace View {
             return foundationViews[num];
         }
 
+        public UIElement GetRootView() {
+            return rootView;
+        }
+
+        public UIElementCollection GetRootViewElements() {
+            return rootView.Children;
+        }
+
         /// <summary>
         /// Начать новую игру.
         /// </summary>
@@ -130,11 +137,41 @@ namespace View {
 
                 Grid.SetColumn(tableauView, i);
                 Grid.SetRow(tableauView, 1);
+                Panel.SetZIndex(tableauView, 0);
                 tableauView.SetTableau(table.GetTableau(i));
 
                 rootView.Children.Add(tableauView);
                 tableauViews[i] = tableauView;
             }
         }
+
+        public void DragCompleted(TableauView tableauView, CardView cardView) {
+            Rect cardRect = GetCardRect(cardView);
+            // Просматриваем перемещение по таблицам.
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                TableauView view = tableauViews[i];
+                if (view.Equals(tableauView)) continue;
+
+                Rect rect = view.Bounds;
+                if (cardRect.IntersectsWith(rect))  {
+                    System.Diagnostics.Debug.Print("Tableau: {0}", i);
+                    return;
+                }
+            }
+
+            // Вернуть карту на место.
+            cardView.RenderTransform = null;
+        }
+
+        private Rect GetCardRect(CardView cardView) {
+            Rect cardRect = Util.GetBoundingRect(cardView);
+            Point cardPoint = new Point {
+                X = cardRect.Left + cardRect.Width / 2,
+                Y = cardRect.Top + cardRect.Height / 3
+            };
+            return new Rect(cardPoint, new Size(1, 1));
+        }
+
+        
     }
 }

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace View {
@@ -22,6 +26,39 @@ namespace View {
             Grid.SetZIndex(view, zIndex);
 
             return view;
+        }
+
+        public static int GetMaxZIndex(UIElementCollection collection) {
+            int maxZIndex = 0;
+            foreach (UIElement element in collection) {
+                int z = Panel.GetZIndex(element);
+                if (z > maxZIndex) {
+                    maxZIndex = z;
+                }
+            }
+            return maxZIndex + 1;
+        }
+
+        public static Rect GetBoundingRect(Visual view, Visual relativeTo = null) {
+            if (relativeTo == null) relativeTo = GameView.Instance.GetRootView();
+            Vector relativeOffset = new Point() - relativeTo.PointToScreen(new Point());
+
+            Rect result = new Rect(view.PointToScreen(new Point()) + relativeOffset, VisualTreeHelper.GetDescendantBounds(view).Size);
+            return result;
+        }
+
+        public static Rect GetBoundingRect(List<Visual> visuals, Visual relativeTo = null) {
+            if (relativeTo == null) relativeTo = GameView.Instance.GetRootView();
+            Vector relativeOffset = new Point() - relativeTo.PointToScreen(new Point());
+
+            List<Rect> rects = visuals
+                .Select(v => new Rect(v.PointToScreen(new Point()) + relativeOffset, VisualTreeHelper.GetDescendantBounds(v).Size))
+                .ToList();
+
+            Rect result = rects[0];
+            for (int i = 1; i < rects.Count; i++)
+                result.Union(rects[i]);
+            return result;
         }
     }
 }
