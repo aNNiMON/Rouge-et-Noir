@@ -24,6 +24,10 @@ namespace Model {
             }
         }
 
+        public List<Card> GetList() {
+            return Cards;
+        }
+
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];

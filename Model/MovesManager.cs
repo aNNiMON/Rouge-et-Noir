@@ -25,21 +25,23 @@ namespace Model {
             return moves[moveIndex];
         }
 
-        public static void Move(Card card, Tableau from, Foundation to) {
+        public static void Move(Card card, Tableau from, Foundation to, bool faceUp) {
             Move move = new Move() {
                 Card = card,
                 FromTableau = from,
                 ToFoundation = to,
+                FaceUp = faceUp,
                 Type = MoveType.TO_FOUNDATION
             };
             AddToHistory(move);
         }
 
-        public static void Move(Card card, Tableau from, Tableau to) {
+        public static void Move(Card card, Tableau from, Tableau to, bool faceUp) {
             Move move = new Move() {
                 Card = card,
                 FromTableau = from,
                 ToTableau = to,
+                FaceUp = faceUp,
                 Type = MoveType.TO_TABLEAU
             };
             AddToHistory(move);

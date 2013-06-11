@@ -70,6 +70,11 @@ namespace Model {
             if (top != null) top.SetFaceUp();
         }
 
+        public void FaceDownTopCard() {
+            Card top = GetTopCard();
+            if (top != null) top.SetFaceDown();
+        }
+
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];

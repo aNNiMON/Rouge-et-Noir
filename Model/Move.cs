@@ -24,5 +24,8 @@ namespace Model {
         // Куда перемещено
         public Foundation ToFoundation;
         public Tableau ToTableau;
+
+        // Открывать ли последнюю карту?
+        public bool FaceUp;
     }
 }
