@@ -203,6 +203,7 @@ namespace View {
             stockView.RefreshView();
         }
 
+        #region Обработчики меню
         private void NewGame_Click(object sender, RoutedEventArgs e) {
             NewGame();
             RefreshView();
@@ -225,6 +226,7 @@ namespace View {
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = true;
         }
+        #endregion
         
     }
 }

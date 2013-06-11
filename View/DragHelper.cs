@@ -7,13 +7,17 @@ namespace View {
 
     public static class DragHelper {
 
-        public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted) {
+        public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted, MouseButtonEventHandler previewDragStarted) {
             bool isDragging = false;
             Point lastPosition = new Point(0, 0);
 
             int zIndex = Panel.GetZIndex(attachedElement);
 
             attachedElement.MouseLeftButtonDown += (s, e) => {
+                if (previewDragStarted != null) {
+                    previewDragStarted(s, e);
+                    if (e.Handled) return;
+                }
                 isDragging = true;
                 lastPosition = e.GetPosition(null);
                 attachedElement.CaptureMouse();
@@ -22,6 +26,10 @@ namespace View {
             };
 
             attachedElement.MouseLeftButtonUp += (s, e) => {
+                if (previewDragStarted != null) {
+                    previewDragStarted(s, e);
+                    if (e.Handled) return;
+                }
                 isDragging = false;
                 attachedElement.ReleaseMouseCapture();
 

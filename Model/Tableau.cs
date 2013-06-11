@@ -54,6 +54,10 @@ namespace Model {
 
         public bool IsCorrectMove(Card card) {
             Card top = GetTopCard();
+            return IsCorrectMove(card, top);
+        }
+
+        private bool IsCorrectMove(Card card, Card top) {
             // На пустую область можно ложить только короля.
             if (top == null) {
                 return (card.Value == CardValue.King);
@@ -78,6 +82,30 @@ namespace Model {
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];
+        }
+
+        public List<Card> GetDraggableTopCards() {
+            if (base.Cards.Count == 0) return null;
+
+            var cards = new List<Card>();
+            Card top = base.Cards[base.Cards.Count - 1];
+            cards.Add(top);
+            if (base.Cards.Count == 1) return cards;
+
+            /*Card beforeTop = base.Cards[base.Cards.Count - 2];
+            if (IsCorrectMove(top, beforeTop)) {
+                cards.Add(beforeTop);
+            }*/
+
+            for (int i = base.Cards.Count - 2; i >= 0; i--) {
+                Card beforeTop = base.Cards[i];
+                if (IsCorrectMove(top, beforeTop)) {
+                    cards.Add(beforeTop);
+                }
+                top = beforeTop;
+            }
+
+            return cards;
         }
     }
 }

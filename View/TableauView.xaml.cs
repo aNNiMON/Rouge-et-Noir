@@ -79,7 +79,7 @@ namespace View {
         }
 
         private void AddCard(CardView cardView, Card card, int index) {
-            DragHelper.Drag(cardView, OnDragCompleted);
+            DragHelper.Drag(cardView, OnDragCompleted, PreviewDragStarted);
             cardView.Card = card;
             Canvas.SetTop(cardView, cardSpace * index);
             Canvas.SetZIndex(cardView, 1 + index);
@@ -87,9 +87,24 @@ namespace View {
             cardViews.Add(cardView);
         }
 
-        void OnDragCompleted(object sender, MouseButtonEventArgs e) {
+        private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
             CardView view = (CardView) sender;
             GameView.Instance.DragCompleted(this, view);
+        }
+
+        void PreviewDragStarted(object sender, MouseButtonEventArgs e) {
+            CardView view = (CardView) sender;
+
+            List<Card> draggable = Tableau.GetDraggableTopCards();
+            foreach (var card in draggable) {
+                if (view.Card.Equals(card)) {
+                    // Перемещать верхнюю карту разрешено всегда.
+                    e.Handled = false;
+                    return;
+                }
+            }
+            
+            e.Handled = true;
         }
     }
 }
