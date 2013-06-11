@@ -147,6 +147,16 @@ namespace View {
 
         public void DragCompleted(TableauView tableauView, CardView cardView) {
             Rect cardRect = GetCardRect(cardView);
+            // Просматриваем перемещение по стопкам.
+            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+                FoundationView view = foundationViews[i];
+
+                Rect rect = view.Bounds;
+                if (cardRect.IntersectsWith(rect)) {
+                    System.Diagnostics.Debug.Print("Foundation: {0}", i);
+                    return;
+                }
+            }
             // Просматриваем перемещение по таблицам.
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 TableauView view = tableauViews[i];

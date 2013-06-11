@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Model;
 
 namespace View {
@@ -22,6 +24,15 @@ namespace View {
         public FoundationView() {
             InitializeComponent();
             cardView = new CardView();
+        }
+
+        public Rect Bounds {
+            get {
+                var list = new List<Visual>();
+                list.Add(rootView.Children[0]);
+                list.Add(cardView);
+                return Util.GetBoundingRect(list);
+            }
         }
 
         public void SetFoundation(Foundation foundation, bool isLeft) {

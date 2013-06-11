@@ -28,10 +28,6 @@ namespace View {
             cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
         }
 
-        public Card GetCard() {
-            return card;
-        }
-
         public void Animate(string animation) {
             Storyboard s = (Storyboard) Resources[animation];
             s.Begin();
