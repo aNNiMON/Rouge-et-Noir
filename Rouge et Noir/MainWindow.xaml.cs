@@ -9,6 +9,7 @@ namespace Rouge_et_Noir {
 
         public MainWindow() {
             InitializeComponent();
+            gameView.Focus();
         }
     }
 }

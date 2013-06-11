@@ -5,6 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              MinHeight="400" MinWidth="740">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="Undo" Executed="Undo_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="Redo" Executed="Redo_Executed" CanExecute="CommandBinding_CanExecute"/>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Modifiers="Control" Key="Z" Command="Undo" />
+        <KeyBinding Modifiers="Control" Key="Y" Command="Redo" />
+    </UserControl.InputBindings>
     <Grid Name="rootView">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -29,7 +37,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu IsMainMenu="True" Grid.Row="0" Grid.ColumnSpan="10">
+        <Menu Name="menu" IsMainMenu="True" Grid.Row="0" Grid.ColumnSpan="10">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                     <GradientStop Color="#FF90B497" Offset="0.528"/>
@@ -42,8 +50,8 @@
                 <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click"/>
             </MenuItem>
             <MenuItem Header="_Игра">
-                <MenuItem Header="_Отменить" Background="#FFCBDACF" Click="Undo_Click" />
-                <MenuItem Header="_Восстановить" Background="#FFCBDACF" Click="Redo_Click" />
+                <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" />
+                <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" />
             </MenuItem>
             <MenuItem Header="_Статистика">
                 <MenuItem Header="Количество баллов" Background="#FFCBDACF" />

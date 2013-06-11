@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Model;
 
 namespace View {
@@ -9,7 +10,7 @@ namespace View {
     /// Interaction logic for GameView.xaml
     /// </summary>
     public partial class GameView : UserControl {
-        
+
         private static GameView instance;
         public static GameView Instance {
             get {
@@ -211,16 +212,19 @@ namespace View {
             Application.Current.Shutdown();
         }
 
-        private void Undo_Click(object sender, RoutedEventArgs e) {
+        private void Undo_Executed(object sender, ExecutedRoutedEventArgs e) {
             table.Undo();
             RefreshView();
         }
 
-        private void Redo_Click(object sender, RoutedEventArgs e) {
+        private void Redo_Executed(object sender, ExecutedRoutedEventArgs e) {
             table.Redo();
             RefreshView();
         }
 
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
+            e.CanExecute = true;
+        }
         
     }
 }
