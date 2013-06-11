@@ -133,12 +133,15 @@ namespace View {
             CardView bottomCardView = draggableCards.BottomCardView;
             Rect cardRect = GetCardRect(bottomCardView);
             // Просматриваем перемещение по стопкам.
-            for (int i = 0; i < GameTable.FOUNDATIONS; i++) {
+            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
                 FoundationView view = foundationViews[i];
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
-                    if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
+                    if (i >= GameTable.FOUNDATIONS && draggableCards.Cards.Count != 13) {
+                        CancelMove(draggableCards);
+                        return;
+                    } else if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
                         CancelMove(draggableCards);
                         return;
                     }
@@ -184,7 +187,8 @@ namespace View {
                     for (int j = 0; j < GameTable.FOUNDATIONS; j++) {
                         Foundation fn = table.GetFoundation(j, false);
                         if (fn.GetTopCard() == null) {
-                            table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn, false);
+                            table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn);
+                            break;
                         }
                     }
                     RefreshView();
