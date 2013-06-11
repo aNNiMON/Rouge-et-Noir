@@ -63,7 +63,7 @@ namespace View {
                 CardView cardView;
                 if (i < cardViews.Count) {
                     cardView = cardViews[i];
-                    cardView.SetCard(card);
+                    cardView.Card = card;
                 } else {
                     cardView = new CardView();
                     AddCard(cardView, card, i);
@@ -80,7 +80,7 @@ namespace View {
 
         private void AddCard(CardView cardView, Card card, int index) {
             DragHelper.Drag(cardView, OnDragCompleted);
-            cardView.SetCard(card);
+            cardView.Card = card;
             Canvas.SetTop(cardView, cardSpace * index);
             Canvas.SetZIndex(cardView, 1 + index);
             rootView.Children.Add(cardView);

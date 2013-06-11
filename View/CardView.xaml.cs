@@ -18,14 +18,18 @@ namespace View {
             ANIM_SHAKE = "animShake";
 
         private Card card;
+        public Card Card {
+            get {
+                return card;
+            }
+            set {
+                card = value;
+                cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
+            }
+        }
 
         public CardView() {
             InitializeComponent();
-        }
-
-        public void SetCard(Card card) {
-            this.card = card;
-            cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
         }
 
         public void Animate(string animation) {

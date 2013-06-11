@@ -145,6 +145,12 @@ namespace View {
             }
         }
 
+        /// <summary>
+        /// Событие окончания перемещения карты.
+        /// Просматривается новая позиция карты и определяется, куда её переместить.
+        /// </summary>
+        /// <param name="tableauView">таблица, из которой была перемещена карта</param>
+        /// <param name="cardView">перемещаемая карта</param>
         public void DragCompleted(TableauView tableauView, CardView cardView) {
             Rect cardRect = GetCardRect(cardView);
             // Просматриваем перемещение по стопкам.
@@ -153,7 +159,15 @@ namespace View {
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
-                    System.Diagnostics.Debug.Print("Foundation: {0}", i);
+                    if (!view.Foundation.IsCorrectMove(cardView.Card)) {
+                        CancelMove(cardView);
+                        return;
+                    }
+                    // Добавляем карту в стопку.
+                    table.MoveCard(cardView.Card, tableauView.Tableau, view.Foundation);
+                    tableauView.RefreshView();
+                    view.RefreshView();
+
                     return;
                 }
             }
@@ -163,13 +177,27 @@ namespace View {
                 if (view.Equals(tableauView)) continue;
 
                 Rect rect = view.Bounds;
-                if (cardRect.IntersectsWith(rect))  {
-                    System.Diagnostics.Debug.Print("Tableau: {0}", i);
+                if (cardRect.IntersectsWith(rect)) {
+                    if (!view.Tableau.IsCorrectMove(cardView.Card)) {
+                        CancelMove(cardView);
+                        return;
+                    }
+                    // Переносим карту в другую таблицу.
+                    table.MoveCard(cardView.Card, tableauView.Tableau, view.Tableau);
+                    tableauView.RefreshView();
+                    view.RefreshView();
                     return;
                 }
             }
 
-            // Вернуть карту на место.
+            CancelMove(cardView);
+        }
+
+        /// <summary>
+        /// Отмена операции перемещения и возвращение карты на место.
+        /// </summary>
+        /// <param name="view"></param>
+        private void CancelMove(CardView cardView) {
             cardView.RenderTransform = null;
         }
 

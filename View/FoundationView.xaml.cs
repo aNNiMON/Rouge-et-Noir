@@ -51,7 +51,7 @@ namespace View {
             cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
             if (card == null) return;
 
-            cardView.SetCard(card);
+            cardView.Card = card;
         }
     }
 }

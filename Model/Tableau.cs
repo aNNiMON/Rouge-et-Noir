@@ -52,7 +52,7 @@ namespace Model {
             return Cards;
         }
 
-        private bool IsCorrectMove(Card card) {
+        public bool IsCorrectMove(Card card) {
             Card top = GetTopCard();
             // На пустую область можно ложить только короля.
             if (top == null) {
@@ -63,6 +63,11 @@ namespace Model {
             bool isNextCard = (card.Value - top.Value) == -1;
 
             return (isAlternatingColor && isNextCard);
+        }
+
+        public void FaceUpTopCard() {
+            Card top = GetTopCard();
+            if (top != null) top.SetFaceUp();
         }
 
         public Card GetTopCard() {

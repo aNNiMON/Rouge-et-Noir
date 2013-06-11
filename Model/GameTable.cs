@@ -95,5 +95,21 @@ namespace Model {
                 Util.Move<Card>(cards, tableau[i].GetList(), 1);
             }
         }
+
+        public void MoveCard(Card card, Tableau from, Foundation to) {
+            var cards = new List<Card>();
+            Util.Move<Card>(from.GetList(), cards, 1);
+
+            from.FaceUpTopCard();
+            to.AddCards(cards);
+        }
+
+        public void MoveCard(Card card, Tableau from, Tableau to) {
+            var cards = new List<Card>();
+            Util.Move<Card>(from.GetList(), cards, 1);
+
+            from.FaceUpTopCard();
+            to.AddCards(cards);
+        }
     }
 }
