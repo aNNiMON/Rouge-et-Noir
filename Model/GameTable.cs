@@ -79,7 +79,7 @@ namespace Model {
             var cards = new List<Card>();
             Util.Move<Card>(stock.GetList(), cards, TABLEAUS);
             if (saveToHistory) {
-                MovesManager.HandOut(cards);
+                MovesManager.HandOut(new List<Card>(cards));
             }
             // Раскрываем карты.
             foreach (var card in cards) {
