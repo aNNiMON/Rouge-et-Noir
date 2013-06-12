@@ -22,6 +22,7 @@ namespace View {
         public StockView() {
             InitializeComponent();
             cardView = new CardView();
+            cardView.Cursor = Cursors.Hand;
         }
 
         public void SetStock(Stock stock) {

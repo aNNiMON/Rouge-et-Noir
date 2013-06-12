@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -163,6 +164,11 @@
     <Resource Include="Resources\1\sj.png" />
     <Resource Include="Resources\1\sk.png" />
     <Resource Include="Resources\1\sq.png" />
+    <Resource Include="Resources\new_game.png" />
+    <Resource Include="Resources\redo.png" />
+    <Resource Include="Resources\rules.png" />
+    <Resource Include="Resources\statistics.png" />
+    <Resource Include="Resources\undo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\1\ca.png" />

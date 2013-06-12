@@ -253,6 +253,11 @@ namespace View {
             Application.Current.Shutdown();
         }
 
+        private void NewGame_Executed(object sender, ExecutedRoutedEventArgs e) {
+            NewGame();
+            RefreshView();
+        }
+
         private void Undo_Executed(object sender, ExecutedRoutedEventArgs e) {
             table.Undo();
             RefreshView();
@@ -261,6 +266,14 @@ namespace View {
         private void Redo_Executed(object sender, ExecutedRoutedEventArgs e) {
             table.Redo();
             RefreshView();
+        }
+
+        private void Statistics_Executed(object sender, ExecutedRoutedEventArgs e) {
+
+        }
+
+        private void Rules_Executed(object sender, ExecutedRoutedEventArgs e) {
+            
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
