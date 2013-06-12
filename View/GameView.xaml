@@ -125,12 +125,12 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                         <DataGridTextColumn Header="Очки" Binding="{Binding ScoreValue}" />
-                        <DataGridTextColumn Header="Время игры" Binding="{Binding GameTime}" />
+                        <DataGridTextColumn Header="Время игры" Binding="{Binding GameTime, StringFormat=hh\\:mm\\:ss}" />
                         <DataGridCheckBoxColumn Header="Завершена" Binding="{Binding Path=Complete}" />
-                        <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date}" />
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date, StringFormat=\{0:dd-MM-yyyy HH:mm:ss\}}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,15" />
+                <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,5" />
             </StackPanel>
             <StackPanel Grid.Column="1" Grid.Row="1" x:Name="rulesDialog" Background="#FF88D355" Visibility="Hidden">
                 <RichTextBox Name="rulesRichTextBox">

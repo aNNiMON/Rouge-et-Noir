@@ -21,6 +21,11 @@ namespace Model {
         private static DateTime StartTime;
 
         private static List<Score> hiScores;
+        public static List<Score> HiScores {
+            get {
+                return hiScores;
+            }
+        }
 
         public static TimeSpan GetGameTime() {
             if (StartTime == null || Current == null) return TimeSpan.Zero;

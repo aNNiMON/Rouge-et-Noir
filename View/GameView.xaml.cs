@@ -260,7 +260,6 @@ namespace View {
         #endregion
 
         #region Обработчики меню
-
         private void Exit_Click(object sender, RoutedEventArgs e) {
             if (MessageBox.Show("Вы уверены?", "Выйти из игры",
                     MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
@@ -296,7 +295,10 @@ namespace View {
         }
 
         private void Statistics_Executed(object sender, ExecutedRoutedEventArgs e) {
+            statisticsDataGrid.ItemsSource = ScoreManager.HiScores; 
 
+            window.Visibility = Visibility.Visible;
+            statisticsDialog.Visibility = Visibility.Visible;
         }
 
         private void Rules_Executed(object sender, ExecutedRoutedEventArgs e) {
