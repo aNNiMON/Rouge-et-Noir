@@ -10,6 +10,7 @@
         <RoutedUICommand x:Key="NewGameCommand" Text="New Game" />
         <RoutedUICommand x:Key="StatisticsCommand" Text="Statistics" />
         <RoutedUICommand x:Key="RulesCommand" Text="Rules" />
+        <RoutedUICommand x:Key="AboutCommand" Text="About" />
         <RoutedUICommand x:Key="CloseDialogCommand" Text="Close Dialog" />
     </UserControl.Resources>
     <UserControl.CommandBindings>
@@ -18,6 +19,7 @@
         <CommandBinding Command="Redo" Executed="Redo_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource StatisticsCommand}" Executed="Statistics_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource RulesCommand}" Executed="Rules_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="{StaticResource AboutCommand}" Executed="About_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource CloseDialogCommand}" Executed="CloseDialog_Executed" CanExecute="CommandBinding_CanExecute"/>
         
     </UserControl.CommandBindings>
@@ -72,7 +74,7 @@
                 </MenuItem>
                 <MenuItem Header="_Помощь">
                     <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}" />
-                    <MenuItem Header="_О программе" Background="#FFCBDACF" />
+                    <MenuItem Header="_О программе" Background="#FFCBDACF" Command="{StaticResource AboutCommand}" />
                 </MenuItem>
             </Menu>
             <ToolBar HorizontalAlignment="Right" Grid.Column="0" Grid.ColumnSpan="10" ToolBarTray.IsLocked="True">
@@ -132,11 +134,18 @@
                 </DataGrid>
                 <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,5" />
             </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="1" x:Name="rulesDialog" Background="#FF88D355" Visibility="Hidden">
-                <RichTextBox Name="rulesRichTextBox">
-                </RichTextBox>
-                <Button Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,15" />
-            </StackPanel>
+            <ScrollViewer x:Name="infoDialog"
+                          VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.RowSpan="3"
+                          Background="#FF88D355" Visibility="Hidden">
+                <StackPanel>
+                    <RichTextBox Name="infoRichTextBox" Margin="15,10,15,10">
+                        <RichTextBox.InputBindings>
+                            <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="LeftClick" />
+                            <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="RightClick" />
+                        </RichTextBox.InputBindings>
+                    </RichTextBox>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

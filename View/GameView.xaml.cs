@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Resources;
 using System.Windows.Threading;
 using Model;
 
@@ -302,7 +304,19 @@ namespace View {
         }
 
         private void Rules_Executed(object sender, ExecutedRoutedEventArgs e) {
-            
+            infoRichTextBox.LoadRtf("rules-rus");
+            infoRichTextBox.IsReadOnly = true;
+
+            window.Visibility = Visibility.Visible;
+            infoDialog.Visibility = Visibility.Visible;
+        }
+
+        private void About_Executed(object sender, ExecutedRoutedEventArgs e) {
+            infoRichTextBox.LoadRtf("about");
+            infoRichTextBox.IsReadOnly = true;
+
+            window.Visibility = Visibility.Visible;
+            infoDialog.Visibility = Visibility.Visible;
         }
 
         private void CloseDialog_Executed(object sender, ExecutedRoutedEventArgs e) {
@@ -316,14 +330,12 @@ namespace View {
             window.Visibility = Visibility.Hidden;
             enterTextDialog.Visibility = Visibility.Hidden;
             statisticsDialog.Visibility = Visibility.Hidden;
-            rulesDialog.Visibility = Visibility.Hidden;
+            infoDialog.Visibility = Visibility.Hidden;
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = true;
         }
-
-        
         #endregion
 
     }

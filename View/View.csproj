@@ -177,6 +177,12 @@
     <Resource Include="Resources\1\ha.png" />
     <Resource Include="Resources\1\sa.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rules-rus.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\about.rtf" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

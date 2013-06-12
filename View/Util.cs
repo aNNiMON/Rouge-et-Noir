@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Resources;
 
 namespace View {
 
@@ -19,6 +21,13 @@ namespace View {
             bitmapImage.UriSource = new Uri(RESOURCE_URI + CARD_IMAGE_FOLDER + name + ".png");
             bitmapImage.EndInit();
             return bitmapImage;
+        }
+
+        public static void LoadRtf(this RichTextBox rtb, string name) {
+            var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            Uri uri = new Uri(RESOURCE_URI + name + ".rtf");
+            StreamResourceInfo info = Application.GetResourceStream(uri);
+            textRange.Load(info.Stream, DataFormats.Rtf);
         }
 
         public static CardPlaceView CreateCardPlace(char symbol, int zIndex = 0) {
