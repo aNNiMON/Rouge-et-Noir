@@ -30,6 +30,10 @@ namespace Model {
             return Cards.GetEnumerator();
         }
 
+        /// <summary>
+        /// Получить список карт.
+        /// </summary>
+        /// <returns></returns>
         public List<Card> GetList() {
             return Cards;
         }

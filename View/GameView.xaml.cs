@@ -8,11 +8,11 @@ using Model;
 namespace View {
 
     /// <summary>
-    /// Interaction logic for GameView.xaml
+    /// Главный компонент - вид игры.
+    /// Взаимодействует с моделью - классом GameTable.
     /// </summary>
     public partial class GameView : UserControl {
 
-        private static GameView instance;
         public static GameView Instance {
             get {
                 if (instance == null) {
@@ -21,16 +21,12 @@ namespace View {
                 return instance;
             }
         }
+        private static GameView instance;
 
         private readonly GameTable table;
 
-        private StockView stockView;
-        public StockView StockView {
-            get {
-                return stockView;
-            }
-        }
 
+        public StockView StockView { get; private set; }
         private FoundationView[] foundationViews;
         private TableauView[] tableauViews;
 
@@ -49,18 +45,10 @@ namespace View {
             SetTimer();
         }
 
-        public TableauView GetTableauView(int num) {
-            if (num >= GameTable.TABLEAUS) throw new IndexOutOfRangeException();
-            return tableauViews[num];
-        }
-
-        public FoundationView GetFoundationView(int num, bool left) {
-            if (num >= GameTable.FOUNDATIONS) throw new IndexOutOfRangeException();
-
-            if (left) num += GameTable.FOUNDATIONS;
-            return foundationViews[num];
-        }
-
+        /// <summary>
+        /// Получить корневой вид.
+        /// </summary>
+        /// <returns></returns>
         public UIElement GetRootView() {
             return rootView;
         }
@@ -79,7 +67,7 @@ namespace View {
         public void HandOutFromStock() {
             table.HandOutFromStock();
             CheckAutoMovesToRightFoundation();
-            stockView.RefreshView();
+            StockView.RefreshView();
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 tableauViews[i].RefreshView();
             }
@@ -147,17 +135,18 @@ namespace View {
         private void CheckAutoMovesToRightFoundation() {
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 TableauView view = tableauViews[i];
-                if (view.Tableau.CheckFillKingToAce()) {
-                    for (int j = 0; j < GameTable.FOUNDATIONS; j++) {
-                        Foundation fn = table.GetFoundation(j, false);
-                        if (fn.GetTopCard() == null) {
-                            table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn);
-                            break;
-                        }
+                if (!view.Tableau.CheckFillKingToAce()) continue;
+                // Найдена последовательность от короля до туза.
+                // Ищем, куда её переместить.
+                for (int j = 0; j < GameTable.FOUNDATIONS; j++) {
+                    Foundation fn = table.GetFoundation(j, false);
+                    if (fn.GetTopCard() == null) {
+                        table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn);
+                        break;
                     }
-                    RefreshView();
-                    CheckGameOver();
                 }
+                RefreshView();
+                CheckGameOver();
             }
         }
 
@@ -185,6 +174,13 @@ namespace View {
             uielement.RenderTransform = null;
         }
 
+        /// <summary>
+        /// Получить область взаиодействия с другими картами.
+        /// Чтобы карта не налегала на рядом стоящие стопки,
+        /// область взята в центре вверху и равна одному пикселю.
+        /// </summary>
+        /// <param name="cardView"></param>
+        /// <returns></returns>
         private Rect GetCardRect(CardView cardView) {
             Rect cardRect = Util.GetBoundingRect(cardView);
             var cardPoint = new Point {
@@ -195,11 +191,11 @@ namespace View {
         }
 
         private void SetStock() {
-            stockView = new StockView();
-            stockView.SetStock(table.GetStock());
-            Grid.SetColumn(stockView, 0);
-            Grid.SetRow(stockView, 1);
-            rootView.Children.Add(stockView);
+            StockView = new StockView();
+            StockView.SetStock(table.GetStock());
+            Grid.SetColumn(StockView, 0);
+            Grid.SetRow(StockView, 1);
+            rootView.Children.Add(StockView);
         }
 
         private void SetFoundations() {
@@ -234,6 +230,9 @@ namespace View {
             }
         }
 
+        /// <summary>
+        /// Установить таймер, обновляющий статистику игры на панели инструментов.
+        /// </summary>
         private void SetTimer() {
             timer = new DispatcherTimer();
             timer.Tick += (s, e) => {
@@ -255,7 +254,7 @@ namespace View {
                 Panel.SetZIndex(tableauViews[i], 0);
                 tableauViews[i].RefreshView();
             }
-            stockView.RefreshView();
+            StockView.RefreshView();
         }
         #endregion
 

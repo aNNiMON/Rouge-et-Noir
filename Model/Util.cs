@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace Model {
 
+    /// <summary>
+    /// Класс вспомогательных функций.
+    /// </summary>
     public static class Util {
 
         private static readonly Random rnd = new Random();
@@ -12,6 +15,11 @@ namespace Model {
             return rnd;
         }
 
+        /// <summary>
+        /// Перемешать данные в списке.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
         public static void Shuffle<T>(this IList<T> list) {
             int size = list.Count;
             while (size > 1) {

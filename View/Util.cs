@@ -10,11 +10,19 @@ using System.Windows.Resources;
 
 namespace View {
 
+    /// <summary>
+    /// Класс вспомогательных функций.
+    /// </summary>
     public static class Util {
         
         private const string CARD_IMAGE_FOLDER = "1/";
         private const string RESOURCE_URI = "pack://application:,,,/View;component/Resources/";
 
+        /// <summary>
+        /// Заргузка изображения из ресурсов.
+        /// </summary>
+        /// <param name="name">имя файла в ресурсах без расширения</param>
+        /// <returns></returns>
         public static BitmapImage LoadImage(string name) {
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -23,13 +31,24 @@ namespace View {
             return bitmapImage;
         }
 
+        /// <summary>
+        /// Загрузка RTF-документа из ресурсов в компонент RichTextBox.
+        /// </summary>
+        /// <param name="rtb">компонент RichTextBox</param>
+        /// <param name="name">имя файла в ресурсах без расширения</param>
         public static void LoadRtf(this RichTextBox rtb, string name) {
             var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
             var uri = new Uri(RESOURCE_URI + name + ".rtf");
             StreamResourceInfo info = Application.GetResourceStream(uri);
-            textRange.Load(info.Stream, DataFormats.Rtf);
+            if (info != null) textRange.Load(info.Stream, DataFormats.Rtf);
         }
 
+        /// <summary>
+        /// Создание вида места под карту.
+        /// </summary>
+        /// <param name="symbol">символ, отображаемый в рамке</param>
+        /// <param name="zIndex"></param>
+        /// <returns></returns>
         public static CardPlaceView CreateCardPlace(char symbol, int zIndex = 0) {
             var view = new CardPlaceView(symbol);
             Panel.SetZIndex(view, zIndex);
@@ -37,17 +56,12 @@ namespace View {
             return view;
         }
 
-        public static int GetMaxZIndex(UIElementCollection collection) {
-            int maxZIndex = 0;
-            foreach (UIElement element in collection) {
-                int z = Panel.GetZIndex(element);
-                if (z > maxZIndex) {
-                    maxZIndex = z;
-                }
-            }
-            return maxZIndex + 1;
-        }
-
+        /// <summary>
+        /// Получить размер занимаемой на экране области.
+        /// </summary>
+        /// <param name="view">компонент, размер которого нужно посчитать</param>
+        /// <param name="relativeTo">относительно какого компонента вывести результат</param>
+        /// <returns>рамка</returns>
         public static Rect GetBoundingRect(Visual view, Visual relativeTo = null) {
             if (relativeTo == null) relativeTo = GameView.Instance.GetRootView();
             Vector relativeOffset = new Point() - relativeTo.PointToScreen(new Point());
@@ -56,6 +70,12 @@ namespace View {
             return result;
         }
 
+        /// <summary>
+        /// Получить размер занимаемой на экране области нескольких компонент.
+        /// </summary>
+        /// <param name="visuals">список компонент, размер котороых нужно посчитать</param>
+        /// <param name="relativeTo">относительно какого компонента вывести результат</param>
+        /// <returns>рамка</returns>
         public static Rect GetBoundingRect(List<Visual> visuals, Visual relativeTo = null) {
             if (relativeTo == null) relativeTo = GameView.Instance.GetRootView();
             Vector relativeOffset = new Point() - relativeTo.PointToScreen(new Point());

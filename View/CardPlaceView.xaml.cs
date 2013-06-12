@@ -3,7 +3,7 @@
 namespace View {
 
     /// <summary>
-    /// Рамка с текстом отражающая место под карту.
+    /// Рамка с текстом, отражающая место под карту.
     /// </summary>
     public partial class CardPlaceView : UserControl {
 
@@ -12,10 +12,6 @@ namespace View {
         }
 
         public CardPlaceView(char symbol) : this() {
-            SetPlaceChar(symbol);
-        }
-
-        public void SetPlaceChar(char symbol) {
             label.Content = symbol;
         }
     }

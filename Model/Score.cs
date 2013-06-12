@@ -3,12 +3,17 @@ using System.Runtime.Serialization;
 
 namespace Model {
 
+    /// <summary>
+    /// Класс данных об игровом состоянии.
+    /// </summary>
     [Serializable]
     public class Score : ISerializable {
 
-        private string name;
+        /// <summary>
+        /// Имя игрока.
+        /// </summary>
         public string Name {
-            get {
+            private get {
                 if (string.IsNullOrEmpty(name)) {
                     return Properties.Settings.Default.Username;
                 }
@@ -22,13 +27,26 @@ namespace Model {
                 }
             }
         }
+        private string name;
+        /// <summary>
+        /// Количество очков.
+        /// </summary>
         public int ScoreValue { get; set; }
+        /// <summary>
+        /// Продолжительность игры.
+        /// </summary>
         public TimeSpan GameTime { get; set; }
-        public DateTime Date { get; set; }
-        public bool Complete { get; set; }
+        /// <summary>
+        /// Дата начала игры.
+        /// </summary>
+        public DateTime Date { private get; set; }
+        /// <summary>
+        /// Завершена ли игра, либо прервана.
+        /// </summary>
+        public bool Complete { private get; set; }
 
         public Score() {
-            Name = "Неизвестно";
+            Name = Properties.Settings.Default.Username;
             ScoreValue = 0;
             GameTime = TimeSpan.Zero;
             Date = DateTime.Now;

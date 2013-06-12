@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Model.Enums;
 
 namespace Model {
 
@@ -8,14 +8,13 @@ namespace Model {
     /// </summary>
     public class RightFoundation : Foundation {
 
-        public void AddCards(List<Card> cards) {
-            foreach (var card in cards) {
-                base.AddCard(card);
-            }
-        }
-
+        /// <summary>
+        /// Проверка корректности хода.
+        /// </summary>
+        /// <param name="card">первая помещаемая карта</param>
+        /// <returns>true - ход корректен</returns>
         public override bool IsCorrectMove(Card card) {
-            return (card.Value == Enums.CardValue.King);
+            return (card.Value == CardValue.King);
         }
     }
 }

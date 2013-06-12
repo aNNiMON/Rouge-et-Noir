@@ -12,7 +12,6 @@ namespace Model {
         /// Масть.
         /// </summary>
         public CardSuit Suit {
-            get { return suit; }
             set { suit = value; }
         }
         private CardSuit suit;
@@ -26,6 +25,9 @@ namespace Model {
         }
         private CardValue cardValue;
 
+        /// <summary>
+        /// Карта положена картинкой вниз.
+        /// </summary>
         public bool IsFaceDown {
             get;
             set;
@@ -34,20 +36,30 @@ namespace Model {
         public Card(CardSuit suit, CardValue value)
             : this(suit, value, true) {  }
 
-        public Card(CardSuit suit, CardValue value, bool isFaceDown) {
+        private Card(CardSuit suit, CardValue value, bool isFaceDown) {
             Suit = suit;
             Value = value;
             IsFaceDown = isFaceDown;
         }
 
+        /// <summary>
+        /// Перевернуть карту лицевой стороной.
+        /// </summary>
         public void SetFaceDown() {
             IsFaceDown = true;
         }
 
+        /// <summary>
+        /// Перевернуть карту крапом вверх.
+        /// </summary>
         public void SetFaceUp() {
             IsFaceDown = false;
         }
         
+        /// <summary>
+        /// Карта красной масти (бубна или черва).
+        /// </summary>
+        /// <returns></returns>
         public bool IsRedSuit() {
             return (suit == CardSuit.Diamonds) || (suit == CardSuit.Hearts);
         }

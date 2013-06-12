@@ -20,14 +20,6 @@ namespace Model {
         }
 
         /// <summary>
-        /// Добавление карты системой (из запаса).
-        /// </summary>
-        /// <param name="card"></param>
-        public void AddCardBySystem(Card card) {
-            base.AddCard(card);
-        }
-
-        /// <summary>
         /// Добавление карт пользователем.
         /// </summary>
         /// <param name="cards"></param>
@@ -45,6 +37,11 @@ namespace Model {
             base.AddCards(cards);
         }
 
+        /// <summary>
+        /// Проверка корректности хода.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
         public bool IsCorrectMove(Card card) {
             Card top = GetTopCard();
             return IsCorrectMove(card, top);
@@ -64,26 +61,45 @@ namespace Model {
             return (isAlternatingColor && isNextCard);
         }
 
+        /// <summary>
+        /// Перевернуть верхнюю карту лицевой стороной.
+        /// </summary>
         public void FaceUpTopCard() {
             Card top = GetTopCard();
             if (top != null) top.SetFaceUp();
         }
 
+        /// <summary>
+        /// Перевернуть верхнюю карту крапом вверх.
+        /// </summary>
         public void FaceDownTopCard() {
             Card top = GetTopCard();
             if (top != null) top.SetFaceDown();
         }
 
+        /// <summary>
+        /// Взять верхнюю карту.
+        /// </summary>
+        /// <returns></returns>
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];
         }
 
+        /// <summary>
+        /// Проверить наличие последовательности карт от короля до туза
+        /// для помещения в правую результирующую стопку.
+        /// </summary>
+        /// <returns></returns>
         public bool CheckFillKingToAce() {
             List<Card> cards = GetDraggableTopCards();
             return ( (cards != null) && (cards.Count == 13) );
         }
 
+        /// <summary>
+        /// Получить список карт, доступных для перемещения.
+        /// </summary>
+        /// <returns></returns>
         public List<Card> GetDraggableTopCards() {
             if (base.Cards.Count == 0) return null;
 

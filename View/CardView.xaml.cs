@@ -9,12 +9,14 @@ namespace View {
     /// </summary>
     public partial class CardView : UserControl {
 
+        /// <summary>
+        /// Константы для применения анимации к карте.
+        /// </summary>
         public const string
             ANIM_FADE_IN = "animFadeIn",
             ANIM_FADE_OUT = "animFadeOut",
             ANIM_SHAKE = "animShake";
 
-        private Card card;
         public Card Card {
             get {
                 return card;
@@ -24,11 +26,16 @@ namespace View {
                 cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
             }
         }
+        private Card card;
 
         public CardView() {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Применить анимацию.
+        /// </summary>
+        /// <param name="animation">ресурс анимации, прописанный в XAML</param>
         public void Animate(string animation) {
             var s = (Storyboard) Resources[animation];
             s.Begin();

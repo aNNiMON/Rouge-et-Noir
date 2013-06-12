@@ -7,16 +7,16 @@ using Model;
 namespace View {
 
     /// <summary>
-    /// Interaction logic for FoundationView.xaml
+    /// Вид результирующей стопки.
     /// </summary>
     public partial class FoundationView : UserControl {
 
-        private Foundation foundation;
         public Foundation Foundation {
             get {
                 return foundation;
             }
         }
+        private Foundation foundation;
 
         private readonly CardView cardView;
 
@@ -25,6 +25,9 @@ namespace View {
             cardView = new CardView();
         }
 
+        /// <summary>
+        /// Получить размер занимаемой на экране области.
+        /// </summary>
         public Rect Bounds {
             get {
                 var list = new List<Visual>();

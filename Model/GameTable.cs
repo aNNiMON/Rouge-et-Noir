@@ -6,8 +6,8 @@ using Model.Enums;
 namespace Model {
 
     /// <summary>
-    /// Класс игрового окна.
-    /// Содержит результирующие стопки, таблицы и запас.
+    /// Класс игрового поля.
+    /// Содержит результирующие стопки, таблицы и запас. Управляет взаимодействием.
     /// </summary>
     public class GameTable {
 
@@ -101,10 +101,14 @@ namespace Model {
             }
         }
 
+        /// <summary>
+        /// Отмена последнего действия.
+        /// </summary>
         public void Undo() {
             Move move = MovesManager.Undo();
             switch (move.Type) {
                 case MoveType.TO_FOUNDATION:
+                    // Перекладываем карты обратно из стопки.
                     ScoreManager.DecreaseScore(move.Cards.Count);
                     // Удаляем карты из таблицы.
                     foreach (var _card in move.Cards) {
@@ -114,6 +118,7 @@ namespace Model {
                     move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
                 case MoveType.TO_TABLEAU:
+                    // Перекладываем в исходную таблицу.
                     // Удаляем карты из таблицы.
                     foreach (var _card in move.Cards) {
                         move.ToTableau.GetList().Remove(_card);
@@ -122,6 +127,7 @@ namespace Model {
                     move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
                 case MoveType.FROM_STOCK:
+                    // Отмена раздачи карт из запаса.
                     foreach (var card in move.Cards) {
                         for (int i = 0; i < TABLEAUS; i++) {
                             tableau[i].GetList().Remove(card);
@@ -133,6 +139,9 @@ namespace Model {
             }
         }
 
+        /// <summary>
+        /// Повтор отменённого действия.
+        /// </summary>
         public void Redo() {
             Move move = MovesManager.Redo();
             switch (move.Type) {
@@ -151,12 +160,12 @@ namespace Model {
         }
 
         /// <summary>
-        ////Перемещение карт в результирующую стопку.
+        /// Перемещение карт в результирующую стопку.
         /// </summary>
-        /// <param name="cards"></param>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <param name="saveToHistory"></param>
+        /// <param name="cards">список перемещаемых карт</param>
+        /// <param name="from">из какой таблицы перемещаем</param>
+        /// <param name="to">в какую стопку</param>
+        /// <param name="saveToHistory">отметить ход в истории изменений</param>
         public void MoveCards(List<Card> cards, Tableau from, Foundation to, bool saveToHistory = true) {
             ScoreManager.IncreaseScore(cards.Count);
 
@@ -174,6 +183,13 @@ namespace Model {
             to.AddCards(cards);
         }
 
+        /// <summary>
+        /// Перемещение карт между таблицами.
+        /// </summary>
+        /// <param name="cards">список перемещаемых карт</param>
+        /// <param name="from">из какой таблицы перемещаем</param>
+        /// <param name="to">в какую таблицу</param>
+        /// <param name="saveToHistory">отметить ход в истории изменений</param>
         public void MoveCards(List<Card> cards, Tableau from, Tableau to, bool saveToHistory = true) {
             // Удаляем карты из таблицы.
             foreach (var _card in cards) {
@@ -189,6 +205,9 @@ namespace Model {
             to.AddCards(cards);
         }
 
+        /// <summary>
+        /// Очистить игровое поле.
+        /// </summary>
         private void Clear() {
             stock.GetList().Clear();
             for (int i = 0; i < FOUNDATIONS; i++) {

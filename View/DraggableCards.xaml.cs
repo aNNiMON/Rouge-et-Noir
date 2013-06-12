@@ -5,11 +5,13 @@ using Model;
 namespace View {
 
     /// <summary>
-    /// Interaction logic for DraggableCards.xaml
+    /// Перемещаемые карты.
     /// </summary>
     public partial class DraggableCards : UserControl {
 
-        private List<Card> cards;
+        /// <summary>
+        /// Список перемещаемых карт.
+        /// </summary>
         public List<Card> Cards {
             get {
                 return cards;
@@ -24,13 +26,18 @@ namespace View {
                 }
             }
         }
+        private List<Card> cards;
 
-        private CardView bottomCardView;
+        /// <summary>
+        /// Вид нижней карты.
+        /// Служит для определения корректности перемещения карт.
+        /// </summary>
         public CardView BottomCardView {
             get {
                 return bottomCardView;
             }
         }
+        private CardView bottomCardView;
 
         public DraggableCards() {
             InitializeComponent();

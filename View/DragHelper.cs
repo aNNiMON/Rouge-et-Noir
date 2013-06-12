@@ -4,6 +4,9 @@ using System.Windows.Media;
 
 namespace View {
 
+    /// <summary>
+    /// Вспомогательный класс для облегчения перемещения компонент.
+    /// </summary>
     public static class DragHelper {
 
         public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted, Point pos) {
@@ -11,6 +14,7 @@ namespace View {
             var lastPosition = pos;
             attachedElement.CaptureMouse();
 
+            // Кнопка мыши отпущена - перемещение закончено.
             attachedElement.MouseLeftButtonUp += (s, e) => {
                 isDragging = false;
                 attachedElement.ReleaseMouseCapture();
@@ -19,6 +23,7 @@ namespace View {
                     onDragCompleted(s, e);
             };
 
+            // Перемещение компонента через RenderTransform.
             attachedElement.MouseMove += (s, e) => {
                 if (!isDragging)
                     return;

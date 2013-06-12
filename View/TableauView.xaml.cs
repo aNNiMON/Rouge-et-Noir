@@ -8,17 +8,20 @@ using Model;
 namespace View {
 
     /// <summary>
-    /// Interaction logic for TableauView.xaml
+    /// Вид таблицы.
     /// </summary>
     public partial class TableauView : UserControl {
 
-        private Tableau tableau;
         public Tableau Tableau {
             get {
                 return tableau;
             }
         }
+        private Tableau tableau;
 
+        /// <summary>
+        /// На сколько пискелей опускать следующую карту в таблице.
+        /// </summary>
         private int cardSpace;
 
         private readonly List<CardView> cardViews;
@@ -29,6 +32,9 @@ namespace View {
             cardSpace = 15;
         }
 
+        /// <summary>
+        /// Получить размер занимаемой на экране области.
+        /// </summary>
         public Rect Bounds {
             get {
                 var list = new List<Visual>();
@@ -50,10 +56,9 @@ namespace View {
             }
         }
 
-        public void SetCardSpace(int cardSpace) {
-            this.cardSpace = cardSpace;
-        }
-
+        /// <summary>
+        /// Обновить вид таблицы.
+        /// </summary>
         public void RefreshView() {
             List<Card> cards = tableau.GetList();
             for (int i = 0; i < cards.Count; i++) {
@@ -89,6 +94,8 @@ namespace View {
 
 
         private void cardView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            // При нажатии левой кнопки мыши проверяем, можем ли мы переместить карты
+            // от выбранной до нижней. Если можем - создаём из них DraggableCards и перемещаем их.
             var view = (CardView) sender;
             List<Card> draggable = Tableau.GetDraggableTopCards();
             for (int i = 0; i < draggable.Count; i++) {
@@ -116,6 +123,11 @@ namespace View {
             }
         }
 
+        /// <summary>
+        /// Событие завершения перемещения карт.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
             var draggableCards = (DraggableCards) sender;
             // Показываем карты в таблице.

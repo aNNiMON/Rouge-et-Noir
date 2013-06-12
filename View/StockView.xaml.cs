@@ -6,23 +6,16 @@ using Model;
 namespace View {
 
     /// <summary>
-    /// Interaction logic for StockView.xaml
+    /// Вид запаса.
     /// </summary>
     public partial class StockView : UserControl {
 
         private Stock stock;
-        public Stock Stock {
-            get {
-                return stock;
-            }
-        }
-
         private readonly CardView cardView;
 
         public StockView() {
             InitializeComponent();
-            cardView = new CardView();
-            cardView.Cursor = Cursors.Hand;
+            cardView = new CardView {Cursor = Cursors.Hand};
         }
 
         public void SetStock(Stock stock) {
@@ -44,6 +37,7 @@ namespace View {
         }
 
         private void rootView_MouseUp(object sender, MouseButtonEventArgs e) {
+            // При нажатии на стопку раздаём карты.
             cardView.Animate(CardView.ANIM_SHAKE);
             GameView.Instance.HandOutFromStock();
         }

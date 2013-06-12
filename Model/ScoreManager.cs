@@ -9,16 +9,22 @@ namespace Model {
     /// <summary>
     /// Учёт результатов игры.
     /// </summary>
-    public class ScoreManager {
+    public static class ScoreManager {
 
         private const string FILENAME = "scores.bin";
         private const int INCREMENT = 100;
 
+        /// <summary>
+        /// Текущие результаты игры.
+        /// </summary>
         public static Score Current {
             get;
-            set;
+            private set;
         }
 
+        /// <summary>
+        /// Имя игрока по умолчанию.
+        /// </summary>
         public static string DefaultName {
             get {
                 return Properties.Settings.Default.Username;
@@ -30,13 +36,20 @@ namespace Model {
 
         private static DateTime StartTime;
 
-        private static List<Score> hiScores;
+        /// <summary>
+        /// Список лучших результатов.
+        /// </summary>
         public static List<Score> HiScores {
             get {
                 return hiScores;
             }
         }
+        private static List<Score> hiScores;
 
+        /// <summary>
+        /// Получить продолжительность игры.
+        /// </summary>
+        /// <returns></returns>
         public static TimeSpan GetGameTime() {
             if (StartTime == null || Current == null) return TimeSpan.Zero;
             Update();
@@ -69,10 +82,14 @@ namespace Model {
             StartTime = DateTime.Now;
         }
 
-        public static void Update() {
+        private static void Update() {
             Current.GameTime = DateTime.Now - StartTime;
         }
 
+        /// <summary>
+        /// Сохранение результатов завершенной игры.
+        /// </summary>
+        /// <param name="isComplete"></param>
         public static void EndGame(bool isComplete) {
             Current.GameTime = DateTime.Now - StartTime;
             Current.Complete = isComplete;
@@ -83,14 +100,14 @@ namespace Model {
 
 
         /// <summary>
-        /// Сохранить результаты.
+        /// Сохранить результаты в файл.
         /// </summary>
-        public static void Save() {
+        private static void Save() {
             Properties.Settings.Default.Save();
             // Выбираем лучшие 15 записей.
             var top15 = (from score in hiScores
                          orderby score.ScoreValue descending, score.GameTime
-                         select score).Take(15).ToList();;
+                         select score).Take(15).ToList();
             try {
                 var stream = File.Open(FILENAME, FileMode.Create);
                 var bformatter = new BinaryFormatter();
@@ -101,9 +118,9 @@ namespace Model {
         }
 
         /// <summary>
-        /// Загрузить результаты.
+        /// Загрузить результаты из файла.
         /// </summary>
-        public static void Load() {
+        private static void Load() {
             try {
                 var stream = File.Open(FILENAME, FileMode.Open);
                 if (stream.Length > 0) {

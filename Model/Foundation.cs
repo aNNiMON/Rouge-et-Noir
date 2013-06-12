@@ -7,10 +7,6 @@ namespace Model {
     /// </summary>
     public abstract class Foundation : CardList {
 
-
-        protected Foundation() : base() {
-        }
-
         public override void AddCard(Card card) {
             if (IsCorrectMove(card)) {
                 card.SetFaceUp();
@@ -29,6 +25,11 @@ namespace Model {
             return base.Cards[base.Cards.Count - 1];
         }
 
+        /// <summary>
+        /// Проверка окончания заполненности стопки.
+        /// Стопка считается заполненной по достижению 13 карт по одному из правил.
+        /// </summary>
+        /// <returns>true - стопка заполнена</returns>
         public bool IsFinished() {
             return (Cards.Count == 13);
         }

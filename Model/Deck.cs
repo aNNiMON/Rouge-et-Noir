@@ -12,6 +12,9 @@ namespace Model {
             Generate();
         }
 
+        /// <summary>
+        /// Сгенерировать колоду карт.
+        /// </summary>
         protected void Generate() {
             foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit))) {
                 foreach (CardValue value in Enum.GetValues(typeof(CardValue))) {
@@ -20,6 +23,9 @@ namespace Model {
             }
         }
 
+        /// <summary>
+        /// Перемешать карты в колоде.
+        /// </summary>
         protected void Shuffle() {
             Cards.Shuffle();
         }
