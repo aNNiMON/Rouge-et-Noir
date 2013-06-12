@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Rouge et Noir")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("aNNiMON (Melnik Software)")]
 [assembly: AssemblyProduct("Rouge et Noir")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCopyright("Copyright © 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

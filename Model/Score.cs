@@ -9,18 +9,16 @@ namespace Model {
         private string name;
         public string Name {
             get {
-                if (name == null || name == "") {
+                if (string.IsNullOrEmpty(name)) {
                     return Properties.Settings.Default.Username;
                 }
                 return name;
             }
             set {
-                if (value == null || value == "")
+                if (string.IsNullOrEmpty(value))
                     name = Properties.Settings.Default.Username;
                 else {
                     name = value;
-                    Properties.Settings.Default.Username = name;
-                    Properties.Settings.Default.Save();
                 }
             }
         }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Resources;
 using System.Windows.Threading;
 using Model;
 
@@ -276,7 +274,7 @@ namespace View {
                     MessageBoxButton.YesNo) == MessageBoxResult.No) {
                         return;
                 }
-                NameTextBox.Text = ScoreManager.Current.Name;
+                NameTextBox.Text = ScoreManager.DefaultName;
                 window.Visibility = Visibility.Visible;
                 enterTextDialog.Visibility = Visibility.Visible;
                 return;
@@ -323,6 +321,7 @@ namespace View {
             if (enterTextDialog.Visibility == Visibility.Visible) {
                 // Новая игра
                 ScoreManager.Current.Name = NameTextBox.Text;
+                ScoreManager.DefaultName = NameTextBox.Text;
                 table.EndGame(false);
                 NewGame();
                 RefreshView();

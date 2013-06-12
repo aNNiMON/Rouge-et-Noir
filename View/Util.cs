@@ -25,7 +25,7 @@ namespace View {
 
         public static void LoadRtf(this RichTextBox rtb, string name) {
             var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            Uri uri = new Uri(RESOURCE_URI + name + ".rtf");
+            var uri = new Uri(RESOURCE_URI + name + ".rtf");
             StreamResourceInfo info = Application.GetResourceStream(uri);
             textRange.Load(info.Stream, DataFormats.Rtf);
         }

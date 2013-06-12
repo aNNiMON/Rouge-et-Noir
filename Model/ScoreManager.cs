@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Model {
@@ -16,6 +17,15 @@ namespace Model {
         public static Score Current {
             get;
             set;
+        }
+
+        public static string DefaultName {
+            get {
+                return Properties.Settings.Default.Username;
+            }
+            set {
+                Properties.Settings.Default.Username = value;
+            }
         }
 
         private static DateTime StartTime;
@@ -76,10 +86,15 @@ namespace Model {
         /// Сохранить результаты.
         /// </summary>
         public static void Save() {
+            Properties.Settings.Default.Save();
+            // Выбираем лучшие 15 записей.
+            var top15 = (from score in hiScores
+                         orderby score.ScoreValue descending, score.GameTime
+                         select score).Take(15).ToList();;
             try {
                 var stream = File.Open(FILENAME, FileMode.Create);
                 var bformatter = new BinaryFormatter();
-                bformatter.Serialize(stream, hiScores);
+                bformatter.Serialize(stream, top15);
                 stream.Flush();
                 stream.Close();
             } catch (IOException) { }
@@ -91,14 +106,12 @@ namespace Model {
         public static void Load() {
             try {
                 var stream = File.Open(FILENAME, FileMode.Open);
-                if (stream == null) {
-                    hiScores = new List<Score>();
-                    return;
-                }
-                var bformatter = new BinaryFormatter();
-                hiScores = bformatter.Deserialize(stream) as List<Score>;
-                stream.Close();
-            } catch (IOException) {
+                if (stream.Length > 0) {
+                    var bformatter = new BinaryFormatter();
+                    hiScores = bformatter.Deserialize(stream) as List<Score>;
+                    stream.Close();
+                } else hiScores = new List<Score>();
+            } catch (Exception) {
                 hiScores = new List<Score>();
             }
             

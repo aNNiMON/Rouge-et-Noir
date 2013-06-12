@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:Model;assembly=Model"
              mc:Ignorable="d" 
              MinHeight="400" MinWidth="740">
     <UserControl.Resources>
@@ -62,7 +61,7 @@
                     </LinearGradientBrush>
                 </Menu.Background>
                 <MenuItem Header="_Файл">
-                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}" IsCheckable="True">
+                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/new_game.png" />
                         </MenuItem.Icon>
