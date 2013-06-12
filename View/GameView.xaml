@@ -62,19 +62,43 @@
                     </LinearGradientBrush>
                 </Menu.Background>
                 <MenuItem Header="_Файл">
-                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}" />
+                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}" IsCheckable="True">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/new_game.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click" />
                 </MenuItem>
                 <MenuItem Header="_Игра">
-                    <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" />
-                    <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" />
+                    <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" >
+                        <MenuItem.Icon>
+                            <Image Source="Resources/undo.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" >
+                        <MenuItem.Icon>
+                            <Image Source="Resources/redo.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Статистика">
-                    <MenuItem Header="Количество баллов" Background="#FFCBDACF" Command="{StaticResource StatisticsCommand}" />
+                    <MenuItem Header="Количество баллов" Background="#FFCBDACF" Command="{StaticResource StatisticsCommand}" >
+                        <MenuItem.Icon>
+                            <Image Source="Resources/statistics.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Помощь">
-                    <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}" />
-                    <MenuItem Header="_О программе" Background="#FFCBDACF" Command="{StaticResource AboutCommand}" />
+                    <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/rules.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_О программе" Background="#FFCBDACF" Command="{StaticResource AboutCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/rules.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
             <ToolBar HorizontalAlignment="Right" Grid.Column="0" Grid.ColumnSpan="10" ToolBarTray.IsLocked="True">
