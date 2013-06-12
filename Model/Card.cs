@@ -59,14 +59,14 @@ namespace Model {
         /// <returns></returns>
         public string GetImageResourcePath() {
             if (IsFaceDown) return "back";
-            else return ToString().ToLower();
+            return ToString().ToLower();
         }
         
         private string GetCardValueAsString() {
             if (cardValue == CardValue.Ace) return "A";
-            else if (cardValue == CardValue.Jack) return "J";
-            else if (cardValue == CardValue.Queen) return "Q";
-            else if (cardValue == CardValue.King) return "K";
+            if (cardValue == CardValue.Jack) return "J";
+            if (cardValue == CardValue.Queen) return "Q";
+            if (cardValue == CardValue.King) return "K";
 
             int value = 1 + (int) cardValue;
             return Convert.ToString(value);

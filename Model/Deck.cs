@@ -1,4 +1,5 @@
-﻿using Model.Enums;
+﻿using System;
+using Model.Enums;
 
 namespace Model {
 
@@ -12,15 +13,15 @@ namespace Model {
         }
 
         protected void Generate() {
-            foreach (CardSuit suit in CardSuit.GetValues(typeof(CardSuit))) {
-                foreach (CardValue value in CardValue.GetValues(typeof(CardValue))) {
+            foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit))) {
+                foreach (CardValue value in Enum.GetValues(typeof(CardValue))) {
                     Cards.Add(new Card(suit, value));
                 }
             }
         }
 
         protected void Shuffle() {
-            Util.Shuffle(Cards);
+            Cards.Shuffle();
         }
     }
 }

@@ -8,8 +8,8 @@ namespace Model {
     /// </summary>
     public class MovesManager {
 
-        private static int moveIndex = 0;
-        private static List<Move> moves = new List<Move>();
+        private static int moveIndex;
+        private static readonly List<Move> moves = new List<Move>();
 
         public static void NewGame() {
             moves.Clear();
@@ -30,7 +30,7 @@ namespace Model {
         }
 
         public static void Move(List<Card> cards, Tableau from, Foundation to, bool faceUp) {
-            Move move = new Move() {
+            var move = new Move {
                 Cards = cards,
                 FromTableau = from,
                 ToFoundation = to,
@@ -41,7 +41,7 @@ namespace Model {
         }
 
         public static void Move(List<Card> cards, Tableau from, Tableau to, bool faceUp) {
-            Move move = new Move() {
+            var move = new Move {
                 Cards = cards,
                 FromTableau = from,
                 ToTableau = to,
@@ -52,7 +52,7 @@ namespace Model {
         }
 
         public static void HandOut(List<Card> list) {
-            Move move = new Move() {
+            var move = new Move {
                 Cards = list,
                 Type = MoveType.FROM_STOCK
             };

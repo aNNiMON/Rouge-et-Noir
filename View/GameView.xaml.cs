@@ -21,7 +21,7 @@ namespace View {
             }
         }
 
-        private GameTable table;
+        private readonly GameTable table;
 
         private StockView stockView;
         public StockView StockView {
@@ -61,10 +61,7 @@ namespace View {
             return rootView;
         }
 
-        public UIElementCollection GetRootViewElements() {
-            return rootView.Children;
-        }
-
+        #region Игровые функции
         /// <summary>
         /// Начать новую игру.
         /// </summary>
@@ -77,49 +74,10 @@ namespace View {
         /// </summary>
         public void HandOutFromStock() {
             table.HandOutFromStock();
+            CheckAutoMovesToRightFoundation();
             stockView.RefreshView();
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 tableauViews[i].RefreshView();
-            }
-        }
-
-        private void SetStock() {
-            stockView = new StockView();
-            stockView.SetStock(table.GetStock());
-            Grid.SetColumn(stockView, 0);
-            Grid.SetRow(stockView, 1);
-            rootView.Children.Add(stockView);
-        }
-
-        private void SetFoundations() {
-            foundationViews = new FoundationView[GameTable.FOUNDATIONS * 2];
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
-                var foundationView = new FoundationView();
-
-                int num = i % GameTable.FOUNDATIONS;
-                bool left = i < GameTable.FOUNDATIONS;
-
-                Grid.SetColumn(foundationView, 2 + i);
-                Grid.SetRow(foundationView, 1);
-                foundationView.SetFoundation(table.GetFoundation(num, left), left);
-
-                rootView.Children.Add(foundationView);
-                foundationViews[i] = foundationView;
-            }
-        }
-
-        private void SetTableau() {
-            tableauViews = new TableauView[GameTable.TABLEAUS];
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                var tableauView = new TableauView();
-
-                Grid.SetColumn(tableauView, i);
-                Grid.SetRow(tableauView, 2);
-                Panel.SetZIndex(tableauView, 0);
-                tableauView.SetTableau(table.GetTableau(i));
-
-                rootView.Children.Add(tableauView);
-                tableauViews[i] = tableauView;
             }
         }
 
@@ -127,8 +85,8 @@ namespace View {
         /// Событие окончания перемещения карт.
         /// Просматриваются новые позиции карты и определяется, куда их переместить.
         /// </summary>
-        /// <param name="tableauView"></param>
-        /// <param name="draggableCards"></param>
+        /// <param name="tableauView">таблица, из которой были перемещены карты</param>
+        /// <param name="draggableCards">перемещаемые карты</param>
         public void DragCompleted(TableauView tableauView, DraggableCards draggableCards) {
             CardView bottomCardView = draggableCards.BottomCardView;
             Rect cardRect = GetCardRect(bottomCardView);
@@ -138,10 +96,12 @@ namespace View {
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
+                    // Проверка правых стопок.
                     if (i >= GameTable.FOUNDATIONS && draggableCards.Cards.Count != 13) {
                         CancelMove(draggableCards);
                         return;
-                    } else if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
+                    }
+                    if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
                         CancelMove(draggableCards);
                         return;
                     }
@@ -194,7 +154,6 @@ namespace View {
                     RefreshView();
                     CheckGameOver();
                 }
-
             }
         }
 
@@ -207,9 +166,11 @@ namespace View {
                     return;
             }
             MessageBox.Show("Игра окончена. Поздравляем!!!");
-            ///TODO: Game complete window
+            // TODO: Game complete window
         }
+        #endregion
 
+        #region Вспомогательные функции
         /// <summary>
         /// Отмена операции перемещения и возвращение карт на место.
         /// </summary>
@@ -220,13 +181,56 @@ namespace View {
 
         private Rect GetCardRect(CardView cardView) {
             Rect cardRect = Util.GetBoundingRect(cardView);
-            Point cardPoint = new Point {
+            var cardPoint = new Point {
                 X = cardRect.Left + cardRect.Width / 2,
                 Y = cardRect.Top + cardRect.Height / 3
             };
             return new Rect(cardPoint, new Size(1, 1));
         }
 
+        private void SetStock() {
+            stockView = new StockView();
+            stockView.SetStock(table.GetStock());
+            Grid.SetColumn(stockView, 0);
+            Grid.SetRow(stockView, 1);
+            rootView.Children.Add(stockView);
+        }
+
+        private void SetFoundations() {
+            foundationViews = new FoundationView[GameTable.FOUNDATIONS * 2];
+            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+                var foundationView = new FoundationView();
+
+                int num = i % GameTable.FOUNDATIONS;
+                bool left = i < GameTable.FOUNDATIONS;
+
+                Grid.SetColumn(foundationView, 2 + i);
+                Grid.SetRow(foundationView, 1);
+                foundationView.SetFoundation(table.GetFoundation(num, left), left);
+
+                rootView.Children.Add(foundationView);
+                foundationViews[i] = foundationView;
+            }
+        }
+
+        private void SetTableau() {
+            tableauViews = new TableauView[GameTable.TABLEAUS];
+            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+                var tableauView = new TableauView();
+
+                Grid.SetColumn(tableauView, i);
+                Grid.SetRow(tableauView, 2);
+                Panel.SetZIndex(tableauView, 0);
+                tableauView.SetTableau(table.GetTableau(i));
+
+                rootView.Children.Add(tableauView);
+                tableauViews[i] = tableauView;
+            }
+        }
+
+        /// <summary>
+        /// Обновление экрана.
+        /// </summary>
         private void RefreshView() {
             for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
                 foundationViews[i].RefreshView();
@@ -236,7 +240,8 @@ namespace View {
                 tableauViews[i].RefreshView();
             }
             stockView.RefreshView();
-        }
+        } 
+        #endregion
 
         #region Обработчики меню
         private void NewGame_Click(object sender, RoutedEventArgs e) {

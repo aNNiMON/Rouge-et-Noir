@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Model;
@@ -22,7 +21,7 @@ namespace View {
 
         private int cardSpace;
 
-        private List<CardView> cardViews;
+        private readonly List<CardView> cardViews;
 
         public TableauView() {
             InitializeComponent();
@@ -46,7 +45,7 @@ namespace View {
             rootView.Children.Add(Util.CreateCardPlace('K'));
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
-                CardView cardView = new CardView();
+                var cardView = new CardView();
                 AddCard(cardView, card, i);
             }
         }
@@ -83,20 +82,20 @@ namespace View {
 
             cardView.Card = card;
             Canvas.SetTop(cardView, cardSpace * index);
-            Canvas.SetZIndex(cardView, 1 + index);
+            Panel.SetZIndex(cardView, 1 + index);
             rootView.Children.Add(cardView);
             cardViews.Add(cardView);
         }
 
 
         private void cardView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-            CardView view = (CardView) sender;
+            var view = (CardView) sender;
             List<Card> draggable = Tableau.GetDraggableTopCards();
             for (int i = 0; i < draggable.Count; i++) {
                 var card = draggable[i];
                 if (view.Card.Equals(card)) {
                     // Собираем карты в новый компонент.
-                    DraggableCards draggableCards = new DraggableCards();
+                    var draggableCards = new DraggableCards();
                     draggableCards.Cards = draggable.GetRange(i, draggable.Count - i);
                     // Карты в таблице скрываем.
                     foreach (var cardView in cardViews) {
@@ -109,7 +108,7 @@ namespace View {
                     // Добавляем новый компонент на форму.
                     Canvas.SetTop(draggableCards, Canvas.GetTop(view));
                     Canvas.SetLeft(draggableCards, Canvas.GetLeft(view));
-                    Canvas.SetZIndex(draggableCards, 200);
+                    Panel.SetZIndex(draggableCards, 200);
                     rootView.Children.Add(draggableCards);
                     DragHelper.Drag(draggableCards, OnDragCompleted, e.GetPosition(null));
                     return;
@@ -118,7 +117,7 @@ namespace View {
         }
 
         private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
-            DraggableCards draggableCards = (DraggableCards) sender;
+            var draggableCards = (DraggableCards) sender;
             // Показываем карты в таблице.
             foreach (var cardView in cardViews) {
                 foreach (var _card in draggableCards.Cards) {

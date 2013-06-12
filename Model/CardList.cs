@@ -30,8 +30,12 @@ namespace Model {
             return Cards.GetEnumerator();
         }
 
+        public List<Card> GetList() {
+            return Cards;
+        }
+
         public override string ToString() {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var card in Cards) {
                 sb.AppendLine(card.ToString());
             }

@@ -30,7 +30,7 @@ namespace View {
         }
 
         public void Animate(string animation) {
-            Storyboard s = (Storyboard) Resources[animation];
+            var s = (Storyboard) Resources[animation];
             s.Begin();
         }
 

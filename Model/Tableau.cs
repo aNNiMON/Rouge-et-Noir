@@ -9,9 +9,6 @@ namespace Model {
     /// </summary>
     public class Tableau : CardList {
 
-        public Tableau() : base() {
-        }
-
         /// <summary>
         /// Добавление карты пользователем.
         /// </summary>
@@ -46,10 +43,6 @@ namespace Model {
         /// <param name="cards"></param>
         public void AddCardsBySystem(IEnumerable<Card> cards) {
             base.AddCards(cards);
-        }
-
-        public List<Card> GetList() {
-            return Cards;
         }
 
         public bool IsCorrectMove(Card card) {
@@ -109,7 +102,7 @@ namespace Model {
 
             var rev = cards.Reverse<Card>();
 
-            return rev.ToList<Card>();
+            return rev.ToList();
         }
     }
 }

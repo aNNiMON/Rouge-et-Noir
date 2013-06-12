@@ -17,7 +17,7 @@ namespace View {
             }
         }
 
-        private CardView cardView;
+        private readonly CardView cardView;
 
         public StockView() {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace View {
             rootView.Children.Add(Util.CreateCardPlace(' '));
 
             RefreshView();
-            Grid.SetZIndex(cardView, 1);
+            Panel.SetZIndex(cardView, 1);
             rootView.Children.Add(cardView);
         }
 

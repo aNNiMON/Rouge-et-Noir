@@ -14,7 +14,7 @@ namespace View {
         private const string RESOURCE_URI = "pack://application:,,,/View;component/Resources/";
 
         public static BitmapImage LoadImage(string name) {
-            BitmapImage bitmapImage = new BitmapImage();
+            var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri(RESOURCE_URI + CARD_IMAGE_FOLDER + name + ".png");
             bitmapImage.EndInit();
@@ -22,8 +22,8 @@ namespace View {
         }
 
         public static CardPlaceView CreateCardPlace(char symbol, int zIndex = 0) {
-            CardPlaceView view = new CardPlaceView(symbol);
-            Grid.SetZIndex(view, zIndex);
+            var view = new CardPlaceView(symbol);
+            Panel.SetZIndex(view, zIndex);
 
             return view;
         }
@@ -43,7 +43,7 @@ namespace View {
             if (relativeTo == null) relativeTo = GameView.Instance.GetRootView();
             Vector relativeOffset = new Point() - relativeTo.PointToScreen(new Point());
 
-            Rect result = new Rect(view.PointToScreen(new Point()) + relativeOffset, VisualTreeHelper.GetDescendantBounds(view).Size);
+            var result = new Rect(view.PointToScreen(new Point()) + relativeOffset, VisualTreeHelper.GetDescendantBounds(view).Size);
             return result;
         }
 

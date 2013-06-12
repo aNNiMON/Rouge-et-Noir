@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -8,24 +7,13 @@ namespace View {
     public static class DragHelper {
 
         public static void Drag(this FrameworkElement attachedElement, MouseButtonEventHandler onDragCompleted, Point pos) {
-            bool isDragging = false;
-            Point lastPosition = new Point(0, 0);
-
-            int zIndex = Panel.GetZIndex(attachedElement);
-
-            //attachedElement.MouseLeftButtonDown += (s, e) => {
-                isDragging = true;
-                lastPosition = pos;//e.GetPosition(null);
-                attachedElement.CaptureMouse();
-
-                //Panel.SetZIndex(attachedElement, Util.GetMaxZIndex(GameView.Instance.GetRootViewElements()));
-            //};
+            bool isDragging = true;
+            var lastPosition = pos;
+            attachedElement.CaptureMouse();
 
             attachedElement.MouseLeftButtonUp += (s, e) => {
                 isDragging = false;
                 attachedElement.ReleaseMouseCapture();
-
-                //Panel.SetZIndex(attachedElement, zIndex);
 
                 if (onDragCompleted != null)
                     onDragCompleted(s, e);
@@ -42,20 +30,19 @@ namespace View {
 
                 lastPosition = currentPosition;
 
-                Transform oldTransform = attachedElement.RenderTransform;
-                TransformGroup rt = new TransformGroup();
-                TranslateTransform newPos = new TranslateTransform();
-                newPos.X = dX;
-                newPos.Y = dY;
+                var oldTransform = attachedElement.RenderTransform;
+                var rt = new TransformGroup();
+                var newPos = new TranslateTransform {
+                    X = dX,
+                    Y = dY
+                };
 
                 if (oldTransform != null) {
                     rt.Children.Add(oldTransform);
                 }
                 rt.Children.Add(newPos);
 
-                MatrixTransform mt = new MatrixTransform();
-                mt.Matrix = rt.Value;
-
+                var mt = new MatrixTransform {Matrix = rt.Value};
                 attachedElement.RenderTransform = mt;
 
             };

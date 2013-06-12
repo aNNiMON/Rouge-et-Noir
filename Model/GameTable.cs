@@ -13,10 +13,10 @@ namespace Model {
 
         public const int FOUNDATIONS = 4, TABLEAUS = 10;
 
-        private Stock stock;
-        private LeftFoundation[] leftFoundation;
-        private RightFoundation[] rightFoundation;
-        private Tableau[] tableau;
+        private readonly Stock stock;
+        private readonly LeftFoundation[] leftFoundation;
+        private readonly RightFoundation[] rightFoundation;
+        private readonly Tableau[] tableau;
 
         public GameTable() {
             stock = new Stock();
@@ -40,7 +40,7 @@ namespace Model {
         public Foundation GetFoundation(int num, bool left) {
             if (num >= FOUNDATIONS) throw new IndexOutOfRangeException();
             if (left) return leftFoundation[num];
-            else return rightFoundation[num];
+            return rightFoundation[num];
         }
 
         public Stock GetStock() {
@@ -59,10 +59,10 @@ namespace Model {
             // Добавляем карты в таблицы.
             int addCardsCount = 8;
             for (int i = 0; i < TABLEAUS - 2; i++) {
-                Util.Move<Card>(cards, tableau[i].GetList(), addCardsCount);
+                Util.Move(cards, tableau[i].GetList(), addCardsCount);
                 addCardsCount--;
             }
-            Util.Move<Card>(cards, tableau[TABLEAUS - 2].GetList(), 1);
+            Util.Move(cards, tableau[TABLEAUS - 2].GetList(), 1);
             // Переворачиваем верхние карты.
             for (int i = 0; i < TABLEAUS - 1; i++) {
                 tableau[i].GetTopCard().SetFaceUp();
@@ -77,7 +77,7 @@ namespace Model {
         /// </summary>
         public void HandOutFromStock(bool saveToHistory = true) {
             var cards = new List<Card>();
-            Util.Move<Card>(stock.GetList(), cards, TABLEAUS);
+            Util.Move(stock.GetList(), cards, TABLEAUS);
             if (saveToHistory) {
                 MovesManager.HandOut(new List<Card>(cards));
             }
@@ -88,7 +88,7 @@ namespace Model {
             // Переносим в таблицы.
             for (int i = 0; i < TABLEAUS; i++) {
                 if (cards.Count == 0) return;
-                Util.Move<Card>(cards, tableau[i].GetList(), 1);
+                Util.Move(cards, tableau[i].GetList(), 1);
             }
         }
 
@@ -118,7 +118,7 @@ namespace Model {
                         }
                         card.SetFaceDown();
                     }
-                    Util.Move<Card>(move.Cards, stock.GetList(), move.Cards.Count);
+                    Util.Move(move.Cards, stock.GetList(), move.Cards.Count);
                     break;
             }
         }

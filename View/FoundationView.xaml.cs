@@ -17,9 +17,8 @@ namespace View {
                 return foundation;
             }
         }
-        private bool isLeft;
 
-        private CardView cardView;
+        private readonly CardView cardView;
 
         public FoundationView() {
             InitializeComponent();
@@ -37,12 +36,11 @@ namespace View {
 
         public void SetFoundation(Foundation foundation, bool isLeft) {
             this.foundation = foundation;
-            this.isLeft = isLeft;
 
             rootView.Children.Add(Util.CreateCardPlace(isLeft ? 'A' : ' '));
 
             RefreshView();
-            Grid.SetZIndex(cardView, 1);
+            Panel.SetZIndex(cardView, 1);
             rootView.Children.Add(cardView);
         }
 

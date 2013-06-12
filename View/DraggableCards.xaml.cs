@@ -40,7 +40,7 @@ namespace View {
             if (index == 0) bottomCardView = cardView;
             cardView.Card = card;
             Canvas.SetTop(cardView, 15 * index);
-            Canvas.SetZIndex(cardView, 1 + index);
+            Panel.SetZIndex(cardView, 1 + index);
             rootView.Children.Add(cardView);
         }
     }
