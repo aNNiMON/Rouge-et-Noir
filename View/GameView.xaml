@@ -10,6 +10,7 @@
         <RoutedUICommand x:Key="NewGameCommand" Text="New Game" />
         <RoutedUICommand x:Key="StatisticsCommand" Text="Statistics" />
         <RoutedUICommand x:Key="RulesCommand" Text="Rules" />
+        <RoutedUICommand x:Key="CloseDialogCommand" Text="Close Dialog" />
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource NewGameCommand}" Executed="NewGame_Executed" CanExecute="CommandBinding_CanExecute"/>
@@ -17,86 +18,125 @@
         <CommandBinding Command="Redo" Executed="Redo_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource StatisticsCommand}" Executed="Statistics_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource RulesCommand}" Executed="Rules_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="{StaticResource CloseDialogCommand}" Executed="CloseDialog_Executed" CanExecute="CommandBinding_CanExecute"/>
+        
     </UserControl.CommandBindings>
     <UserControl.InputBindings>
         <KeyBinding Modifiers="Control" Key="Z" Command="Undo" />
         <KeyBinding Modifiers="Control" Key="Y" Command="Redo" />
     </UserControl.InputBindings>
-    <Grid Name="rootView">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF224219" Offset="0"/>
-                <GradientStop Color="#FF45B825" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="7*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid Name="rootView">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF224219" Offset="0"/>
+                    <GradientStop Color="#FF45B825" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
         
-        <Menu Name="menu" IsMainMenu="True" Grid.Column="0" Grid.ColumnSpan="10">
-            <Menu.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                    <GradientStop Color="#FF90B497" Offset="0.528"/>
-                    <GradientStop Color="#FFCBDACF" Offset="0.01"/>
-                    <GradientStop Color="#FF1E5323" Offset="1"/>
-                </LinearGradientBrush>
-            </Menu.Background>
-            <MenuItem Header="_Файл">
-                <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}" />
-                <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click" />
-            </MenuItem>
-            <MenuItem Header="_Игра">
-                <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" />
-                <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" />
-            </MenuItem>
-            <MenuItem Header="_Статистика">
-                <MenuItem Header="Количество баллов" Background="#FFCBDACF" Command="{StaticResource StatisticsCommand}" />
-            </MenuItem>
-            <MenuItem Header="_Помощь">
-                <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}" />
-                <MenuItem Header="_О программе" Background="#FFCBDACF" />
-            </MenuItem>
-        </Menu>
-        <ToolBar HorizontalAlignment="Right" Grid.Column="0" Grid.ColumnSpan="10" ToolBarTray.IsLocked="True">
-            <ToolBar.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                    <GradientStop Color="#FF9CA09D" Offset="0.01"/>
-                    <GradientStop Color="#FF252525" Offset="1"/>
-                </LinearGradientBrush>
-            </ToolBar.Background>
-            <Label Name="GameScoreLabel" FontSize="9" Foreground="LightGreen" />
-            <Separator />
-            <Label Name="GameTimeLabel" FontSize="9" Foreground="LightGreen" />
-            <Separator />
-            <Button Command="{StaticResource NewGameCommand}">
-                <Image Source="Resources/new_game.png"/>
-            </Button>
-            <Button Command="Undo">
-                <Image Source="Resources/undo.png" />
-            </Button>
-            <Button Command="Redo">
-                <Image Source="Resources/redo.png"/>
-            </Button>
-            <Button Command="{StaticResource StatisticsCommand}">
-                <Image Source="Resources/statistics.png"/>
-            </Button>
-            <Button Command="{StaticResource RulesCommand}">
-                <Image Source="Resources/rules.png"/>
-            </Button>
-        </ToolBar>
+            <Menu Name="menu" IsMainMenu="True" Grid.Column="0" Grid.ColumnSpan="10">
+                <Menu.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FF90B497" Offset="0.528"/>
+                        <GradientStop Color="#FFCBDACF" Offset="0.01"/>
+                        <GradientStop Color="#FF1E5323" Offset="1"/>
+                    </LinearGradientBrush>
+                </Menu.Background>
+                <MenuItem Header="_Файл">
+                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}" />
+                    <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click" />
+                </MenuItem>
+                <MenuItem Header="_Игра">
+                    <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" />
+                    <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" />
+                </MenuItem>
+                <MenuItem Header="_Статистика">
+                    <MenuItem Header="Количество баллов" Background="#FFCBDACF" Command="{StaticResource StatisticsCommand}" />
+                </MenuItem>
+                <MenuItem Header="_Помощь">
+                    <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}" />
+                    <MenuItem Header="_О программе" Background="#FFCBDACF" />
+                </MenuItem>
+            </Menu>
+            <ToolBar HorizontalAlignment="Right" Grid.Column="0" Grid.ColumnSpan="10" ToolBarTray.IsLocked="True">
+                <ToolBar.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FF9CA09D" Offset="0.01"/>
+                        <GradientStop Color="#FF252525" Offset="1"/>
+                    </LinearGradientBrush>
+                </ToolBar.Background>
+                <Label Name="GameScoreLabel" FontSize="9" Foreground="LightGreen" />
+                <Separator />
+                <Label Name="GameTimeLabel" FontSize="9" Foreground="LightGreen" />
+                <Separator />
+                <Button Command="{StaticResource NewGameCommand}">
+                    <Image Source="Resources/new_game.png"/>
+                </Button>
+                <Button Command="Undo">
+                    <Image Source="Resources/undo.png" />
+                </Button>
+                <Button Command="Redo">
+                    <Image Source="Resources/redo.png"/>
+                </Button>
+                <Button Command="{StaticResource StatisticsCommand}">
+                    <Image Source="Resources/statistics.png"/>
+                </Button>
+                <Button Command="{StaticResource RulesCommand}">
+                    <Image Source="Resources/rules.png"/>
+                </Button>
+            </ToolBar>
+        </Grid>
+
+        <Grid x:Name="window" Background="#97000000" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="1" Grid.Row="1" x:Name="enterTextDialog" Background="#FF88D355" Visibility="Hidden">
+                <TextBlock Text="Введите имя" HorizontalAlignment="Center" Margin="15,5,15,5" />
+                <TextBox Name="NameTextBox" Margin="5,0" />
+                <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,5" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1" x:Name="statisticsDialog" Background="#FF88D355" Visibility="Hidden">
+                <DataGrid Name="statisticsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Очки" Binding="{Binding ScoreValue}" />
+                        <DataGridTextColumn Header="Время игры" Binding="{Binding GameTime}" />
+                        <DataGridCheckBoxColumn Header="Завершена" Binding="{Binding Path=Complete}" />
+                        <DataGridTextColumn Header="Дата" Binding="{Binding Path=Date}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,15" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1" x:Name="rulesDialog" Background="#FF88D355" Visibility="Hidden">
+                <RichTextBox Name="rulesRichTextBox">
+                </RichTextBox>
+                <Button Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,15" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

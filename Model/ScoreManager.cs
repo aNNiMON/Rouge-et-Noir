@@ -58,10 +58,9 @@ namespace Model {
             Current.GameTime = DateTime.Now - StartTime;
         }
 
-        public static void EndGame(string name, bool isComplete) {
+        public static void EndGame(bool isComplete) {
             Current.GameTime = DateTime.Now - StartTime;
             Current.Complete = isComplete;
-            if (name != null) Current.Name = name;
 
             hiScores.Add(Current);
             Save();
@@ -94,7 +93,9 @@ namespace Model {
                 var bformatter = new BinaryFormatter();
                 hiScores = bformatter.Deserialize(stream) as List<Score>;
                 stream.Close();
-            } catch (IOException) { }
+            } catch (IOException) {
+                hiScores = new List<Score>();
+            }
             
         }
     }

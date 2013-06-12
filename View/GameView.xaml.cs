@@ -170,7 +170,9 @@ namespace View {
                     return;
             }
             MessageBox.Show("Игра окончена. Поздравляем!!!");
-            // TODO: Game complete window
+            window.Visibility = Visibility.Visible;
+            enterTextDialog.Visibility = Visibility.Visible;
+            table.EndGame(true);
         }
         #endregion
 
@@ -260,11 +262,25 @@ namespace View {
         #region Обработчики меню
 
         private void Exit_Click(object sender, RoutedEventArgs e) {
-            timer.Stop();
-            Application.Current.Shutdown();
+            if (MessageBox.Show("Вы уверены?", "Выйти из игры",
+                    MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
+                timer.Stop();
+                Application.Current.Shutdown();
+            }
         }
 
         private void NewGame_Executed(object sender, ExecutedRoutedEventArgs e) {
+            if (ScoreManager.Current.ScoreValue > 0) {
+                if (MessageBox.Show("Начать новую игру?", "Новая игра",
+                    MessageBoxButton.YesNo) == MessageBoxResult.No) {
+                        return;
+                }
+                NameTextBox.Text = ScoreManager.Current.Name;
+                window.Visibility = Visibility.Visible;
+                enterTextDialog.Visibility = Visibility.Visible;
+                return;
+            }
+            // Новая игра
             NewGame();
             RefreshView();
         }
@@ -287,9 +303,25 @@ namespace View {
             
         }
 
+        private void CloseDialog_Executed(object sender, ExecutedRoutedEventArgs e) {
+            if (enterTextDialog.Visibility == Visibility.Visible) {
+                // Новая игра
+                ScoreManager.Current.Name = NameTextBox.Text;
+                table.EndGame(false);
+                NewGame();
+                RefreshView();
+            }
+            window.Visibility = Visibility.Hidden;
+            enterTextDialog.Visibility = Visibility.Hidden;
+            statisticsDialog.Visibility = Visibility.Hidden;
+            rulesDialog.Visibility = Visibility.Hidden;
+        }
+
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {
             e.CanExecute = true;
         }
+
+        
         #endregion
 
     }

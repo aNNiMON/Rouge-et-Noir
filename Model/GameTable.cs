@@ -76,10 +76,9 @@ namespace Model {
         /// <summary>
         /// Завершение игры.
         /// </summary>
-        /// <param name="name">имя игрока</param>
         /// <param name="isComplete">завершена ли игра или прервана</param>
-        public void EndGame(string name, bool isComplete) {
-            ScoreManager.EndGame(name, isComplete);
+        public void EndGame(bool isComplete) {
+            ScoreManager.EndGame(isComplete);
         }
 
         /// <summary>
