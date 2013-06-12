@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Model;
 
 namespace View {
@@ -33,6 +34,8 @@ namespace View {
         private FoundationView[] foundationViews;
         private TableauView[] tableauViews;
 
+        private DispatcherTimer timer;
+
         public GameView() {
             InitializeComponent();
 
@@ -43,6 +46,7 @@ namespace View {
             SetStock();
             SetFoundations();
             SetTableau();
+            SetTimer();
         }
 
         public TableauView GetTableauView(int num) {
@@ -228,6 +232,16 @@ namespace View {
             }
         }
 
+        private void SetTimer() {
+            timer = new DispatcherTimer();
+            timer.Tick += (s, e) => {
+                GameScoreLabel.Content = ScoreManager.Current.ScoreValue;
+                GameTimeLabel.Content = string.Format("{0:mm\\:ss}", ScoreManager.GetGameTime());
+            };
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
+        }
+
         /// <summary>
         /// Обновление экрана.
         /// </summary>
@@ -240,16 +254,13 @@ namespace View {
                 tableauViews[i].RefreshView();
             }
             stockView.RefreshView();
-        } 
+        }
         #endregion
 
         #region Обработчики меню
-        private void NewGame_Click(object sender, RoutedEventArgs e) {
-            NewGame();
-            RefreshView();
-        }
 
         private void Exit_Click(object sender, RoutedEventArgs e) {
+            timer.Stop();
             Application.Current.Shutdown();
         }
 

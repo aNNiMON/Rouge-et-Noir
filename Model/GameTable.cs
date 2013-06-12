@@ -53,6 +53,7 @@ namespace Model {
         public void NewGame() {
             Clear();
             MovesManager.NewGame();
+            ScoreManager.InitNewGame();
             Deck deck = new Deck104();
             List<Card> cards = deck.Cast<Card>().ToList();
             
@@ -70,6 +71,15 @@ namespace Model {
 
             // Добавляем оставшиеся 67 карт в запас.
             stock.AddCards(cards);
+        }
+
+        /// <summary>
+        /// Завершение игры.
+        /// </summary>
+        /// <param name="name">имя игрока</param>
+        /// <param name="isComplete">завершена ли игра или прервана</param>
+        public void EndGame(string name, bool isComplete) {
+            ScoreManager.EndGame(name, isComplete);
         }
 
         /// <summary>
@@ -96,6 +106,7 @@ namespace Model {
             Move move = MovesManager.Undo();
             switch (move.Type) {
                 case MoveType.TO_FOUNDATION:
+                    ScoreManager.DecreaseScore(move.Cards.Count);
                     // Удаляем карты из таблицы.
                     foreach (var _card in move.Cards) {
                         move.ToFoundation.GetList().Remove(_card);
@@ -140,7 +151,16 @@ namespace Model {
             }
         }
 
+        /// <summary>
+        ////Перемещение карт в результирующую стопку.
+        /// </summary>
+        /// <param name="cards"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="saveToHistory"></param>
         public void MoveCards(List<Card> cards, Tableau from, Foundation to, bool saveToHistory = true) {
+            ScoreManager.IncreaseScore(cards.Count);
+
             // Удаляем карты из таблицы.
             foreach(var _card in cards) {
                 from.GetList().Remove(_card);
