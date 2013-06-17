@@ -1,4 +1,6 @@
-﻿using Model.Enums;
+﻿using System.Collections.Generic;
+using Model.Enums;
+using System.Linq;
 
 namespace Model {
 
@@ -14,7 +16,13 @@ namespace Model {
         /// <param name="card">первая помещаемая карта</param>
         /// <returns>true - ход корректен</returns>
         public override bool IsCorrectMove(Card card) {
-            return (card.Value == CardValue.King);
+            return (card.Value == CardValue.King) && (base.Cards.Count == 0);
+        }
+
+        public override void AddCards(IEnumerable<Card> cards) {
+            // Обращаем карты, чтобы верхним был король.
+            var reverse = cards.Reverse();
+            base.AddCardsBySystem(reverse);
         }
     }
 }

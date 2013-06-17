@@ -147,11 +147,9 @@ namespace Model {
             switch (move.Type) {
                 case MoveType.TO_FOUNDATION:
                     MoveCards(move.Cards, move.FromTableau, move.ToFoundation, false);
-                    //if (move.FaceUp) move.FromTableau.FaceUpTopCard();
                     break;
                 case MoveType.TO_TABLEAU:
                     MoveCards(move.Cards, move.FromTableau, move.ToTableau, false);
-                    //if (move.FaceUp) move.FromTableau.FaceUpTopCard();
                     break;
                 case MoveType.FROM_STOCK:
                     HandOutFromStock(false);

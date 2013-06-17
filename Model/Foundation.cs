@@ -20,6 +20,10 @@ namespace Model {
             }
         }
 
+        public void AddCardsBySystem(IEnumerable<Card> cards) {
+            base.AddCards(cards);
+        }
+
         public Card GetTopCard() {
             if (base.Cards.Count == 0) return null;
             return base.Cards[base.Cards.Count - 1];
