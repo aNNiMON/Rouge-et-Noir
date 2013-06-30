@@ -99,13 +99,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\View\View.csproj">
-      <Project>{a0562aae-4916-433a-8db1-51f1b6e84ec2}</Project>
-      <Name>View</Name>
-    </ProjectReference>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <ProjectReference Include="..\View\View.csproj">
+      <Project>{7a8b03b0-261d-44d5-87f0-a8eabbe9f98c}</Project>
+      <Name>View</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
