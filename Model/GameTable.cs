@@ -58,12 +58,11 @@ namespace Model {
             List<Card> cards = deck.Cast<Card>().ToList();
             
             // Добавляем карты в таблицы.
-            int addCardsCount = 8;
-            for (int i = 0; i < TABLEAUS - 2; i++) {
+            int addCardsCount = 9;
+            for (int i = 0; i < TABLEAUS - 1; i++) {
                 Util.Move(cards, tableau[i].GetList(), addCardsCount);
                 addCardsCount--;
             }
-            Util.Move(cards, tableau[TABLEAUS - 2].GetList(), 1);
             // Переворачиваем верхние карты.
             for (int i = 0; i < TABLEAUS - 1; i++) {
                 tableau[i].GetTopCard().SetFaceUp();
