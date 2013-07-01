@@ -340,10 +340,7 @@ namespace View {
         }
 
         private void Statistics_Executed(object sender, ExecutedRoutedEventArgs e) {
-            statisticsDataGrid.ItemsSource = ScoreManager.HiScores; 
-
-            window.Visibility = Visibility.Visible;
-            statisticsDialog.Visibility = Visibility.Visible;
+            hiscoreComponent.Show(ScoreManager.HiScores);
         }
 
         private void Rules_Executed(object sender, ExecutedRoutedEventArgs e) {
@@ -373,7 +370,6 @@ namespace View {
             }
             window.Visibility = Visibility.Hidden;
             enterTextDialog.Visibility = Visibility.Hidden;
-            statisticsDialog.Visibility = Visibility.Hidden;
             infoDialog.Visibility = Visibility.Hidden;
         }
 
