@@ -313,8 +313,8 @@ namespace View {
         public bool OnCloseView() {
             if (ScoreManager.Current.ScoreValue <= 0) return true;
 
-            var result = MessageBox.Show("Отправить результат и выйти?",
-                "Выйти из игры", MessageBoxButton.YesNoCancel);
+            var result = ThreeButtonsMessageBox.Show("Отправить результат и выйти?",
+                "Выйти из игры", "Отправить", "Выйти", "Отмена");
 
             if (result == MessageBoxResult.Cancel) {
                 // Пользователь отменил выход из приложения.
@@ -344,10 +344,10 @@ namespace View {
             Window.GetWindow(this).Close();
         }
 
-        private void NewGame_Executed(object sender, ExecutedRoutedEventArgs e) {
+        private void NewGame_Executed(object sender, ExecutedRoutedEventArgs eventArgs) {
             if (ScoreManager.Current.ScoreValue > 0) {
-                var result = MessageBox.Show("Отправить результат и начать новую игру?",
-                    "Новая игра", MessageBoxButton.YesNoCancel);
+                var result = ThreeButtonsMessageBox.Show("Отправить результат и начать новую игру?",
+                    "Новая игра", "Отправить", "Новая игра", "Отмена");
 
                 if (result == MessageBoxResult.Cancel) {
                     return;
