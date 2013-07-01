@@ -304,13 +304,24 @@ namespace View {
         }
         #endregion
 
+        /// <summary>
+        /// Запрос подтверждения закрытия окна.
+        /// </summary>
+        /// <returns></returns>
+        public bool CloseView() {
+            bool close = (MessageBox.Show("Вы уверены?", "Выйти из игры",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes);
+            if (close) {
+                timer.Stop();
+            }
+            return close;
+        }
+
         #region Обработчики меню
         private void Exit_Click(object sender, RoutedEventArgs e) {
-            if (MessageBox.Show("Вы уверены?", "Выйти из игры",
-                    MessageBoxButton.YesNo) == MessageBoxResult.Yes) {
-                timer.Stop();
-                Application.Current.Shutdown();
-            }
+            // Вызывается событие FormClosing главного окна, в котором
+            // вызывается функция bool CloseView.
+            Window.GetWindow(this).Close();
         }
 
         private void NewGame_Executed(object sender, ExecutedRoutedEventArgs e) {
@@ -377,6 +388,5 @@ namespace View {
             e.CanExecute = true;
         }
         #endregion
-
     }
 }
