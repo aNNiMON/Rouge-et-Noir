@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -39,7 +38,7 @@ namespace View {
             instance = this;
 
             table = new GameTable();
-            NewGame();
+            table.NewGame();
             SetStock();
             SetFoundations();
             SetTableau();
@@ -105,6 +104,7 @@ namespace View {
         /// </summary>
         public void NewGame() {
             table.NewGame();
+            RefreshView();
         }
 
         /// <summary>
@@ -206,7 +206,6 @@ namespace View {
             }
             MessageBox.Show("Игра окончена. Поздравляем!!!");
             window.Visibility = Visibility.Visible;
-            enterTextDialog.Visibility = Visibility.Visible;
             table.EndGame(true);
         }
         #endregion
@@ -305,16 +304,37 @@ namespace View {
         #endregion
 
         /// <summary>
-        /// Запрос подтверждения закрытия окна.
+        /// Подтверждение при закрытия окна.
+        /// Если есть какие-либо результаты, то выводит запрос отправки
+        /// результата с возможностью отмены закрытия окна. Иначе закрывает
+        /// окно без подтверждения.
         /// </summary>
-        /// <returns></returns>
-        public bool CloseView() {
-            bool close = (MessageBox.Show("Вы уверены?", "Выйти из игры",
-                MessageBoxButton.YesNo) == MessageBoxResult.Yes);
-            if (close) {
-                timer.Stop();
+        /// <returns>true - разрешено завершить приложение</returns>
+        public bool OnCloseView() {
+            if (ScoreManager.Current.ScoreValue <= 0) return true;
+
+            var result = MessageBox.Show("Отправить результат и выйти?",
+                "Выйти из игры", MessageBoxButton.YesNoCancel);
+
+            if (result == MessageBoxResult.Cancel) {
+                // Пользователь отменил выход из приложения.
+                return false;
             }
-            return close;
+            if (result == MessageBoxResult.No) {
+                // Выход из приложения.
+                timer.Stop();
+                return true;
+            }
+            // Отправляем результат, после чего выходим.
+            enterNameComponent.Show((s, e) => {
+                ScoreManager.EndGame(false);
+                timer.Stop();
+                // Чтобы вновь не появился запрос на выход, сбрасываем текущий результат.
+                ScoreManager.Current.ScoreValue = 0;
+                Window.GetWindow(this).Close();
+            });
+            // Выход будет производится по окончанию ввода имени.
+            return false;
         }
 
         #region Обработчики меню
@@ -326,18 +346,23 @@ namespace View {
 
         private void NewGame_Executed(object sender, ExecutedRoutedEventArgs e) {
             if (ScoreManager.Current.ScoreValue > 0) {
-                if (MessageBox.Show("Начать новую игру?", "Новая игра",
-                    MessageBoxButton.YesNo) == MessageBoxResult.No) {
-                        return;
+                var result = MessageBox.Show("Отправить результат и начать новую игру?",
+                    "Новая игра", MessageBoxButton.YesNoCancel);
+
+                if (result == MessageBoxResult.Cancel) {
+                    return;
                 }
-                NameTextBox.Text = ScoreManager.DefaultName;
-                window.Visibility = Visibility.Visible;
-                enterTextDialog.Visibility = Visibility.Visible;
-                return;
+                if (result == MessageBoxResult.Yes) {
+                    // Отправка результата.
+                    enterNameComponent.Show((s, ee) => {
+                        ScoreManager.EndGame(false);
+                        NewGame();
+                    });
+                    return;
+                }
             }
             // Новая игра
             NewGame();
-            RefreshView();
         }
 
         private void Undo_Executed(object sender, ExecutedRoutedEventArgs e) {
@@ -351,6 +376,7 @@ namespace View {
         }
 
         private void Statistics_Executed(object sender, ExecutedRoutedEventArgs e) {
+            ScoreManager.Load();
             hiscoreComponent.Show(ScoreManager.HiScores);
         }
 
@@ -371,16 +397,7 @@ namespace View {
         }
 
         private void CloseDialog_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (enterTextDialog.Visibility == Visibility.Visible) {
-                // Новая игра
-                ScoreManager.Current.Name = NameTextBox.Text;
-                ScoreManager.DefaultName = NameTextBox.Text;
-                table.EndGame(false);
-                NewGame();
-                RefreshView();
-            }
             window.Visibility = Visibility.Hidden;
-            enterTextDialog.Visibility = Visibility.Hidden;
             infoDialog.Visibility = Visibility.Hidden;
         }
 

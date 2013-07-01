@@ -57,6 +57,9 @@
       <DependentUpon>DraggableCards.xaml</DependentUpon>
     </Compile>
     <Compile Include="DragHelper.cs" />
+    <Compile Include="EnterNameComponent.xaml.cs">
+      <DependentUpon>EnterNameComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FoundationView.xaml.cs">
       <DependentUpon>FoundationView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
     <Page Include="DraggableCards.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EnterNameComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="FoundationView.xaml">
       <Generator>MSBuild:Compile</Generator>

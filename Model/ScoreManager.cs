@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Net;
+using System.Text;
+using System.Xml;
 
 namespace Model {
 
@@ -11,7 +13,7 @@ namespace Model {
     /// </summary>
     public static class ScoreManager {
 
-        private const string FILENAME = "scores.bin";
+        private const string SCORE_TABLE_URL = "";
         private const int INCREMENT = 100;
 
         /// <summary>
@@ -45,14 +47,14 @@ namespace Model {
             }
         }
         private static List<Score> hiScores;
-
+        
         /// <summary>
         /// Получить продолжительность игры.
         /// </summary>
         /// <returns></returns>
         public static TimeSpan GetGameTime() {
             if (StartTime == null || Current == null) return TimeSpan.Zero;
-            Update();
+            Current.GameTime = DateTime.Now - StartTime;
             return Current.GameTime;
         }
 
@@ -74,16 +76,11 @@ namespace Model {
         }
 
         public static void InitNewGame() {
-            Load();
             Current = new Score {
                 Date = DateTime.Now
             };
 
             StartTime = DateTime.Now;
-        }
-
-        private static void Update() {
-            Current.GameTime = DateTime.Now - StartTime;
         }
 
         /// <summary>
@@ -94,44 +91,54 @@ namespace Model {
             Current.GameTime = DateTime.Now - StartTime;
             Current.Complete = isComplete;
 
-            hiScores.Add(Current);
-            Save();
-        }
-
-
-        /// <summary>
-        /// Сохранить результаты в файл.
-        /// </summary>
-        private static void Save() {
+            try {
+                SendCurrentScore();
+            } catch (Exception) { }
             Properties.Settings.Default.Save();
-            // Выбираем лучшие 15 записей.
-            var top15 = (from score in hiScores
-                         orderby score.ScoreValue descending, score.GameTime
-                         select score).Take(15).ToList();
-            try {
-                var stream = File.Open(FILENAME, FileMode.Create);
-                var bformatter = new BinaryFormatter();
-                bformatter.Serialize(stream, top15);
-                stream.Flush();
-                stream.Close();
-            } catch (IOException) { }
         }
 
         /// <summary>
-        /// Загрузить результаты из файла.
+        /// Загрузить результаты.
         /// </summary>
-        private static void Load() {
+        public static void Load() {
+            hiScores = new List<Score>();
             try {
-                var stream = File.Open(FILENAME, FileMode.Open);
-                if (stream.Length > 0) {
-                    var bformatter = new BinaryFormatter();
-                    hiScores = bformatter.Deserialize(stream) as List<Score>;
-                    stream.Close();
-                } else hiScores = new List<Score>();
-            } catch (Exception) {
-                hiScores = new List<Score>();
+                LoadOnlineScores();
+            } catch (Exception) { }
+        }
+
+        private static void LoadOnlineScores() {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(Util.GetTextFromUrl(SCORE_TABLE_URL + "xml", Encoding.UTF8));
+
+            var scores = doc.SelectNodes("hiscores/scores");
+            foreach (XmlNode node in scores) {
+                var score = new Score();
+                score.Name = node.SelectSingleNode("name").InnerText;
+                score.ScoreValue = Convert.ToInt32(node.SelectSingleNode("score").InnerText);
+                int gametime = Convert.ToInt32(node.SelectSingleNode("gametime").InnerText);
+                score.GameTime = TimeSpan.FromSeconds(gametime);
+                score.Complete = !(node.SelectSingleNode("complete").InnerText.Equals("0"));
+                int date = Convert.ToInt32(node.SelectSingleNode("date").InnerText);
+                score.Date = Util.UnixTimeStampToDateTime(date);
+
+                hiScores.Add(score);
             }
-            
+        }
+
+        /// <summary>
+        /// Отправить текущий результат. 
+        /// </summary>
+        private static void SendCurrentScore() {
+            var values = new NameValueCollection();
+            values.Add("nm", Current.Name.Trim());
+            values.Add("sc", Current.ScoreValue.ToString());
+            values.Add("gt", Current.GameTime.TotalSeconds.ToString());
+            values.Add("cm", (Current.Complete ? "1" : "0"));
+
+            var request = Util.CreateRequest(SCORE_TABLE_URL + "add", values);
+            var response = (HttpWebResponse) request.GetResponse();
+            string answer = new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
     }
 }

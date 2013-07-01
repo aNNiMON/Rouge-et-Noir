@@ -21,7 +21,6 @@
         <CommandBinding Command="{StaticResource RulesCommand}" Executed="Rules_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource AboutCommand}" Executed="About_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource CloseDialogCommand}" Executed="CloseDialog_Executed" CanExecute="CommandBinding_CanExecute"/>
-
     </UserControl.CommandBindings>
     <UserControl.InputBindings>
         <KeyBinding Modifiers="Control" Key="Z" Command="Undo" />
@@ -130,6 +129,8 @@
 
         <local:HiscoreComponent x:Name="hiscoreComponent" Visibility="Hidden"
                                 HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <local:EnterNameComponent x:Name="enterNameComponent" Visibility="Hidden"
+                                HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
 
         <Grid x:Name="window" Background="#97000000" Visibility="Hidden">
             <Grid.ColumnDefinitions>
@@ -142,12 +143,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <StackPanel Grid.Column="1" Grid.Row="1" x:Name="enterTextDialog" Background="#FF88D355" Visibility="Hidden">
-                <TextBlock Text="Введите имя" HorizontalAlignment="Center" Margin="15,5,15,5" />
-                <TextBox x:Name="NameTextBox" Margin="5,0" />
-                <Button Content="OK" Command="{StaticResource CloseDialogCommand}" Margin="15,5,15,5" />
-            </StackPanel>
             <ScrollViewer x:Name="infoDialog"
                 VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.RowSpan="3"
                 Background="#FF88D355" Visibility="Hidden">

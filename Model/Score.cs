@@ -13,7 +13,7 @@ namespace Model {
         /// Имя игрока.
         /// </summary>
         public string Name {
-            private get {
+            get {
                 if (string.IsNullOrEmpty(name)) {
                     return Properties.Settings.Default.Username;
                 }
@@ -39,11 +39,11 @@ namespace Model {
         /// <summary>
         /// Дата начала игры.
         /// </summary>
-        public DateTime Date { private get; set; }
+        public DateTime Date { get; set; }
         /// <summary>
         /// Завершена ли игра, либо прервана.
         /// </summary>
-        public bool Complete { private get; set; }
+        public bool Complete { get; set; }
 
         public Score() {
             Name = Properties.Settings.Default.Username;

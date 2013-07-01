@@ -16,7 +16,7 @@ namespace Rouge_et_Noir {
             // Если пользователь не подтвердил закрытие окна, то отменяем выход.
             if (gameView == null) return;
 
-            if (!gameView.CloseView()) {
+            if (!gameView.OnCloseView()) {
                 e.Cancel = true;
             }
         }
