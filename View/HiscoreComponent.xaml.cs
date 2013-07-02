@@ -36,6 +36,10 @@ namespace View {
             hiscores.Visibility = convert(!listEmpty);
             if (!listEmpty) {
                 hiscores.ItemsSource = scores;
+                int place = ScoreManager.GetPlace() - 1;
+                if ( (0 <= place) && (place < scores.Count) ) {
+                    hiscores.SelectedIndex = place;
+                }
             }
 
             // Если комментария нет, скрываем текстовую метку.

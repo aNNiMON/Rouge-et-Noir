@@ -356,6 +356,10 @@ namespace View {
                     // Отправка результата.
                     enterNameComponent.Show((s, ee) => {
                         ScoreManager.EndGame(false);
+                        ScoreManager.Load();
+                        int place = ScoreManager.GetPlace();
+                        string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
+                        hiscoreComponent.Show(ScoreManager.HiScores, text);
                         NewGame();
                     });
                     return;

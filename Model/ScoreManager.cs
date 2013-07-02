@@ -47,6 +47,11 @@ namespace Model {
             }
         }
         private static List<Score> hiScores;
+
+        /// <summary>
+        /// Занимаемое игроком место в рейтинге.
+        /// </summary>
+        private static int Place = 0;
         
         /// <summary>
         /// Получить продолжительность игры.
@@ -98,6 +103,14 @@ namespace Model {
         }
 
         /// <summary>
+        /// Возвращает позицию игрока в рейтинге.
+        /// </summary>
+        /// <returns></returns>
+        public static int GetPlace() {
+            return Place;
+        }
+
+        /// <summary>
         /// Загрузить результаты.
         /// </summary>
         public static void Load() {
@@ -139,6 +152,13 @@ namespace Model {
             var request = Util.CreateRequest(SCORE_TABLE_URL + "add", values);
             var response = (HttpWebResponse) request.GetResponse();
             string answer = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            if (!answer.StartsWith("0")) {
+                try {
+                    Place = Convert.ToInt32(answer.Trim());
+                } catch (Exception) {
+                    Place = 0;
+                }
+            }
         }
     }
 }
