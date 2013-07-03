@@ -75,13 +75,17 @@ namespace Model {
         /// <summary>
         /// Перезапустить игру.
         /// </summary>
-        /// <param name="clearMoves">очищать ли историю ходов</param>
+        /// <param name="clearMoves">очищать ли историю ходов и очки</param>
         public void RestartGame(bool clearMoves = true) {
+            if (!clearMoves) ScoreManager.FreezeScore();
+
             while (MovesManager.GetMoveIndex() > 0) {
                 Undo();
             }
-            if (clearMoves) MovesManager.NewGame();
-            ScoreManager.InitNewGame();
+            if (clearMoves) {
+                MovesManager.NewGame();
+                ScoreManager.InitNewGame();
+            }
         }
 
         /// <summary>

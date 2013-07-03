@@ -52,6 +52,8 @@ namespace Model {
         /// Занимаемое игроком место в рейтинге.
         /// </summary>
         private static int Place = 0;
+
+        private static bool freezeScore;
         
         /// <summary>
         /// Получить продолжительность игры.
@@ -68,6 +70,7 @@ namespace Model {
         /// </summary>
         /// <param name="count">во сколько раз увеличить</param>
         public static void IncreaseScore(int count) {
+            if (freezeScore) return;
             Current.ScoreValue += count * INCREMENT;
         }
 
@@ -76,11 +79,29 @@ namespace Model {
         /// </summary>
         /// <param name="count">во сколько раз уменьшить</param>
         public static void DecreaseScore(int count) {
+            if (freezeScore) return;
             Current.ScoreValue -= count * INCREMENT;
             if (Current.ScoreValue < 0) Current.ScoreValue = 0;
         }
 
+        /// <summary>
+        /// Заморозить результат.
+        /// Используется для показа заставки истории действий игрока, во
+        /// избежание изменений очков.
+        /// </summary>
+        public static void FreezeScore() {
+            freezeScore = true;
+        }
+
+        /// <summary>
+        /// Разморозить результат.
+        /// </summary>
+        public static void UnfreezeScore() {
+            freezeScore = false;
+        }
+
         public static void InitNewGame() {
+            UnfreezeScore();
             Current = new Score {
                 Date = DateTime.Now
             };

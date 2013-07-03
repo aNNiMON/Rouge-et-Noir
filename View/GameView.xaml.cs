@@ -43,51 +43,6 @@ namespace View {
             SetFoundations();
             SetTableau();
             SetTimer();
-
-            /*for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                tableauViews[i].Tableau.GetList().Clear();
-                tableauViews[i].RefreshView();
-            }
-            int[] suitVal = new int[] {
-                0, 1, 2, 3
-            };
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
-                List<Card> ccard = new List<Card>();
-                for (int k = 0; k < 13; k++) {
-                    int valK = k;//  +1;
-                    int suitK = i;
-                    if (i > 3) {
-                        valK = 13 - k - 1;
-                        suitK = suitVal[k % 2 + 1];
-                    } else {
-                        suitK = suitVal[i];
-
-                    }
-                    var val = (Model.Enums.CardValue) (valK);
-                    var suit = (Model.Enums.CardSuit) suitK;
-                    Card card = new Card(suit, val);
-                    if (i <= 3)
-                        foundationViews[i].Foundation.AddCard(card);
-                    else {
-                        card.SetFaceUp();
-                        ccard.Add(card);
-                    }
-                }
-                if (i > 3) {
-                    //foundationViews[i].Foundation.AddCards(ccard);
-                    tableauViews[i].Tableau.AddCardsBySystem(ccard);
-                    tableauViews[i].RefreshView();
-                }
-                foundationViews[i].RefreshView();
-            }
-            
-            
-            Card cc = foundationViews[0].Foundation.GetTopCard();
-            foundationViews[0].Foundation.GetList().Remove(cc);
-            foundationViews[0].RefreshView();
-
-            tableauViews[GameTable.TABLEAUS - 1].Tableau.AddCard(cc);
-            tableauViews[GameTable.TABLEAUS - 1].RefreshView();*/
         }
 
         /// <summary>
@@ -212,9 +167,28 @@ namespace View {
                 if (!foundationViews[j].Foundation.IsFinished())
                     return;
             }
-            MessageBox.Show("Игра окончена. Поздравляем!!!");
-            window.Visibility = Visibility.Visible;
-            table.EndGame(true);
+            // Игра окончена - выводим финальную заставку.
+            // Откатываем ходы в самое начало (не сбрасывая счётчики)
+            table.RestartGame(false);
+            // Показываем в фоен историю действий игрока.
+            var dt = new DispatcherTimer();
+            dt.Tick += (s, ee) => {
+                table.Redo();
+                RefreshView();
+            };
+            dt.Interval = new TimeSpan(500 * 10000);
+            dt.Start();
+            // Запрашиваем имя игрока.
+            enterNameComponent.Show((s, ee) => {
+                table.EndGame(true);
+                // Показываем 
+                ScoreManager.Load();
+                int place = ScoreManager.GetPlace();
+                string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
+                hiscoreComponent.Show(ScoreManager.HiScores, text);
+                dt.Stop();
+                NewGame();
+            });
         }
         #endregion
 
