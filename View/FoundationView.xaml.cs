@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Model;
 using View.ViewModel;
 
 namespace View {
@@ -12,23 +11,16 @@ namespace View {
     /// </summary>
     public partial class FoundationView : UserControl {
 
-        public Foundation Foundation {
-            get {
-                return foundation;
-            }
-            set {
-                foundation = value;
-                model.Card = foundation.GetTopCard();
-            }
+        public FoundationViewModel Model {
+            get;
+            private set;
         }
-        private Foundation foundation;
-
-        private FoundationViewModel model;
 
         public FoundationView() {
             InitializeComponent();
-            model = new FoundationViewModel();
-            cardView.DataContext = model;
+            Model = new FoundationViewModel();
+            cardPlace.DataContext = Model;
+            cardView.DataContext = Model;
         }
 
         /// <summary>
@@ -41,17 +33,6 @@ namespace View {
                 list.Add(cardView);
                 return Util.GetBoundingRect(list);
             }
-        }
-
-        public void SetFoundation(Foundation foundation, bool isLeft) {
-            this.foundation = foundation;
-            model.Card = foundation.GetTopCard();
-            cardPlace.Symbol = (isLeft ? 'A' : ' ');
-            RefreshView();
-        }
-
-        public void RefreshView() {
-            model.Card = foundation.GetTopCard();
         }
     }
 }

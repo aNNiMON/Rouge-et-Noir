@@ -7,20 +7,42 @@ namespace View.ViewModel {
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Card Card {
-            get { return topCard; }
+        public Foundation Foundation {
+            get { return foundation; }
             set {
-                topCard = value;
+                foundation = value;
+                OnPropertyChanged("Foundation");
                 OnPropertyChanged("Card");
             }
         }
-        private Card topCard;
+        private Foundation foundation;
+
+
+        public Card Card {
+            get { return foundation.GetTopCard(); }
+        }
+
+
+        public bool IsLeft {
+            get { return isLeft; }
+            set {
+                isLeft = value;
+                OnPropertyChanged("IsLeft");
+            }
+        }
+        private bool isLeft;
+
+
 
         protected void OnPropertyChanged(string name) {
             var handler = PropertyChanged;
             if (null != handler) {
                 handler(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        public void RefreshView() {
+            OnPropertyChanged("Card");
         }
     }
 }

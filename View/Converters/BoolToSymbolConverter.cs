@@ -5,13 +5,11 @@ using Model;
 
 namespace View.Converters {
 
-    public class CardToViewConverter : IValueConverter {
+    public class BoolToSymbolConverter : IValueConverter {
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            Card card = (Card) value;
-            var cardView = new CardView();
-            cardView.Card = card;
-            return cardView;
+            bool isLeft = (bool) value;
+            return (char) (isLeft ? 'A' : ' ');
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

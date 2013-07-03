@@ -139,14 +139,14 @@ namespace View {
                         CancelMove(draggableCards);
                         return;
                     }
-                    if (!view.Foundation.IsCorrectMove(bottomCardView.Card)) {
+                    if (!view.Model.Foundation.IsCorrectMove(bottomCardView.Card)) {
                         CancelMove(draggableCards);
                         return;
                     }
                     // Добавляем карты в стопку.
-                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Foundation);
+                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Model.Foundation);
                     tableauView.RefreshView();
-                    view.RefreshView();
+                    view.Model.RefreshView();
                     CheckGameOver();
                     return;
                 }
@@ -201,7 +201,7 @@ namespace View {
         /// </summary>
         private void CheckGameOver() {
             for (int j = 0; j < GameTable.FOUNDATIONS * 2; j++) {
-                if (!foundationViews[j].Foundation.IsFinished())
+                if (!foundationViews[j].Model.Foundation.IsFinished())
                     return;
             }
             MessageBox.Show("Игра окончена. Поздравляем!!!");
@@ -253,7 +253,8 @@ namespace View {
 
                 Grid.SetColumn(foundationView, 2 + i);
                 Grid.SetRow(foundationView, 1);
-                foundationView.SetFoundation(table.GetFoundation(num, left), left);
+                foundationView.Model.IsLeft = left;
+                foundationView.Model.Foundation = table.GetFoundation(num, left);
 
                 rootView.Children.Add(foundationView);
                 foundationViews[i] = foundationView;
@@ -293,7 +294,7 @@ namespace View {
         /// </summary>
         private void RefreshView() {
             for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
-                foundationViews[i].RefreshView();
+                foundationViews[i].Model.RefreshView();
             }
             for (int i = 0; i < GameTable.TABLEAUS; i++) {
                 Panel.SetZIndex(tableauViews[i], 0);

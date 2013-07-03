@@ -54,7 +54,7 @@
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\CardToImageConverter.cs" />
-    <Compile Include="Converters\CardToViewConverter.cs" />
+    <Compile Include="Converters\BoolToSymbolConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="DraggableCards.xaml.cs">
       <DependentUpon>DraggableCards.xaml</DependentUpon>

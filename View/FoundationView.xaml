@@ -4,11 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:View"
+             xmlns:conv="clr-namespace:View.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="80" >
+    <UserControl.Resources>
+        <conv:BoolToSymbolConverter x:Key="symbolConverter" />
+    </UserControl.Resources>
     <Grid Name="rootView">
-        <local:CardPlaceView x:Name="cardPlace" />
-        <local:CardView x:Name="cardView" Panel.ZIndex="1" 
-                        Card="{Binding Card}"/>
+        <local:CardPlaceView x:Name="cardPlace" Symbol="{Binding Path=IsLeft, Converter={StaticResource symbolConverter}}" />
+        <local:CardView x:Name="cardView" Panel.ZIndex="1" Card="{Binding Card}"/>
     </Grid>
 </UserControl>
