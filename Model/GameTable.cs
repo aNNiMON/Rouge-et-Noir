@@ -127,13 +127,14 @@ namespace Model {
                     break;
                 case MoveType.FROM_STOCK:
                     // Отмена раздачи карт из запаса.
-                    foreach (var card in move.Cards) {
+                    var copy = new List<Card>(move.Cards);
+                    foreach (var card in copy) {
                         for (int i = 0; i < TABLEAUS; i++) {
                             tableau[i].GetList().Remove(card);
                         }
                         card.SetFaceDown();
                     }
-                    Util.Move(move.Cards, stock.GetList(), move.Cards.Count);
+                    Util.Move(copy, stock.GetList(), move.Cards.Count);
                     break;
             }
         }
