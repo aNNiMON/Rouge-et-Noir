@@ -8,6 +8,7 @@
              MinHeight="400" MinWidth="740">
     <UserControl.Resources>
         <RoutedUICommand x:Key="NewGameCommand" Text="New Game" />
+        <RoutedUICommand x:Key="RestartGameCommand" Text="Restart Game" />
         <RoutedUICommand x:Key="StatisticsCommand" Text="Statistics" />
         <RoutedUICommand x:Key="RulesCommand" Text="Rules" />
         <RoutedUICommand x:Key="AboutCommand" Text="About" />
@@ -15,6 +16,7 @@
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource NewGameCommand}" Executed="NewGame_Executed" CanExecute="CommandBinding_CanExecute"/>
+        <CommandBinding Command="{StaticResource RestartGameCommand}" Executed="RestartGame_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="Undo" Executed="Undo_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="Redo" Executed="Redo_Executed" CanExecute="CommandBinding_CanExecute"/>
         <CommandBinding Command="{StaticResource StatisticsCommand}" Executed="Statistics_Executed" CanExecute="CommandBinding_CanExecute"/>
@@ -62,6 +64,11 @@
                 </Menu.Background>
                 <MenuItem Header="_Файл">
                     <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}">
+                        <MenuItem.Icon>
+                            <Image Source="Resources/new_game.png" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Перезапуск" Background="#FFCBDACF" Command="{StaticResource RestartGameCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/new_game.png" />
                         </MenuItem.Icon>

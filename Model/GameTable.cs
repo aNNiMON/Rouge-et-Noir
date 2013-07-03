@@ -73,6 +73,18 @@ namespace Model {
         }
 
         /// <summary>
+        /// Перезапустить игру.
+        /// </summary>
+        /// <param name="clearMoves">очищать ли историю ходов</param>
+        public void RestartGame(bool clearMoves = true) {
+            while (MovesManager.GetMoveIndex() > 0) {
+                Undo();
+            }
+            if (clearMoves) MovesManager.NewGame();
+            ScoreManager.InitNewGame();
+        }
+
+        /// <summary>
         /// Завершение игры.
         /// </summary>
         /// <param name="isComplete">завершена ли игра или прервана</param>

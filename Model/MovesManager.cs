@@ -41,6 +41,14 @@ namespace Model {
         }
 
         /// <summary>
+        /// Возвращает текущий указатель на ход.
+        /// </summary>
+        /// <returns></returns>
+        public static int GetMoveIndex() {
+            return moveIndex;
+        }
+
+        /// <summary>
         /// Слхранение записи о перемещении карт в стопку.
         /// </summary>
         /// <param name="cards"></param>

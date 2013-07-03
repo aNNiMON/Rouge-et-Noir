@@ -108,6 +108,14 @@ namespace View {
         }
 
         /// <summary>
+        /// Перезапуск игры.
+        /// </summary>
+        public void RestartGame() {
+            table.RestartGame();
+            RefreshView();
+        }
+
+        /// <summary>
         /// Раздача карт из запаса.
         /// </summary>
         public void HandOutFromStock() {
@@ -367,6 +375,31 @@ namespace View {
             }
             // Новая игра
             NewGame();
+        }
+
+        private void RestartGame_Executed(object sender, ExecutedRoutedEventArgs eventArgs) {
+            if (ScoreManager.Current.ScoreValue > 0) {
+                var result = ThreeButtonsMessageBox.Show("Отправить результат и перезапустить игру?",
+                    "Перезапуск", "Отправить", "Заново", "Отмена");
+
+                if (result == MessageBoxResult.Cancel) {
+                    return;
+                }
+                if (result == MessageBoxResult.Yes) {
+                    // Отправка результата.
+                    enterNameComponent.Show((s, ee) => {
+                        ScoreManager.EndGame(false);
+                        ScoreManager.Load();
+                        int place = ScoreManager.GetPlace();
+                        string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
+                        hiscoreComponent.Show(ScoreManager.HiScores, text);
+                        RestartGame();
+                    });
+                    return;
+                }
+            }
+            // Перезапуск игры
+            RestartGame();
         }
 
         private void Undo_Executed(object sender, ExecutedRoutedEventArgs e) {
