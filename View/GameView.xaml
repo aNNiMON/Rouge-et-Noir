@@ -139,29 +139,17 @@
         <local:EnterNameComponent x:Name="enterNameComponent" Visibility="Hidden"
                                 HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
 
-        <Grid x:Name="window" Background="#97000000" Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <ScrollViewer x:Name="infoDialog"
-                VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="3" Grid.RowSpan="3"
-                Background="#FF88D355" Visibility="Hidden">
-                <StackPanel>
-                    <RichTextBox x:Name="infoRichTextBox" Margin="15,10,15,10">
-                        <RichTextBox.InputBindings>
-                            <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="LeftClick" />
-                            <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="RightClick" />
-                        </RichTextBox.InputBindings>
-                    </RichTextBox>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
+        <ScrollViewer x:Name="infoDialog"
+            VerticalScrollBarVisibility="Auto" 
+            Background="#FF88D355" Visibility="Hidden">
+            <StackPanel>
+                <RichTextBox x:Name="infoRichTextBox" Margin="15,10,15,10">
+                    <RichTextBox.InputBindings>
+                        <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="LeftClick" />
+                        <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="RightClick" />
+                    </RichTextBox.InputBindings>
+                </RichTextBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

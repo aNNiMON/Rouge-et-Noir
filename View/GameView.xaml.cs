@@ -395,7 +395,6 @@ namespace View {
             infoRichTextBox.LoadRtf("rules-rus");
             infoRichTextBox.IsReadOnly = true;
 
-            window.Visibility = Visibility.Visible;
             infoDialog.Visibility = Visibility.Visible;
         }
 
@@ -403,12 +402,10 @@ namespace View {
             infoRichTextBox.LoadRtf("about");
             infoRichTextBox.IsReadOnly = true;
 
-            window.Visibility = Visibility.Visible;
             infoDialog.Visibility = Visibility.Visible;
         }
 
         private void CloseDialog_Executed(object sender, ExecutedRoutedEventArgs e) {
-            window.Visibility = Visibility.Hidden;
             infoDialog.Visibility = Visibility.Hidden;
         }
 
