@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Model;
 
@@ -17,19 +18,21 @@ namespace View {
             ANIM_FADE_OUT = "animFadeOut",
             ANIM_SHAKE = "animShake";
 
+        public static readonly DependencyProperty CardProperty =
+            DependencyProperty.Register("Card", typeof(Card), typeof(CardView));
+
         public Card Card {
             get {
-                return card;
+                return (Card) GetValue(CardProperty);
             }
             set {
-                card = value;
-                cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
+                SetValue(CardProperty, value);
             }
         }
-        private Card card;
 
         public CardView() {
             InitializeComponent();
+            cardImage.DataContext = this;
         }
 
         /// <summary>

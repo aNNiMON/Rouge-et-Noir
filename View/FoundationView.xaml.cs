@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Model;
+using View.ViewModel;
 
 namespace View {
 
@@ -15,14 +16,20 @@ namespace View {
             get {
                 return foundation;
             }
+            set {
+                foundation = value;
+                model.Card = foundation.GetTopCard();
+            }
         }
         private Foundation foundation;
 
-        private readonly CardView cardView;
+        private FoundationViewModel model;
 
         public FoundationView() {
             InitializeComponent();
-            cardView = new CardView();
+            model = new FoundationViewModel();
+            DataContext = model;
+            cardView.DataContext = model;
         }
 
         /// <summary>
@@ -31,7 +38,7 @@ namespace View {
         public Rect Bounds {
             get {
                 var list = new List<Visual>();
-                list.Add(rootView.Children[0]);
+                list.Add(cardPlace);
                 list.Add(cardView);
                 return Util.GetBoundingRect(list);
             }
@@ -39,20 +46,13 @@ namespace View {
 
         public void SetFoundation(Foundation foundation, bool isLeft) {
             this.foundation = foundation;
-
-            rootView.Children.Add(Util.CreateCardPlace(isLeft ? 'A' : ' '));
-
+            model.Card = foundation.GetTopCard();
+            cardPlace.Symbol = (isLeft ? 'A' : ' ');
             RefreshView();
-            Panel.SetZIndex(cardView, 1);
-            rootView.Children.Add(cardView);
         }
 
         public void RefreshView() {
-            Card card = foundation.GetTopCard();
-            cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
-            if (card == null) return;
-
-            cardView.Card = card;
+            model.Card = foundation.GetTopCard();
         }
     }
 }

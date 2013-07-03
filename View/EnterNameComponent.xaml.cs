@@ -23,13 +23,11 @@ namespace View {
         /// </summary>
         public void Show(EnterTextHandler onTextEnterEvent) {
             this.OnTextEntered = onTextEnterEvent;
-            NameTextBox.Text = ScoreManager.DefaultName;
             this.Visibility = Visibility.Visible;
         }
 
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e) {
             ScoreManager.Current.Name = NameTextBox.Text;
-            ScoreManager.DefaultName = NameTextBox.Text;
             this.Visibility = Visibility.Hidden;
 
             if (OnTextEntered != null) {

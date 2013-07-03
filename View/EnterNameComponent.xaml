@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:Model;assembly=Model"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="300">
     <UserControl.Resources>
+        <model:ScoreManager x:Key="ScoreManagerResource" />
         <RoutedUICommand x:Key="CloseCommand" Text="Close" />
     </UserControl.Resources>
     <UserControl.CommandBindings>
@@ -31,7 +33,9 @@
             <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="15,5,15,5"
                     IsCancel="True" IsDefault="True" Content="OK" Command="{StaticResource CloseCommand}" />
             <TextBox x:Name="NameTextBox" 
-                     DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5,0" />
+                     DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="5,0"
+                     DataContext="model:ScoreManager"
+                     Text="{Binding Path=DefaultName, Source={StaticResource ScoreManagerResource}, Mode=TwoWay}" />
         </DockPanel>
     </Grid>
 </UserControl>

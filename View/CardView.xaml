@@ -2,9 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:View.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="100" d:DesignWidth="70">
+             d:DesignHeight="100" d:DesignWidth="70" >
     <UserControl.Resources>
         <Storyboard x:Key="animFadeIn">
             <DoubleAnimation Storyboard.TargetName="cardImage"
@@ -26,10 +27,13 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.25" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        
+        <conv:CardToImageConverter x:Key="cardConverter" />
+        <conv:NullToVisibilityConverter x:Key="nullToVisConverter" />
     </UserControl.Resources>
     
-    <Grid HorizontalAlignment="Left">
-        <Image Name="cardImage" Stretch="None">
+    <Grid HorizontalAlignment="Left" Visibility="{Binding Path=Card, Converter={StaticResource nullToVisConverter}}">
+        <Image x:Name="cardImage" Stretch="None" Source="{Binding Path=Card, Converter={StaticResource cardConverter}}">
             <Image.RenderTransform>
                 <TransformGroup>
                     <TranslateTransform x:Name="Position"/>

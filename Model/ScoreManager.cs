@@ -11,7 +11,7 @@ namespace Model {
     /// <summary>
     /// Учёт результатов игры.
     /// </summary>
-    public static class ScoreManager {
+    public class ScoreManager {
 
         private const string SCORE_TABLE_URL = "";
         private const int INCREMENT = 100;

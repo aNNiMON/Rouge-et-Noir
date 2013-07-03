@@ -50,7 +50,9 @@ namespace View {
         /// <param name="zIndex"></param>
         /// <returns></returns>
         public static CardPlaceView CreateCardPlace(char symbol, int zIndex = 0) {
-            var view = new CardPlaceView(symbol);
+            var view = new CardPlaceView {
+                Symbol = symbol
+            };
             Panel.SetZIndex(view, zIndex);
 
             return view;

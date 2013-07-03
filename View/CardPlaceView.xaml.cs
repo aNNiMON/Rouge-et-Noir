@@ -7,12 +7,11 @@ namespace View {
     /// </summary>
     public partial class CardPlaceView : UserControl {
 
+        public char Symbol { get; set; }
+
         public CardPlaceView() {
             InitializeComponent();
-        }
-
-        public CardPlaceView(char symbol) : this() {
-            label.Content = symbol;
+            DataContext = this;
         }
     }
 }
