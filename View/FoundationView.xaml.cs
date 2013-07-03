@@ -28,7 +28,6 @@ namespace View {
         public FoundationView() {
             InitializeComponent();
             model = new FoundationViewModel();
-            DataContext = model;
             cardView.DataContext = model;
         }
 

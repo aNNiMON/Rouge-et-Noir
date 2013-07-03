@@ -38,7 +38,7 @@ namespace View {
         public Rect Bounds {
             get {
                 var list = new List<Visual>();
-                list.Add(rootView.Children[0]);
+                list.Add(cardPlace);
                 list.AddRange(cardViews);
                 return Util.GetBoundingRect(list);
             }
@@ -48,7 +48,6 @@ namespace View {
             this.tableau = tableau;
 
             List<Card> cards = tableau.GetList();
-            rootView.Children.Add(Util.CreateCardPlace('K'));
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
                 var cardView = new CardView();

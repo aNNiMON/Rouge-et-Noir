@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace View {
 
@@ -7,7 +8,17 @@ namespace View {
     /// </summary>
     public partial class CardPlaceView : UserControl {
 
-        public char Symbol { get; set; }
+        public static readonly DependencyProperty SymbolProperty =
+            DependencyProperty.Register("Symbol", typeof(char), typeof(CardPlaceView));
+
+        public char Symbol {
+            get {
+                return (char) GetValue(SymbolProperty);
+            }
+            set {
+                SetValue(SymbolProperty, value);
+            }
+        }
 
         public CardPlaceView() {
             InitializeComponent();
