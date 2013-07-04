@@ -7,7 +7,7 @@
              d:DesignHeight="100" d:DesignWidth="70">
     <Grid Width="71" Height="96" HorizontalAlignment="Left">
         <Label Name="label" HorizontalAlignment="Center" VerticalAlignment="Center"
-               FontSize="36" FontWeight="Bold" Foreground="Gray"/>
+               FontSize="36" FontWeight="Bold" Foreground="Gray" x:FieldModifier="private" />
         <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                    Stroke="Gray" StrokeThickness="4" RadiusX="5" RadiusY="5"/>
 

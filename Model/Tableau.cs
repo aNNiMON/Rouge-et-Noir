@@ -82,8 +82,8 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public Card GetTopCard() {
-            if (base.Cards.Count == 0) return null;
-            return base.Cards[base.Cards.Count - 1];
+            if (Cards.Count == 0) return null;
+            return Cards[Cards.Count - 1];
         }
 
         /// <summary>
@@ -101,15 +101,15 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public List<Card> GetDraggableTopCards() {
-            if (base.Cards.Count == 0) return null;
+            if (Cards.Count == 0) return null;
 
             var cards = new List<Card>();
-            Card top = base.Cards[base.Cards.Count - 1];
+            Card top = Cards[Cards.Count - 1];
             cards.Add(top);
-            if (base.Cards.Count == 1) return cards;
+            if (Cards.Count == 1) return cards;
 
-            for (int i = base.Cards.Count - 2; i >= 0; i--) {
-                Card beforeTop = base.Cards[i];
+            for (int i = Cards.Count - 2; i >= 0; i--) {
+                Card beforeTop = Cards[i];
                 if (IsCorrectMove(top, beforeTop)) {
                     cards.Add(beforeTop);
                 } else break;

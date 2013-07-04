@@ -56,7 +56,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Menu x:Name="menu" IsMainMenu="True" Grid.Column="0" Grid.ColumnSpan="10">
+            <Menu IsMainMenu="True" Grid.Column="0" Grid.ColumnSpan="10">
                 <Menu.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                         <GradientStop Color="#FF90B497" Offset="0.528"/>

@@ -14,19 +14,14 @@ namespace View {
     public partial class GameView : UserControl {
 
         public static GameView Instance {
-            get {
-                if (instance == null) {
-                    instance = new GameView();
-                }
-                return instance;
-            }
+            get { return instance ?? (instance = new GameView()); }
         }
         private static GameView instance;
 
         private readonly GameTable table;
 
 
-        public StockView StockView { get; private set; }
+        private StockView StockView { get; set; }
         private FoundationView[] foundationViews;
         private TableauView[] tableauViews;
 
@@ -57,7 +52,7 @@ namespace View {
         /// <summary>
         /// Начать новую игру.
         /// </summary>
-        public void NewGame() {
+        private void NewGame() {
             table.NewGame();
             RefreshView();
         }
@@ -65,7 +60,7 @@ namespace View {
         /// <summary>
         /// Перезапуск игры.
         /// </summary>
-        public void RestartGame() {
+        private void RestartGame() {
             table.RestartGame();
             RefreshView();
         }
@@ -170,7 +165,7 @@ namespace View {
             // Игра окончена - выводим финальную заставку.
             // Откатываем ходы в самое начало (не сбрасывая счётчики)
             table.RestartGame(false);
-            // Показываем в фоен историю действий игрока.
+            // Показываем в фоне историю действий игрока.
             var dt = new DispatcherTimer();
             dt.Tick += (s, ee) => {
                 table.Redo();

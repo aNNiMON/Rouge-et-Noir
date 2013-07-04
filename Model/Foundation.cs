@@ -25,8 +25,8 @@ namespace Model {
         }
 
         public Card GetTopCard() {
-            if (base.Cards.Count == 0) return null;
-            return base.Cards[base.Cards.Count - 1];
+            if (Cards.Count == 0) return null;
+            return Cards[Cards.Count - 1];
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Model {
         /// Проверка корректности хода.
         /// </summary>
         /// <param name="card">добавляемая в стопку карта</param>
-        /// <returns>true - ход воможен, false - некорректный ход</returns>
+        /// <returns>true - ход возможен, false - некорректный ход</returns>
         public abstract bool IsCorrectMove(Card card);
 
     }

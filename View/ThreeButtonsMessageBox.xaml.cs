@@ -13,10 +13,7 @@ namespace View {
             Result = MessageBoxResult.Cancel;
         }
 
-        public MessageBoxResult Result {
-            get;
-            private set;
-        }
+        private MessageBoxResult Result;
 
         public static MessageBoxResult Show(string caption, string first, string second, string third) {
             return Show(caption, "", first, second, third);
@@ -28,9 +25,9 @@ namespace View {
             return messageBox.Result;
         }
 
-        public void ShowDialog(string caption, string title, string first, string second, string third) {
+        private void ShowDialog(string caption, string title, string first, string second, string third) {
             Caption.Text = caption;
-            this.Title = title;
+            Title = title;
             FirstButton.Content = first;
             SecondButton.Content = second;
             DefaultButton.Content = third;

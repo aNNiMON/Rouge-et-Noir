@@ -22,15 +22,15 @@ namespace View {
         /// Показать диалог ввода имени.
         /// </summary>
         public void Show(EnterTextHandler onTextEnterEvent) {
-            this.OnTextEntered = onTextEnterEvent;
+            OnTextEntered = onTextEnterEvent;
             NameTextBox.Text = ScoreManager.DefaultName;
-            this.Visibility = Visibility.Visible;
+            Visibility = Visibility.Visible;
         }
 
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e) {
             ScoreManager.Current.Name = NameTextBox.Text;
             ScoreManager.DefaultName = NameTextBox.Text;
-            this.Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
 
             if (OnTextEntered != null) {
                 OnTextEntered(this, e);

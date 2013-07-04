@@ -43,17 +43,17 @@ namespace View {
             }
 
             // Если комментария нет, скрываем текстовую метку.
-            bool textEmpty = ( (text == null) || (text.Length == 0) );
+            bool textEmpty = string.IsNullOrEmpty(text);
             message.Visibility = convert(!textEmpty);
             if (!textEmpty) {
                 message.Content = text;
             }
             
-            this.Visibility = Visibility.Visible;
+            Visibility = Visibility.Visible;
         }
 
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e) {
-            this.Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
             message.Visibility = Visibility.Hidden;
         }
 

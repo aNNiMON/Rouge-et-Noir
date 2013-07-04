@@ -12,7 +12,7 @@
         <CommandBinding Command="{StaticResource CloseCommand}" Executed="Close_Executed" />
     </UserControl.CommandBindings>
 
-    <Grid x:Name="window" Background="#97000000">
+    <Grid Background="#97000000">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>

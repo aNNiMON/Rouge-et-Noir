@@ -14,17 +14,10 @@ namespace Model {
         /// </summary>
         public string Name {
             get {
-                if (string.IsNullOrEmpty(name)) {
-                    return Properties.Settings.Default.Username;
-                }
-                return name;
+                return string.IsNullOrEmpty(name) ? Properties.Settings.Default.Username : name;
             }
             set {
-                if (string.IsNullOrEmpty(value))
-                    name = Properties.Settings.Default.Username;
-                else {
-                    name = value;
-                }
+                name = string.IsNullOrEmpty(value) ? Properties.Settings.Default.Username : value;
             }
         }
         private string name;

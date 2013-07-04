@@ -30,7 +30,7 @@ namespace Model {
         /// </summary>
         public bool IsFaceDown {
             get;
-            set;
+            private set;
         }
 
         public Card(CardSuit suit, CardValue value)

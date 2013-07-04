@@ -22,7 +22,7 @@ namespace View {
         /// <summary>
         /// На сколько пискелей опускать следующую карту в таблице.
         /// </summary>
-        private int cardSpace;
+        private readonly int cardSpace;
 
         private readonly List<CardView> cardViews;
 

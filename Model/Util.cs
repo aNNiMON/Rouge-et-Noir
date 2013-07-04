@@ -71,7 +71,7 @@ namespace Model {
                     text = streamReader.ReadToEnd();
                     streamReader.Close();
                 }
-            } catch (Exception ex) {
+            } catch (Exception) {
                 text = "";
             } finally {
                 if (response != null) response.Close();
@@ -93,7 +93,7 @@ namespace Model {
                     HttpUtility.UrlEncode(value[key]));
             }
 
-            var request = (HttpWebRequest) HttpWebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(url);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             using (var writer = new StreamWriter(request.GetRequestStream(), Encoding.UTF8)) {
@@ -109,7 +109,7 @@ namespace Model {
         /// <param name="unixTimeStamp"></param>
         /// <returns></returns>
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp) {
-            DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
         }

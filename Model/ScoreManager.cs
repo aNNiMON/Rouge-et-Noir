@@ -51,7 +51,7 @@ namespace Model {
         /// <summary>
         /// Занимаемое игроком место в рейтинге.
         /// </summary>
-        private static int Place = 0;
+        private static int Place;
 
         private static bool freezeScore;
         
@@ -60,7 +60,7 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public static TimeSpan GetGameTime() {
-            if (StartTime == null || Current == null) return TimeSpan.Zero;
+            if (Current == null) return TimeSpan.Zero;
             Current.GameTime = DateTime.Now - StartTime;
             return Current.GameTime;
         }
@@ -96,7 +96,7 @@ namespace Model {
         /// <summary>
         /// Разморозить результат.
         /// </summary>
-        public static void UnfreezeScore() {
+        private static void UnfreezeScore() {
             freezeScore = false;
         }
 

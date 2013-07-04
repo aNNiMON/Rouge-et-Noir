@@ -10,8 +10,8 @@
         /// </summary>
         /// <returns></returns>
         public Card GetTopCard() {
-            if (base.Cards.Count == 0) return null;
-            return base.Cards[base.Cards.Count - 1];
+            if (Cards.Count == 0) return null;
+            return Cards[Cards.Count - 1];
         }
     }
 }
