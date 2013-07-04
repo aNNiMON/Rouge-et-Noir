@@ -24,6 +24,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Rectangle Grid.Column="1" Grid.Row="1" Fill="Black">
+            <Rectangle.Effect>
+                <DropShadowEffect BlurRadius="15" />
+            </Rectangle.Effect>
+        </Rectangle>
         <DockPanel Grid.Column="1" Grid.Row="1" Background="#FF88D355">
             <TextBlock Text="Введите имя"
                        DockPanel.Dock="Top" VerticalAlignment="Top"

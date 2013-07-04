@@ -13,6 +13,8 @@
         <RoutedUICommand x:Key="RulesCommand" Text="Rules" />
         <RoutedUICommand x:Key="AboutCommand" Text="About" />
         <RoutedUICommand x:Key="CloseDialogCommand" Text="Close Dialog" />
+        <Color x:Key="MenuItemBackgroundColor">#FFCBDACF</Color>
+        <SolidColorBrush x:Key="MenuItemBg" Color="{StaticResource MenuItemBackgroundColor}" />
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource NewGameCommand}" Executed="NewGame_Executed" CanExecute="CommandBinding_CanExecute"/>
@@ -42,16 +44,16 @@
                 <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Menu x:Name="menu" IsMainMenu="True" Grid.Column="0" Grid.ColumnSpan="10">
@@ -63,42 +65,42 @@
                     </LinearGradientBrush>
                 </Menu.Background>
                 <MenuItem Header="_Файл">
-                    <MenuItem Header="_Новая игра" Background="#FFCBDACF" Command="{StaticResource NewGameCommand}">
+                    <MenuItem Header="_Новая игра" Background="{StaticResource MenuItemBg}" Command="{StaticResource NewGameCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/new_game.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="_Перезапуск" Background="#FFCBDACF" Command="{StaticResource RestartGameCommand}">
+                    <MenuItem Header="_Перезапуск" Background="{StaticResource MenuItemBg}" Command="{StaticResource RestartGameCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/new_game.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Вы_ход" Background="#FFCBDACF" Click="Exit_Click" />
+                    <MenuItem Header="Вы_ход" Background="{StaticResource MenuItemBg}" Click="Exit_Click" />
                 </MenuItem>
                 <MenuItem Header="_Игра">
-                    <MenuItem Header="_Отменить" Background="#FFCBDACF" InputGestureText="Ctrl+Z" Command="Undo" >
+                    <MenuItem Header="_Отменить" Background="{StaticResource MenuItemBg}" InputGestureText="Ctrl+Z" Command="Undo" >
                         <MenuItem.Icon>
                             <Image Source="Resources/undo.png" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="_Восстановить" Background="#FFCBDACF" InputGestureText="Ctrl+Y" Command="Redo" >
+                    <MenuItem Header="_Восстановить" Background="{StaticResource MenuItemBg}" InputGestureText="Ctrl+Y" Command="Redo" >
                         <MenuItem.Icon>
                             <Image Source="Resources/redo.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="_Таблица рекордов" Background="#FFCBDACF" Command="{StaticResource StatisticsCommand}" >
+                    <MenuItem Header="_Таблица рекордов" Background="{StaticResource MenuItemBg}" Command="{StaticResource StatisticsCommand}" >
                         <MenuItem.Icon>
                             <Image Source="Resources/statistics.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Помощь">
-                    <MenuItem Header="П_равила" Background="#FFCBDACF" Command="{StaticResource RulesCommand}">
+                    <MenuItem Header="П_равила" Background="{StaticResource MenuItemBg}" Command="{StaticResource RulesCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/rules.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="_О программе" Background="#FFCBDACF" Command="{StaticResource AboutCommand}">
+                    <MenuItem Header="_О программе" Background="{StaticResource MenuItemBg}" Command="{StaticResource AboutCommand}">
                         <MenuItem.Icon>
                             <Image Source="Resources/rules.png"/>
                         </MenuItem.Icon>
