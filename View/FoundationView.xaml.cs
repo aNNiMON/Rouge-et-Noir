@@ -13,16 +13,16 @@ namespace View {
 
         public Foundation Foundation {
             get {
-                return foundation;
+                return _foundation;
             }
         }
-        private Foundation foundation;
+        private Foundation _foundation;
 
-        private readonly CardView cardView;
+        private readonly CardView _cardView;
 
         public FoundationView() {
             InitializeComponent();
-            cardView = new CardView();
+            _cardView = new CardView();
         }
 
         /// <summary>
@@ -31,28 +31,28 @@ namespace View {
         public Rect Bounds {
             get {
                 var list = new List<Visual>();
-                list.Add(rootView.Children[0]);
-                list.Add(cardView);
+                list.Add(RootView.Children[0]);
+                list.Add(_cardView);
                 return Util.GetBoundingRect(list);
             }
         }
 
         public void SetFoundation(Foundation foundation, bool isLeft) {
-            this.foundation = foundation;
+            this._foundation = foundation;
 
-            rootView.Children.Add(Util.CreateCardPlace(isLeft ? 'A' : ' '));
+            RootView.Children.Add(Util.CreateCardPlace(isLeft ? 'A' : ' '));
 
             RefreshView();
-            Panel.SetZIndex(cardView, 1);
-            rootView.Children.Add(cardView);
+            Panel.SetZIndex(_cardView, 1);
+            RootView.Children.Add(_cardView);
         }
 
         public void RefreshView() {
-            Card card = foundation.GetTopCard();
-            cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
+            Card card = _foundation.GetTopCard();
+            _cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
             if (card == null) return;
 
-            cardView.Card = card;
+            _cardView.Card = card;
         }
     }
 }

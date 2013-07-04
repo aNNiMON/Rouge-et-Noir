@@ -9,14 +9,14 @@ namespace Rouge_et_Noir {
 
         public MainWindow() {
             InitializeComponent();
-            gameView.Focus();
+            GameView.Focus();
         }
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e) {
             // Если пользователь не подтвердил закрытие окна, то отменяем выход.
-            if (gameView == null) return;
+            if (GameView == null) return;
 
-            if (!gameView.OnCloseView()) {
+            if (!GameView.OnCloseView()) {
                 e.Cancel = true;
             }
         }

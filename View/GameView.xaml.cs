@@ -14,26 +14,26 @@ namespace View {
     public partial class GameView : UserControl {
 
         public static GameView Instance {
-            get { return instance ?? (instance = new GameView()); }
+            get { return _instance ?? (_instance = new GameView()); }
         }
-        private static GameView instance;
+        private static GameView _instance;
 
-        private readonly GameTable table;
+        private readonly GameTable _table;
 
 
         private StockView StockView { get; set; }
-        private FoundationView[] foundationViews;
-        private TableauView[] tableauViews;
+        private FoundationView[] _foundationViews;
+        private TableauView[] _tableauViews;
 
-        private DispatcherTimer timer;
+        private DispatcherTimer _timer;
 
         public GameView() {
             InitializeComponent();
 
-            instance = this;
+            _instance = this;
 
-            table = new GameTable();
-            table.NewGame();
+            _table = new GameTable();
+            _table.NewGame();
             SetStock();
             SetFoundations();
             SetTableau();
@@ -45,7 +45,7 @@ namespace View {
         /// </summary>
         /// <returns></returns>
         public UIElement GetRootView() {
-            return rootView;
+            return RootView;
         }
 
         #region Игровые функции
@@ -53,7 +53,7 @@ namespace View {
         /// Начать новую игру.
         /// </summary>
         private void NewGame() {
-            table.NewGame();
+            _table.NewGame();
             RefreshView();
         }
 
@@ -61,7 +61,7 @@ namespace View {
         /// Перезапуск игры.
         /// </summary>
         private void RestartGame() {
-            table.RestartGame();
+            _table.RestartGame();
             RefreshView();
         }
 
@@ -69,11 +69,11 @@ namespace View {
         /// Раздача карт из запаса.
         /// </summary>
         public void HandOutFromStock() {
-            table.HandOutFromStock();
+            _table.HandOutFromStock();
             CheckAutoMovesToRightFoundation();
             StockView.RefreshView();
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                tableauViews[i].RefreshView();
+            for (int i = 0; i < GameTable.Tableaus; i++) {
+                _tableauViews[i].RefreshView();
             }
         }
 
@@ -87,13 +87,13 @@ namespace View {
             CardView bottomCardView = draggableCards.BottomCardView;
             Rect cardRect = GetCardRect(bottomCardView);
             // Просматриваем перемещение по стопкам.
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
-                FoundationView view = foundationViews[i];
+            for (int i = 0; i < GameTable.Foundations * 2; i++) {
+                FoundationView view = _foundationViews[i];
 
                 Rect rect = view.Bounds;
                 if (cardRect.IntersectsWith(rect)) {
                     // Проверка правых стопок.
-                    if (i >= GameTable.FOUNDATIONS && draggableCards.Cards.Count != 13) {
+                    if (i >= GameTable.Foundations && draggableCards.Cards.Count != 13) {
                         CancelMove(draggableCards);
                         return;
                     }
@@ -102,7 +102,7 @@ namespace View {
                         return;
                     }
                     // Добавляем карты в стопку.
-                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Foundation);
+                    _table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Foundation);
                     tableauView.RefreshView();
                     view.RefreshView();
                     CheckGameOver();
@@ -110,8 +110,8 @@ namespace View {
                 }
             }
             // Просматриваем перемещение по таблицам.
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                TableauView view = tableauViews[i];
+            for (int i = 0; i < GameTable.Tableaus; i++) {
+                TableauView view = _tableauViews[i];
                 if (view.Equals(tableauView))
                     continue;
 
@@ -122,7 +122,7 @@ namespace View {
                         return;
                     }
                     // Переносим карты в другую таблицу.
-                    table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Tableau);
+                    _table.MoveCards(draggableCards.Cards, tableauView.Tableau, view.Tableau);
                     tableauView.RefreshView();
                     view.RefreshView();
                     CheckAutoMovesToRightFoundation();
@@ -137,15 +137,15 @@ namespace View {
         /// Проверка автоматических перемещений в правую стопку из таблиц.
         /// </summary>
         private void CheckAutoMovesToRightFoundation() {
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                TableauView view = tableauViews[i];
+            for (int i = 0; i < GameTable.Tableaus; i++) {
+                TableauView view = _tableauViews[i];
                 if (!view.Tableau.CheckFillKingToAce()) continue;
                 // Найдена последовательность от короля до туза.
                 // Ищем, куда её переместить.
-                for (int j = 0; j < GameTable.FOUNDATIONS; j++) {
-                    Foundation fn = table.GetFoundation(j, false);
+                for (int j = 0; j < GameTable.Foundations; j++) {
+                    Foundation fn = _table.GetFoundation(j, false);
                     if (fn.GetTopCard() == null) {
-                        table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn);
+                        _table.MoveCards(view.Tableau.GetDraggableTopCards(), view.Tableau, fn);
                         break;
                     }
                 }
@@ -158,29 +158,29 @@ namespace View {
         /// Проверка окончания игры.
         /// </summary>
         private void CheckGameOver() {
-            for (int j = 0; j < GameTable.FOUNDATIONS * 2; j++) {
-                if (!foundationViews[j].Foundation.IsFinished())
+            for (int j = 0; j < GameTable.Foundations * 2; j++) {
+                if (!_foundationViews[j].Foundation.IsFinished())
                     return;
             }
             // Игра окончена - выводим финальную заставку.
             // Откатываем ходы в самое начало (не сбрасывая счётчики)
-            table.RestartGame(false);
+            _table.RestartGame(false);
             // Показываем в фоне историю действий игрока.
             var dt = new DispatcherTimer();
             dt.Tick += (s, ee) => {
-                table.Redo();
+                _table.Redo();
                 RefreshView();
             };
             dt.Interval = new TimeSpan(500 * 10000);
             dt.Start();
             // Запрашиваем имя игрока.
-            enterNameComponent.Show((s, ee) => {
-                table.EndGame(true);
+            EnterNameComponent.Show((s, ee) => {
+                _table.EndGame(true);
                 // Показываем 
                 ScoreManager.Load();
                 int place = ScoreManager.GetPlace();
                 string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
-                hiscoreComponent.Show(ScoreManager.HiScores, text);
+                HiscoreComponent.Show(ScoreManager.HiScores, text);
                 dt.Stop();
                 NewGame();
             });
@@ -214,41 +214,41 @@ namespace View {
 
         private void SetStock() {
             StockView = new StockView();
-            StockView.SetStock(table.GetStock());
+            StockView.SetStock(_table.GetStock());
             Grid.SetColumn(StockView, 0);
             Grid.SetRow(StockView, 1);
-            rootView.Children.Add(StockView);
+            RootView.Children.Add(StockView);
         }
 
         private void SetFoundations() {
-            foundationViews = new FoundationView[GameTable.FOUNDATIONS * 2];
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
+            _foundationViews = new FoundationView[GameTable.Foundations * 2];
+            for (int i = 0; i < GameTable.Foundations * 2; i++) {
                 var foundationView = new FoundationView();
 
-                int num = i % GameTable.FOUNDATIONS;
-                bool left = i < GameTable.FOUNDATIONS;
+                int num = i % GameTable.Foundations;
+                bool left = i < GameTable.Foundations;
 
                 Grid.SetColumn(foundationView, 2 + i);
                 Grid.SetRow(foundationView, 1);
-                foundationView.SetFoundation(table.GetFoundation(num, left), left);
+                foundationView.SetFoundation(_table.GetFoundation(num, left), left);
 
-                rootView.Children.Add(foundationView);
-                foundationViews[i] = foundationView;
+                RootView.Children.Add(foundationView);
+                _foundationViews[i] = foundationView;
             }
         }
 
         private void SetTableau() {
-            tableauViews = new TableauView[GameTable.TABLEAUS];
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
+            _tableauViews = new TableauView[GameTable.Tableaus];
+            for (int i = 0; i < GameTable.Tableaus; i++) {
                 var tableauView = new TableauView();
 
                 Grid.SetColumn(tableauView, i);
                 Grid.SetRow(tableauView, 2);
                 Panel.SetZIndex(tableauView, 0);
-                tableauView.SetTableau(table.GetTableau(i));
+                tableauView.SetTableau(_table.GetTableau(i));
 
-                rootView.Children.Add(tableauView);
-                tableauViews[i] = tableauView;
+                RootView.Children.Add(tableauView);
+                _tableauViews[i] = tableauView;
             }
         }
 
@@ -256,25 +256,25 @@ namespace View {
         /// Установить таймер, обновляющий статистику игры на панели инструментов.
         /// </summary>
         private void SetTimer() {
-            timer = new DispatcherTimer();
-            timer.Tick += (s, e) => {
+            _timer = new DispatcherTimer();
+            _timer.Tick += (s, e) => {
                 GameScoreLabel.Content = ScoreManager.Current.ScoreValue;
                 GameTimeLabel.Content = string.Format("{0:mm\\:ss}", ScoreManager.GetGameTime());
             };
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            _timer.Interval = new TimeSpan(0, 0, 1);
+            _timer.Start();
         }
 
         /// <summary>
         /// Обновление экрана.
         /// </summary>
         private void RefreshView() {
-            for (int i = 0; i < GameTable.FOUNDATIONS * 2; i++) {
-                foundationViews[i].RefreshView();
+            for (int i = 0; i < GameTable.Foundations * 2; i++) {
+                _foundationViews[i].RefreshView();
             }
-            for (int i = 0; i < GameTable.TABLEAUS; i++) {
-                Panel.SetZIndex(tableauViews[i], 0);
-                tableauViews[i].RefreshView();
+            for (int i = 0; i < GameTable.Tableaus; i++) {
+                Panel.SetZIndex(_tableauViews[i], 0);
+                _tableauViews[i].RefreshView();
             }
             StockView.RefreshView();
         }
@@ -299,13 +299,13 @@ namespace View {
             }
             if (result == MessageBoxResult.No) {
                 // Выход из приложения.
-                timer.Stop();
+                _timer.Stop();
                 return true;
             }
             // Отправляем результат, после чего выходим.
-            enterNameComponent.Show((s, e) => {
+            EnterNameComponent.Show((s, e) => {
                 ScoreManager.EndGame(false);
-                timer.Stop();
+                _timer.Stop();
                 // Чтобы вновь не появился запрос на выход, сбрасываем текущий результат.
                 ScoreManager.Current.ScoreValue = 0;
                 Window.GetWindow(this).Close();
@@ -331,12 +331,12 @@ namespace View {
                 }
                 if (result == MessageBoxResult.Yes) {
                     // Отправка результата.
-                    enterNameComponent.Show((s, ee) => {
+                    EnterNameComponent.Show((s, ee) => {
                         ScoreManager.EndGame(false);
                         ScoreManager.Load();
                         int place = ScoreManager.GetPlace();
                         string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
-                        hiscoreComponent.Show(ScoreManager.HiScores, text);
+                        HiscoreComponent.Show(ScoreManager.HiScores, text);
                         NewGame();
                     });
                     return;
@@ -356,12 +356,12 @@ namespace View {
                 }
                 if (result == MessageBoxResult.Yes) {
                     // Отправка результата.
-                    enterNameComponent.Show((s, ee) => {
+                    EnterNameComponent.Show((s, ee) => {
                         ScoreManager.EndGame(false);
                         ScoreManager.Load();
                         int place = ScoreManager.GetPlace();
                         string text = (place > 0) ? "Вы на " + place + " месте в рейтинге" : "";
-                        hiscoreComponent.Show(ScoreManager.HiScores, text);
+                        HiscoreComponent.Show(ScoreManager.HiScores, text);
                         RestartGame();
                     });
                     return;
@@ -372,36 +372,36 @@ namespace View {
         }
 
         private void Undo_Executed(object sender, ExecutedRoutedEventArgs e) {
-            table.Undo();
+            _table.Undo();
             RefreshView();
         }
 
         private void Redo_Executed(object sender, ExecutedRoutedEventArgs e) {
-            table.Redo();
+            _table.Redo();
             RefreshView();
         }
 
         private void Statistics_Executed(object sender, ExecutedRoutedEventArgs e) {
             ScoreManager.Load();
-            hiscoreComponent.Show(ScoreManager.HiScores);
+            HiscoreComponent.Show(ScoreManager.HiScores);
         }
 
         private void Rules_Executed(object sender, ExecutedRoutedEventArgs e) {
-            infoRichTextBox.LoadRtf("rules-rus");
-            infoRichTextBox.IsReadOnly = true;
+            InfoRichTextBox.LoadRtf("rules-rus");
+            InfoRichTextBox.IsReadOnly = true;
 
-            infoDialog.Visibility = Visibility.Visible;
+            InfoDialog.Visibility = Visibility.Visible;
         }
 
         private void About_Executed(object sender, ExecutedRoutedEventArgs e) {
-            infoRichTextBox.LoadRtf("about");
-            infoRichTextBox.IsReadOnly = true;
+            InfoRichTextBox.LoadRtf("about");
+            InfoRichTextBox.IsReadOnly = true;
 
-            infoDialog.Visibility = Visibility.Visible;
+            InfoDialog.Visibility = Visibility.Visible;
         }
 
         private void CloseDialog_Executed(object sender, ExecutedRoutedEventArgs e) {
-            infoDialog.Visibility = Visibility.Hidden;
+            InfoDialog.Visibility = Visibility.Hidden;
         }
 
         private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e) {

@@ -13,8 +13,8 @@ namespace Model {
     /// </summary>
     public static class ScoreManager {
 
-        private const string SCORE_TABLE_URL = "";
-        private const int INCREMENT = 100;
+        private const string ScoreTableUrl = "";
+        private const int Increment = 100;
 
         /// <summary>
         /// Текущие результаты игры.
@@ -36,24 +36,24 @@ namespace Model {
             }
         }
 
-        private static DateTime StartTime;
+        private static DateTime _startTime;
 
         /// <summary>
         /// Список лучших результатов.
         /// </summary>
         public static List<Score> HiScores {
             get {
-                return hiScores;
+                return _hiScores;
             }
         }
-        private static List<Score> hiScores;
+        private static List<Score> _hiScores;
 
         /// <summary>
         /// Занимаемое игроком место в рейтинге.
         /// </summary>
-        private static int Place;
+        private static int _place;
 
-        private static bool freezeScore;
+        private static bool _freezeScore;
         
         /// <summary>
         /// Получить продолжительность игры.
@@ -61,7 +61,7 @@ namespace Model {
         /// <returns></returns>
         public static TimeSpan GetGameTime() {
             if (Current == null) return TimeSpan.Zero;
-            Current.GameTime = DateTime.Now - StartTime;
+            Current.GameTime = DateTime.Now - _startTime;
             return Current.GameTime;
         }
 
@@ -70,8 +70,8 @@ namespace Model {
         /// </summary>
         /// <param name="count">во сколько раз увеличить</param>
         public static void IncreaseScore(int count) {
-            if (freezeScore) return;
-            Current.ScoreValue += count * INCREMENT;
+            if (_freezeScore) return;
+            Current.ScoreValue += count * Increment;
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace Model {
         /// </summary>
         /// <param name="count">во сколько раз уменьшить</param>
         public static void DecreaseScore(int count) {
-            if (freezeScore) return;
-            Current.ScoreValue -= count * INCREMENT;
+            if (_freezeScore) return;
+            Current.ScoreValue -= count * Increment;
             if (Current.ScoreValue < 0) Current.ScoreValue = 0;
         }
 
@@ -90,14 +90,14 @@ namespace Model {
         /// избежание изменений очков.
         /// </summary>
         public static void FreezeScore() {
-            freezeScore = true;
+            _freezeScore = true;
         }
 
         /// <summary>
         /// Разморозить результат.
         /// </summary>
         private static void UnfreezeScore() {
-            freezeScore = false;
+            _freezeScore = false;
         }
 
         public static void InitNewGame() {
@@ -106,7 +106,7 @@ namespace Model {
                 Date = DateTime.Now
             };
 
-            StartTime = DateTime.Now;
+            _startTime = DateTime.Now;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Model {
         /// </summary>
         /// <param name="isComplete"></param>
         public static void EndGame(bool isComplete) {
-            Current.GameTime = DateTime.Now - StartTime;
+            Current.GameTime = DateTime.Now - _startTime;
             Current.Complete = isComplete;
 
             try {
@@ -128,14 +128,14 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public static int GetPlace() {
-            return Place;
+            return _place;
         }
 
         /// <summary>
         /// Загрузить результаты.
         /// </summary>
         public static void Load() {
-            hiScores = new List<Score>();
+            _hiScores = new List<Score>();
             try {
                 LoadOnlineScores();
             } catch (Exception) { }
@@ -143,7 +143,7 @@ namespace Model {
 
         private static void LoadOnlineScores() {
             XmlDocument doc = new XmlDocument();
-            doc.LoadXml(Util.GetTextFromUrl(SCORE_TABLE_URL + "xml", Encoding.UTF8));
+            doc.LoadXml(Util.GetTextFromUrl(ScoreTableUrl + "xml", Encoding.UTF8));
 
             var scores = doc.SelectNodes("hiscores/scores");
             foreach (XmlNode node in scores) {
@@ -156,7 +156,7 @@ namespace Model {
                 int date = Convert.ToInt32(node.SelectSingleNode("date").InnerText);
                 score.Date = Util.UnixTimeStampToDateTime(date);
 
-                hiScores.Add(score);
+                _hiScores.Add(score);
             }
         }
 
@@ -170,14 +170,14 @@ namespace Model {
             values.Add("gt", Current.GameTime.TotalSeconds.ToString());
             values.Add("cm", (Current.Complete ? "1" : "0"));
 
-            var request = Util.CreateRequest(SCORE_TABLE_URL + "add", values);
+            var request = Util.CreateRequest(ScoreTableUrl + "add", values);
             var response = (HttpWebResponse) request.GetResponse();
             string answer = new StreamReader(response.GetResponseStream()).ReadToEnd();
             if (!answer.StartsWith("0")) {
                 try {
-                    Place = Convert.ToInt32(answer.Trim());
+                    _place = Convert.ToInt32(answer.Trim());
                 } catch (Exception) {
-                    Place = 0;
+                    _place = 0;
                 }
             }
         }

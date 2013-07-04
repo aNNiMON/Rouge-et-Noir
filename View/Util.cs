@@ -15,8 +15,8 @@ namespace View {
     /// </summary>
     public static class Util {
         
-        private const string CARD_IMAGE_FOLDER = "1/";
-        private const string RESOURCE_URI = "pack://application:,,,/View;component/Resources/";
+        private const string CardImageFolder = "1/";
+        private const string ResourceUri = "pack://application:,,,/View;component/Resources/";
 
         /// <summary>
         /// Заргузка изображения из ресурсов.
@@ -26,7 +26,7 @@ namespace View {
         public static BitmapImage LoadImage(string name) {
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri(RESOURCE_URI + CARD_IMAGE_FOLDER + name + ".png");
+            bitmapImage.UriSource = new Uri(ResourceUri + CardImageFolder + name + ".png");
             bitmapImage.EndInit();
             return bitmapImage;
         }
@@ -38,7 +38,7 @@ namespace View {
         /// <param name="name">имя файла в ресурсах без расширения</param>
         public static void LoadRtf(this RichTextBox rtb, string name) {
             var textRange = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            var uri = new Uri(RESOURCE_URI + name + ".rtf");
+            var uri = new Uri(ResourceUri + name + ".rtf");
             StreamResourceInfo info = Application.GetResourceStream(uri);
             if (info != null) textRange.Load(info.Stream, DataFormats.Rtf);
         }

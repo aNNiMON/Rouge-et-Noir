@@ -12,18 +12,18 @@ namespace Model {
         /// Масть.
         /// </summary>
         public CardSuit Suit {
-            set { suit = value; }
+            set { _suit = value; }
         }
-        private CardSuit suit;
+        private CardSuit _suit;
 
         /// <summary>
         /// Значение.
         /// </summary>
         public CardValue Value {
-            get { return cardValue; }
-            set { cardValue = value; }
+            get { return _cardValue; }
+            set { _cardValue = value; }
         }
-        private CardValue cardValue;
+        private CardValue _cardValue;
 
         /// <summary>
         /// Карта положена картинкой вниз.
@@ -61,7 +61,7 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public bool IsRedSuit() {
-            return (suit == CardSuit.Diamonds) || (suit == CardSuit.Hearts);
+            return (_suit == CardSuit.Diamonds) || (_suit == CardSuit.Hearts);
         }
 
         /// <summary>
@@ -75,17 +75,17 @@ namespace Model {
         }
         
         private string GetCardValueAsString() {
-            if (cardValue == CardValue.Ace) return "A";
-            if (cardValue == CardValue.Jack) return "J";
-            if (cardValue == CardValue.Queen) return "Q";
-            if (cardValue == CardValue.King) return "K";
+            if (_cardValue == CardValue.Ace) return "A";
+            if (_cardValue == CardValue.Jack) return "J";
+            if (_cardValue == CardValue.Queen) return "Q";
+            if (_cardValue == CardValue.King) return "K";
 
-            int value = 1 + (int) cardValue;
+            int value = 1 + (int) _cardValue;
             return Convert.ToString(value);
         }
 
         private char GetSuitChar() {
-            return suit.ToString()[0];
+            return _suit.ToString()[0];
         }
 
         public override string ToString() {

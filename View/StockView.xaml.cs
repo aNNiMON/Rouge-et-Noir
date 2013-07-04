@@ -10,35 +10,35 @@ namespace View {
     /// </summary>
     public partial class StockView : UserControl {
 
-        private Stock stock;
-        private readonly CardView cardView;
+        private Stock _stock;
+        private readonly CardView _cardView;
 
         public StockView() {
             InitializeComponent();
-            cardView = new CardView {Cursor = Cursors.Hand};
+            _cardView = new CardView {Cursor = Cursors.Hand};
         }
 
         public void SetStock(Stock stock) {
-            this.stock = stock;
+            this._stock = stock;
 
-            rootView.Children.Add(Util.CreateCardPlace(' '));
+            RootView.Children.Add(Util.CreateCardPlace(' '));
 
             RefreshView();
-            Panel.SetZIndex(cardView, 1);
-            rootView.Children.Add(cardView);
+            Panel.SetZIndex(_cardView, 1);
+            RootView.Children.Add(_cardView);
         }
 
         public void RefreshView() {
-            Card card = stock.GetTopCard();
-            cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
+            Card card = _stock.GetTopCard();
+            _cardView.Visibility = (card == null) ? Visibility.Hidden : Visibility.Visible;
             if (card == null) return;
 
-            cardView.Card = card;
+            _cardView.Card = card;
         }
 
         private void rootView_MouseUp(object sender, MouseButtonEventArgs e) {
             // При нажатии на стопку раздаём карты.
-            cardView.Animate(CardView.ANIM_SHAKE);
+            _cardView.Animate(CardView.AnimShake);
             GameView.Instance.HandOutFromStock();
         }
     }

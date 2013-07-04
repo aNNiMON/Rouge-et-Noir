@@ -31,7 +31,7 @@
         <KeyBinding Modifiers="Control" Key="Y" Command="Redo" />
     </UserControl.InputBindings>
     <Grid>
-        <Grid x:Name="rootView">
+        <Grid x:Name="RootView">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF224219" Offset="0"/>
@@ -136,16 +136,16 @@
             </ToolBar>
         </Grid>
 
-        <local:HiscoreComponent x:Name="hiscoreComponent" Visibility="Hidden"
+        <local:HiscoreComponent x:Name="HiscoreComponent" Visibility="Hidden"
                                 HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <local:EnterNameComponent x:Name="enterNameComponent" Visibility="Hidden"
+        <local:EnterNameComponent x:Name="EnterNameComponent" Visibility="Hidden"
                                 HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
 
-        <ScrollViewer x:Name="infoDialog"
+        <ScrollViewer x:Name="InfoDialog"
             VerticalScrollBarVisibility="Auto" 
             Background="#FF88D355" Visibility="Hidden">
             <StackPanel>
-                <RichTextBox x:Name="infoRichTextBox" Margin="15,10,15,10">
+                <RichTextBox x:Name="InfoRichTextBox" Margin="15,10,15,10">
                     <RichTextBox.InputBindings>
                         <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="LeftClick" />
                         <MouseBinding Command="{StaticResource CloseDialogCommand}" MouseAction="RightClick" />

@@ -14,13 +14,13 @@ namespace Model {
         /// </summary>
         public string Name {
             get {
-                return string.IsNullOrEmpty(name) ? Properties.Settings.Default.Username : name;
+                return string.IsNullOrEmpty(_name) ? Properties.Settings.Default.Username : _name;
             }
             set {
-                name = string.IsNullOrEmpty(value) ? Properties.Settings.Default.Username : value;
+                _name = string.IsNullOrEmpty(value) ? Properties.Settings.Default.Username : value;
             }
         }
-        private string name;
+        private string _name;
         /// <summary>
         /// Количество очков.
         /// </summary>

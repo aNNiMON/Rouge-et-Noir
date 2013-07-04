@@ -11,40 +11,40 @@ namespace Model {
     /// </summary>
     public class GameTable {
 
-        public const int FOUNDATIONS = 4, TABLEAUS = 10;
+        public const int Foundations = 4, Tableaus = 10;
 
-        private readonly Stock stock;
-        private readonly LeftFoundation[] leftFoundation;
-        private readonly RightFoundation[] rightFoundation;
-        private readonly Tableau[] tableau;
+        private readonly Stock _stock;
+        private readonly LeftFoundation[] _leftFoundation;
+        private readonly RightFoundation[] _rightFoundation;
+        private readonly Tableau[] _tableau;
 
         public GameTable() {
-            stock = new Stock();
-            leftFoundation = new LeftFoundation[FOUNDATIONS];
-            rightFoundation = new RightFoundation[FOUNDATIONS];
-            for (int i = 0; i < FOUNDATIONS; i++) {
-                leftFoundation[i] = new LeftFoundation();
-                rightFoundation[i] = new RightFoundation();
+            _stock = new Stock();
+            _leftFoundation = new LeftFoundation[Foundations];
+            _rightFoundation = new RightFoundation[Foundations];
+            for (int i = 0; i < Foundations; i++) {
+                _leftFoundation[i] = new LeftFoundation();
+                _rightFoundation[i] = new RightFoundation();
             }
-            tableau = new Tableau[TABLEAUS];
-            for (int i = 0; i < TABLEAUS; i++) {
-                tableau[i] = new Tableau();
+            _tableau = new Tableau[Tableaus];
+            for (int i = 0; i < Tableaus; i++) {
+                _tableau[i] = new Tableau();
             }
         }
 
         public Tableau GetTableau(int num) {
-            if (num >= TABLEAUS) throw new IndexOutOfRangeException();
-            return tableau[num];
+            if (num >= Tableaus) throw new IndexOutOfRangeException();
+            return _tableau[num];
         }
 
         public Foundation GetFoundation(int num, bool left) {
-            if (num >= FOUNDATIONS) throw new IndexOutOfRangeException();
-            if (left) return leftFoundation[num];
-            return rightFoundation[num];
+            if (num >= Foundations) throw new IndexOutOfRangeException();
+            if (left) return _leftFoundation[num];
+            return _rightFoundation[num];
         }
 
         public Stock GetStock() {
-            return stock;
+            return _stock;
         }
 
         /// <summary>
@@ -59,17 +59,17 @@ namespace Model {
             
             // Добавляем карты в таблицы.
             int addCardsCount = 9;
-            for (int i = 0; i < TABLEAUS - 1; i++) {
-                Util.Move(cards, tableau[i].GetList(), addCardsCount);
+            for (int i = 0; i < Tableaus - 1; i++) {
+                Util.Move(cards, _tableau[i].GetList(), addCardsCount);
                 addCardsCount--;
             }
             // Переворачиваем верхние карты.
-            for (int i = 0; i < TABLEAUS - 1; i++) {
-                tableau[i].GetTopCard().SetFaceUp();
+            for (int i = 0; i < Tableaus - 1; i++) {
+                _tableau[i].GetTopCard().SetFaceUp();
             }
 
             // Добавляем оставшиеся 67 карт в запас.
-            stock.AddCards(cards);
+            _stock.AddCards(cards);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Model {
         /// </summary>
         public void HandOutFromStock(bool saveToHistory = true) {
             var cards = new List<Card>();
-            Util.Move(stock.GetList(), cards, TABLEAUS);
+            Util.Move(_stock.GetList(), cards, Tableaus);
             if (saveToHistory) {
                 MovesManager.HandOut(new List<Card>(cards));
             }
@@ -110,9 +110,9 @@ namespace Model {
                 card.SetFaceUp();
             }
             // Переносим в таблицы.
-            for (int i = 0; i < TABLEAUS; i++) {
+            for (int i = 0; i < Tableaus; i++) {
                 if (cards.Count == 0) return;
-                Util.Move(cards, tableau[i].GetList(), 1);
+                Util.Move(cards, _tableau[i].GetList(), 1);
             }
         }
 
@@ -122,35 +122,35 @@ namespace Model {
         public void Undo() {
             Move move = MovesManager.Undo();
             switch (move.Type) {
-                case MoveType.TO_FOUNDATION:
+                case MoveType.ToFoundation:
                     // Перекладываем карты обратно из стопки.
                     ScoreManager.DecreaseScore(move.Cards.Count);
                     // Удаляем карты из таблицы.
-                    foreach (var _card in move.Cards) {
-                        move.ToFoundation.GetList().Remove(_card);
+                    foreach (var card in move.Cards) {
+                        move.ToFoundation.GetList().Remove(card);
                     }
                     if (move.FaceUp) move.FromTableau.FaceDownTopCard();
                     move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
-                case MoveType.TO_TABLEAU:
+                case MoveType.ToTableau:
                     // Перекладываем в исходную таблицу.
                     // Удаляем карты из таблицы.
-                    foreach (var _card in move.Cards) {
-                        move.ToTableau.GetList().Remove(_card);
+                    foreach (var card in move.Cards) {
+                        move.ToTableau.GetList().Remove(card);
                     }
                     if (move.FaceUp) move.FromTableau.FaceDownTopCard();
                     move.FromTableau.AddCardsBySystem(move.Cards);
                     break;
-                case MoveType.FROM_STOCK:
+                case MoveType.FromStock:
                     // Отмена раздачи карт из запаса.
                     var copy = new List<Card>(move.Cards);
                     foreach (var card in copy) {
-                        for (int i = 0; i < TABLEAUS; i++) {
-                            tableau[i].GetList().Remove(card);
+                        for (int i = 0; i < Tableaus; i++) {
+                            _tableau[i].GetList().Remove(card);
                         }
                         card.SetFaceDown();
                     }
-                    Util.Move(copy, stock.GetList(), move.Cards.Count);
+                    Util.Move(copy, _stock.GetList(), move.Cards.Count);
                     break;
             }
         }
@@ -161,13 +161,13 @@ namespace Model {
         public void Redo() {
             Move move = MovesManager.Redo();
             switch (move.Type) {
-                case MoveType.TO_FOUNDATION:
+                case MoveType.ToFoundation:
                     MoveCards(move.Cards, move.FromTableau, move.ToFoundation, false);
                     break;
-                case MoveType.TO_TABLEAU:
+                case MoveType.ToTableau:
                     MoveCards(move.Cards, move.FromTableau, move.ToTableau, false);
                     break;
-                case MoveType.FROM_STOCK:
+                case MoveType.FromStock:
                     HandOutFromStock(false);
                     break;
             }
@@ -184,8 +184,8 @@ namespace Model {
             ScoreManager.IncreaseScore(cards.Count);
 
             // Удаляем карты из таблицы.
-            foreach(var _card in cards) {
-                from.GetList().Remove(_card);
+            foreach(var card in cards) {
+                from.GetList().Remove(card);
             }
 
             if (saveToHistory) {
@@ -206,8 +206,8 @@ namespace Model {
         /// <param name="saveToHistory">отметить ход в истории изменений</param>
         public void MoveCards(List<Card> cards, Tableau from, Tableau to, bool saveToHistory = true) {
             // Удаляем карты из таблицы.
-            foreach (var _card in cards) {
-                from.GetList().Remove(_card);
+            foreach (var card in cards) {
+                from.GetList().Remove(card);
             }
 
             if (saveToHistory) {
@@ -223,13 +223,13 @@ namespace Model {
         /// Очистить игровое поле.
         /// </summary>
         private void Clear() {
-            stock.GetList().Clear();
-            for (int i = 0; i < FOUNDATIONS; i++) {
-                leftFoundation[i].GetList().Clear();
-                rightFoundation[i].GetList().Clear();
+            _stock.GetList().Clear();
+            for (int i = 0; i < Foundations; i++) {
+                _leftFoundation[i].GetList().Clear();
+                _rightFoundation[i].GetList().Clear();
             }
-            for (int i = 0; i < TABLEAUS; i++) {
-                tableau[i].GetList().Clear();
+            for (int i = 0; i < Tableaus; i++) {
+                _tableau[i].GetList().Clear();
             }
         }
     }

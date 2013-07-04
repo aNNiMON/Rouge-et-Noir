@@ -44,7 +44,7 @@
             </Rectangle.Effect>
         </Rectangle>
         <DockPanel Grid.Column="1" Grid.Row="1" Background="#FF88D355">
-            <DataGrid Name="hiscores" x:FieldModifier="private"
+            <DataGrid Name="Hiscores" x:FieldModifier="private"
                       DockPanel.Dock="Top" VerticalAlignment="Stretch"
                       AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
@@ -57,7 +57,7 @@
             </DataGrid>
             <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="15,5,15,5"
                     IsCancel="True" IsDefault="True" Content="OK" Command="{StaticResource CloseCommand}" />
-            <Label x:Name="message" Visibility="Hidden"
+            <Label x:Name="Message" Visibility="Hidden"
                    DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
         </DockPanel>
     </Grid>

@@ -14,19 +14,19 @@ namespace View {
         /// </summary>
         public List<Card> Cards {
             get {
-                return cards;
+                return _cards;
             }
             set {
-                cards = value;
+                _cards = value;
 
-                for (int i = 0; i < cards.Count; i++) {
-                    var card = cards[i];
+                for (int i = 0; i < _cards.Count; i++) {
+                    var card = _cards[i];
                     var cardView = new CardView();
                     AddCard(cardView, card, i);
                 }
             }
         }
-        private List<Card> cards;
+        private List<Card> _cards;
 
         /// <summary>
         /// Вид нижней карты.
@@ -34,21 +34,21 @@ namespace View {
         /// </summary>
         public CardView BottomCardView {
             get {
-                return bottomCardView;
+                return _bottomCardView;
             }
         }
-        private CardView bottomCardView;
+        private CardView _bottomCardView;
 
         public DraggableCards() {
             InitializeComponent();
         }
 
         private void AddCard(CardView cardView, Card card, int index) {
-            if (index == 0) bottomCardView = cardView;
+            if (index == 0) _bottomCardView = cardView;
             cardView.Card = card;
             Canvas.SetTop(cardView, 15 * index);
             Panel.SetZIndex(cardView, 1 + index);
-            rootView.Children.Add(cardView);
+            RootView.Children.Add(cardView);
         }
     }
 }

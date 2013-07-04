@@ -10,10 +10,10 @@ namespace View {
 
         public ThreeButtonsMessageBox() {
             InitializeComponent();
-            Result = MessageBoxResult.Cancel;
+            _result = MessageBoxResult.Cancel;
         }
 
-        private MessageBoxResult Result;
+        private MessageBoxResult _result;
 
         public static MessageBoxResult Show(string caption, string first, string second, string third) {
             return Show(caption, "", first, second, third);
@@ -22,7 +22,7 @@ namespace View {
         public static MessageBoxResult Show(string caption, string title, string first, string second, string third) {
             var messageBox = new ThreeButtonsMessageBox();
             messageBox.ShowDialog(caption, title, first, second, third);
-            return messageBox.Result;
+            return messageBox._result;
         }
 
         private void ShowDialog(string caption, string title, string first, string second, string third) {
@@ -47,7 +47,7 @@ namespace View {
         }
 
         private void SetResultAndExit(MessageBoxResult result) {
-            Result = result;
+            _result = result;
             Close();
         }
     }

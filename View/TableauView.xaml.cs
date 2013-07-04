@@ -14,22 +14,22 @@ namespace View {
 
         public Tableau Tableau {
             get {
-                return tableau;
+                return _tableau;
             }
         }
-        private Tableau tableau;
+        private Tableau _tableau;
 
         /// <summary>
         /// На сколько пискелей опускать следующую карту в таблице.
         /// </summary>
-        private readonly int cardSpace;
+        private readonly int _cardSpace;
 
-        private readonly List<CardView> cardViews;
+        private readonly List<CardView> _cardViews;
 
         public TableauView() {
             InitializeComponent();
-            cardViews = new List<CardView>();
-            cardSpace = 15;
+            _cardViews = new List<CardView>();
+            _cardSpace = 15;
         }
 
         /// <summary>
@@ -38,17 +38,17 @@ namespace View {
         public Rect Bounds {
             get {
                 var list = new List<Visual>();
-                list.Add(rootView.Children[0]);
-                list.AddRange(cardViews);
+                list.Add(RootView.Children[0]);
+                list.AddRange(_cardViews);
                 return Util.GetBoundingRect(list);
             }
         }
 
         public void SetTableau(Tableau tableau) {
-            this.tableau = tableau;
+            this._tableau = tableau;
 
             List<Card> cards = tableau.GetList();
-            rootView.Children.Add(Util.CreateCardPlace('K'));
+            RootView.Children.Add(Util.CreateCardPlace('K'));
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
                 var cardView = new CardView();
@@ -60,25 +60,25 @@ namespace View {
         /// Обновить вид таблицы.
         /// </summary>
         public void RefreshView() {
-            List<Card> cards = tableau.GetList();
+            List<Card> cards = _tableau.GetList();
             for (int i = 0; i < cards.Count; i++) {
                 var card = cards[i];
 
                 CardView cardView;
-                if (i < cardViews.Count) {
-                    cardView = cardViews[i];
+                if (i < _cardViews.Count) {
+                    cardView = _cardViews[i];
                     cardView.Card = card;
                 } else {
                     cardView = new CardView();
                     AddCard(cardView, card, i);
-                    cardView.Animate(CardView.ANIM_FADE_IN);
+                    cardView.Animate(CardView.AnimFadeIn);
                 }
             }
             // Удаляем лишнее
-            for (int i = cardViews.Count - 1; i >= cards.Count; i--) {
-                CardView v = cardViews[i];
-                rootView.Children.Remove(v);
-                cardViews.Remove(v);
+            for (int i = _cardViews.Count - 1; i >= cards.Count; i--) {
+                CardView v = _cardViews[i];
+                RootView.Children.Remove(v);
+                _cardViews.Remove(v);
             }
         }
 
@@ -86,10 +86,10 @@ namespace View {
             cardView.PreviewMouseLeftButtonDown += cardView_PreviewMouseLeftButtonDown;
 
             cardView.Card = card;
-            Canvas.SetTop(cardView, cardSpace * index);
+            Canvas.SetTop(cardView, _cardSpace * index);
             Panel.SetZIndex(cardView, 1 + index);
-            rootView.Children.Add(cardView);
-            cardViews.Add(cardView);
+            RootView.Children.Add(cardView);
+            _cardViews.Add(cardView);
         }
 
 
@@ -99,15 +99,15 @@ namespace View {
             var view = (CardView) sender;
             List<Card> draggable = Tableau.GetDraggableTopCards();
             for (int i = 0; i < draggable.Count; i++) {
-                var card = draggable[i];
-                if (view.Card.Equals(card)) {
+                var dragCard = draggable[i];
+                if (view.Card.Equals(dragCard)) {
                     // Собираем карты в новый компонент.
                     var draggableCards = new DraggableCards();
                     draggableCards.Cards = draggable.GetRange(i, draggable.Count - i);
                     // Карты в таблице скрываем.
-                    foreach (var cardView in cardViews) {
-                        foreach (var _card in draggableCards.Cards) {
-                            if (cardView.Card.Equals(_card)) {
+                    foreach (var cardView in _cardViews) {
+                        foreach (var card in draggableCards.Cards) {
+                            if (cardView.Card.Equals(card)) {
                                 cardView.Visibility = Visibility.Hidden;
                             }
                         }
@@ -116,7 +116,7 @@ namespace View {
                     Canvas.SetTop(draggableCards, Canvas.GetTop(view));
                     Canvas.SetLeft(draggableCards, Canvas.GetLeft(view));
                     Panel.SetZIndex(draggableCards, 200);
-                    rootView.Children.Add(draggableCards);
+                    RootView.Children.Add(draggableCards);
                     DragHelper.Drag(draggableCards, OnDragCompleted, e.GetPosition(null));
                     return;
                 }
@@ -131,15 +131,15 @@ namespace View {
         private void OnDragCompleted(object sender, MouseButtonEventArgs e) {
             var draggableCards = (DraggableCards) sender;
             // Показываем карты в таблице.
-            foreach (var cardView in cardViews) {
-                foreach (var _card in draggableCards.Cards) {
-                    if (cardView.Card.Equals(_card)) {
+            foreach (var cardView in _cardViews) {
+                foreach (var card in draggableCards.Cards) {
+                    if (cardView.Card.Equals(card)) {
                         cardView.Visibility = Visibility.Visible;
                     }
                 }
             }
             GameView.Instance.DragCompleted(this, draggableCards);
-            rootView.Children.Remove(draggableCards);
+            RootView.Children.Remove(draggableCards);
         }
     }
 }

@@ -4,9 +4,9 @@
     /// Тип перемещения карты.
     /// </summary>
     public enum MoveType {
-        NONE,
-        FROM_STOCK, // из запаса в таблицы
-        TO_FOUNDATION, // из таблицы в стопку
-        TO_TABLEAU // из таблицы в таблицу
+        None,
+        FromStock, // из запаса в таблицы
+        ToFoundation, // из таблицы в стопку
+        ToTableau // из таблицы в таблицу
     }
 }

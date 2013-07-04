@@ -12,7 +12,7 @@ namespace View {
         }
 
         public CardPlaceView(char symbol) : this() {
-            label.Content = symbol;
+            Label.Content = symbol;
         }
     }
 }

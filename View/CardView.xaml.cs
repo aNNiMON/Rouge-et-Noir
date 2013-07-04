@@ -13,20 +13,20 @@ namespace View {
         /// Константы для применения анимации к карте.
         /// </summary>
         public const string
-            ANIM_FADE_IN = "animFadeIn",
-            ANIM_FADE_OUT = "animFadeOut",
-            ANIM_SHAKE = "animShake";
+            AnimFadeIn = "AnimFadeIn",
+            AnimFadeOut = "AnimFadeOut",
+            AnimShake = "AnimShake";
 
         public Card Card {
             get {
-                return card;
+                return _card;
             }
             set {
-                card = value;
-                cardImage.Source = Util.LoadImage(card.GetImageResourcePath());
+                _card = value;
+                CardImage.Source = Util.LoadImage(_card.GetImageResourcePath());
             }
         }
-        private Card card;
+        private Card _card;
 
         public CardView() {
             InitializeComponent();

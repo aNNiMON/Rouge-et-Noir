@@ -8,15 +8,15 @@ namespace Model {
     /// </summary>
     public static class MovesManager {
 
-        private static int moveIndex;
-        private static readonly List<Move> moves = new List<Move>();
+        private static int _moveIndex;
+        private static readonly List<Move> Moves = new List<Move>();
 
         /// <summary>
         /// Начата новая игра.
         /// </summary>
         public static void NewGame() {
-            moves.Clear();
-            moveIndex = 0;
+            Moves.Clear();
+            _moveIndex = 0;
         }
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace Model {
         /// </summary>
         /// <returns>состояние игры после отмены действия</returns>
         public static Move Undo() {
-            if (moveIndex <= 0) return new Move { Type = MoveType.NONE };
+            if (_moveIndex <= 0) return new Move { Type = MoveType.None };
 
-            moveIndex--;
-            return moves[moveIndex];
+            _moveIndex--;
+            return Moves[_moveIndex];
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace Model {
         /// </summary>
         /// <returns>состояние игры после повтора действия</returns>
         public static Move Redo() {
-            if (moveIndex >= moves.Count) return new Move { Type = MoveType.NONE };
+            if (_moveIndex >= Moves.Count) return new Move { Type = MoveType.None };
 
-            return moves[moveIndex++];
+            return Moves[_moveIndex++];
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Model {
         /// </summary>
         /// <returns></returns>
         public static int GetMoveIndex() {
-            return moveIndex;
+            return _moveIndex;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Model {
                 FromTableau = from,
                 ToFoundation = to,
                 FaceUp = faceUp,
-                Type = MoveType.TO_FOUNDATION
+                Type = MoveType.ToFoundation
             };
             AddToHistory(move);
         }
@@ -79,7 +79,7 @@ namespace Model {
                 FromTableau = from,
                 ToTableau = to,
                 FaceUp = faceUp,
-                Type = MoveType.TO_TABLEAU
+                Type = MoveType.ToTableau
             };
             AddToHistory(move);
         }
@@ -91,7 +91,7 @@ namespace Model {
         public static void HandOut(List<Card> list) {
             var move = new Move {
                 Cards = list,
-                Type = MoveType.FROM_STOCK
+                Type = MoveType.FromStock
             };
             AddToHistory(move);
         }
@@ -101,12 +101,12 @@ namespace Model {
         /// </summary>
         /// <param name="move"></param>
         private static void AddToHistory(Move move) {
-            if (moveIndex != moves.Count) {
-                int removeLength = moves.Count - moveIndex;
-                moves.RemoveRange(moveIndex, removeLength);
+            if (_moveIndex != Moves.Count) {
+                int removeLength = Moves.Count - _moveIndex;
+                Moves.RemoveRange(_moveIndex, removeLength);
             }
-            moves.Add(move);
-            moveIndex++;
+            Moves.Add(move);
+            _moveIndex++;
         }
     }
 }

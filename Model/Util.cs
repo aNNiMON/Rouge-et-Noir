@@ -14,10 +14,10 @@ namespace Model {
     /// </summary>
     public static class Util {
 
-        private static readonly Random rnd = new Random();
+        private static readonly Random Rnd = new Random();
 
         public static Random GetRandom() {
-            return rnd;
+            return Rnd;
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Model {
             int size = list.Count;
             while (size > 1) {
                 size--;
-                int index = rnd.Next(size + 1);
+                int index = Rnd.Next(size + 1);
                 T value = list[index];
                 list[index] = list[size];
                 list[size] = value;

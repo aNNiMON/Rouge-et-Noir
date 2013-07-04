@@ -33,20 +33,20 @@ namespace View {
         public void Show(List<Score> scores, string text) {
             // Если список пуст, то скрываем его.
             bool listEmpty = ( (scores == null) || (scores.Count == 0) );
-            hiscores.Visibility = convert(!listEmpty);
+            Hiscores.Visibility = convert(!listEmpty);
             if (!listEmpty) {
-                hiscores.ItemsSource = scores;
+                Hiscores.ItemsSource = scores;
                 int place = ScoreManager.GetPlace() - 1;
                 if ( (0 <= place) && (place < scores.Count) ) {
-                    hiscores.SelectedIndex = place;
+                    Hiscores.SelectedIndex = place;
                 }
             }
 
             // Если комментария нет, скрываем текстовую метку.
             bool textEmpty = string.IsNullOrEmpty(text);
-            message.Visibility = convert(!textEmpty);
+            Message.Visibility = convert(!textEmpty);
             if (!textEmpty) {
-                message.Content = text;
+                Message.Content = text;
             }
             
             Visibility = Visibility.Visible;
@@ -54,7 +54,7 @@ namespace View {
 
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e) {
             Visibility = Visibility.Hidden;
-            message.Visibility = Visibility.Hidden;
+            Message.Visibility = Visibility.Hidden;
         }
 
         private Visibility convert(bool vis) {
